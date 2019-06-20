@@ -1,0 +1,95 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven Bundle Plugin
+Built-By: michael
+Build-Jdk: 1.8.0_144
+Specification-Title: olingo-odata2-api
+Specification-Version: 2.0.11
+Specification-Vendor: The Apache Software Foundation
+Implementation-Title: olingo-odata2-api
+Implementation-Version: 2.0.11
+Implementation-Vendor-Id: org.apache.olingo
+Implementation-Vendor: The Apache Software Foundation
+Bnd-LastModified: 1550322397340
+Bundle-ActivationPolicy: lazy
+Bundle-Description: The Apache Software Foundation provides support fo
+ r the Apache community of open-source software projects.    The Apach
+ e projects are characterized by a collaborative, consensus based deve
+ lopment process, an open and    pragmatic software license, and a des
+ ire to create high quality software that leads the way in its field. 
+    We consider ourselves not simply a group of projects sharing a ser
+ ver, but rather a community of developers    and users.
+Bundle-DocURL: http://olingo.apache.org/olingo-odata2-lib/olingo-odata
+ 2-api
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: olingo-odata2-api
+Bundle-SymbolicName: olingo-odata2-api
+Bundle-Vendor: The Apache Software Foundation
+Bundle-Version: 2.0.11
+Export-Package: org.apache.olingo.odata2.api;uses:="org.apache.olingo.
+ odata2.api.processor,org.apache.olingo.odata2.api.uri,org.apache.olin
+ go.odata2.api.exception,org.apache.olingo.odata2.api.edm,org.apache.o
+ lingo.odata2.api.processor.part,org.apache.olingo.odata2.api.edm.prov
+ ider,org.apache.olingo.odata2.api.rt";version="2.0.11",org.apache.oli
+ ngo.odata2.api.commons;version="2.0.11",org.apache.olingo.odata2.api.
+ client.batch;uses:="org.apache.olingo.odata2.api.rt,org.apache.olingo
+ .odata2.api.batch";version="2.0.11",org.apache.olingo.odata2.api.rt;u
+ ses:="org.apache.olingo.odata2.api.client.batch,org.apache.olingo.oda
+ ta2.api.edm.provider,org.apache.olingo.odata2.api.exception,org.apach
+ e.olingo.odata2.api.processor,org.apache.olingo.odata2.api.batch,org.
+ apache.olingo.odata2.api.edm,org.apache.olingo.odata2.api.ep,org.apac
+ he.olingo.odata2.api.uri,org.apache.olingo.odata2.api";version="2.0.1
+ 1",org.apache.olingo.odata2.api.processor;uses:="org.apache.olingo.od
+ ata2.api.exception,org.apache.olingo.odata2.api,org.apache.olingo.oda
+ ta2.api.uri,org.apache.olingo.odata2.api.commons,org.apache.olingo.od
+ ata2.api.rt,org.apache.olingo.odata2.api.processor.feature,org.apache
+ .olingo.odata2.api.processor.part,org.apache.olingo.odata2.api.uri.in
+ fo,org.apache.olingo.odata2.api.batch,org.apache.olingo.odata2.api.ed
+ m,org.apache.olingo.odata2.api.ep";version="2.0.11",org.apache.olingo
+ .odata2.api.ep.callback;uses:="org.apache.olingo.odata2.api.exception
+ ,org.apache.olingo.odata2.api.edm,org.apache.olingo.odata2.api.ep,org
+ .apache.olingo.odata2.api,org.apache.olingo.odata2.api.ep.entry,org.a
+ pache.olingo.odata2.api.ep.feed,org.apache.olingo.odata2.api.uri";ver
+ sion="2.0.11",org.apache.olingo.odata2.api.uri.expression;uses:="org.
+ apache.olingo.odata2.api.edm,org.apache.olingo.odata2.api.exception";
+ version="2.0.11",org.apache.olingo.odata2.api.processor.feature;uses:
+ ="org.apache.olingo.odata2.api.exception,org.apache.olingo.odata2.api
+ .processor";version="2.0.11",org.apache.olingo.odata2.api.servicedocu
+ ment;uses:="org.apache.olingo.odata2.api.edm,org.apache.olingo.odata2
+ .api.ep";version="2.0.11",org.apache.olingo.odata2.api.processor.part
+ ;uses:="org.apache.olingo.odata2.api.exception,org.apache.olingo.odat
+ a2.api.processor,org.apache.olingo.odata2.api.batch,org.apache.olingo
+ .odata2.api.uri.info";version="2.0.11",org.apache.olingo.odata2.api.e
+ p.entry;uses:="org.apache.olingo.odata2.api.uri";version="2.0.11",org
+ .apache.olingo.odata2.api.edm.provider;uses:="org.apache.olingo.odata
+ 2.api.edm,org.apache.olingo.odata2.api.exception,org.apache.olingo.od
+ ata2.api.rt,org.apache.olingo.odata2.api.ep";version="2.0.11",org.apa
+ che.olingo.odata2.api.ep.feed;uses:="org.apache.olingo.odata2.api.ep.
+ entry";version="2.0.11",org.apache.olingo.odata2.api.exception;uses:=
+ "org.apache.olingo.odata2.api.commons,org.apache.olingo.odata2.api.rt
+ ";version="2.0.11",org.apache.olingo.odata2.api.uri.info;uses:="org.a
+ pache.olingo.odata2.api.edm,org.apache.olingo.odata2.api.uri,org.apac
+ he.olingo.odata2.api.uri.expression,org.apache.olingo.odata2.api.comm
+ ons";version="2.0.11",org.apache.olingo.odata2.api.batch;uses:="org.a
+ pache.olingo.odata2.api.exception,org.apache.olingo.odata2.api.proces
+ sor,org.apache.olingo.odata2.api.rt";version="2.0.11",org.apache.olin
+ go.odata2.api.edm;uses:="org.apache.olingo.odata2.api.exception,org.a
+ pache.olingo.odata2.api.rt";version="2.0.11",org.apache.olingo.odata2
+ .api.ep;uses:="org.apache.olingo.odata2.api.ep.entry,org.apache.oling
+ o.odata2.api.edm.provider,org.apache.olingo.odata2.api.client.batch,o
+ rg.apache.olingo.odata2.api.ep.feed,org.apache.olingo.odata2.api.proc
+ essor,org.apache.olingo.odata2.api.batch,org.apache.olingo.odata2.api
+ .servicedocument,org.apache.olingo.odata2.api.edm,org.apache.olingo.o
+ data2.api.rt,org.apache.olingo.odata2.api.uri,org.apache.olingo.odata
+ 2.api.exception,org.apache.olingo.odata2.api.ep.callback,org.apache.o
+ lingo.odata2.api.commons,org.apache.olingo.odata2.api";version="2.0.1
+ 1",org.apache.olingo.odata2.api.uri;uses:="org.apache.olingo.odata2.a
+ pi.rt,org.apache.olingo.odata2.api.edm,org.apache.olingo.odata2.api.c
+ ommons,org.apache.olingo.odata2.api.uri.info,org.apache.olingo.odata2
+ .api.uri.expression,org.apache.olingo.odata2.api.exception";version="
+ 2.0.11"
+Import-Package: org.apache.olingo.odata2.core.rt;resolution:=optional
+Originally-Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-1.50.0
+

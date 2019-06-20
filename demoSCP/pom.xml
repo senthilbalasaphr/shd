@@ -1,0 +1,169 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>demoSCP</groupId>
+  <artifactId>demoSCP</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+    
+    
+    
+     <plugin>
+
+        <groupId>com.sap.cloud</groupId>
+
+        <artifactId>neo-java-web-maven-plugin</artifactId>
+
+        <version>1.53.18.2</version>
+
+        <executions>
+
+          <execution>
+
+            <phase>initialize</phase>
+
+            <goals>
+
+              <goal>install-sdk</goal>
+
+            </goals>
+
+            <configuration>
+
+              <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+
+            </configuration>
+
+          </execution>
+
+        </executions>
+
+      </plugin>
+    
+    
+    <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>2.6</version>
+			<configuration>
+				<failOnMissingWebXml>false</failOnMissingWebXml>
+			</configuration>
+		</plugin>
+		
+		
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+    <groupId>org.apache.tomcat.maven</groupId>
+    <artifactId>tomcat7-maven-plugin</artifactId>
+    <version>2.2</version>
+  </plugin>
+
+     
+      
+      
+      
+      
+      
+    </plugins>
+     </build>
+    <dependencies>
+
+ 
+   <dependency>
+
+    <groupId>com.sap.cloud</groupId>
+
+    <artifactId>neo-java-web-api</artifactId>
+
+    <version>1.53.18.2</version>
+
+    <scope>provided</scope>
+
+  </dependency>
+  
+  <!-- https://mvnrepository.com/artifact/com.sap.cloud/neo-java-web-sdk -->
+<dependency>
+    <groupId>com.sap.cloud</groupId>
+    <artifactId>neo-java-web-sdk</artifactId>
+    <version>3.82.6</version>
+    <type>pom</type>
+</dependency>
+  
+  
+
+    <!-- https://mvnrepository.com/artifact/org.apache.olingo/olingo-odata2-core -->
+<!-- https://mvnrepository.com/artifact/org.apache.olingo/olingo-odata2-core -->
+<dependency>
+    <groupId>org.apache.olingo</groupId>
+    <artifactId>olingo-odata2-core</artifactId>
+    <version>2.0.11</version>
+</dependency>
+
+  <!-- https://mvnrepository.com/artifact/org.apache.olingo/odata-commons-api -->
+<dependency>
+    <groupId>org.apache.olingo</groupId>
+    <artifactId>odata-commons-api</artifactId>
+    <version>4.6.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.5</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.olingo/odata-client-core -->
+
+<!-- https://mvnrepository.com/artifact/javax.xml/jaxp-api -->
+<dependency>
+    <groupId>javax.xml</groupId>
+    <artifactId>jaxp-api</artifactId>
+    <version>1.4</version>
+</dependency>
+
+
+<dependency>
+<groupId>org.json</groupId>
+<artifactId>json</artifactId>
+<version>20140107</version>
+</dependency>
+
+
+<dependency>
+    <groupId>com.sap.cloud.s4hana.cloudplatform</groupId>
+    <artifactId>scp-neo</artifactId>
+    <version>2.7.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>servlet-api</artifactId>
+    <version>2.5</version>
+    <scope>provided</scope>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+ </dependencies>
+    
+    
+    
+ 
+</project>

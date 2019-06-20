@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="demoSCP">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="olingo-odata2-api-2.0.11.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//Users/baps/olingo-odata2-api-2.0.11.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="demoSCP"/>
+        <property name="java-output-path" value="/demoSCP/build/classes"/>
+    </wb-module>
+</project-modules>
