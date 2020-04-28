@@ -58,7 +58,7 @@ public class Write {
 		    data.put("cust_State", "DC");
 		    data.put("cust_ONBField", "StateWithholding.DC.DC_D_4_IsExempt");
 		    data.put("cust_ECField", "cust_taxexemptindicator");
-		    data.put("cust_valueMapCode", "CA_taxexemptindicator");
+		    data.put("cust_valueMapCode", "DC_taxexemptindicator");
 		 		    
 		    ODataEntry createdEntry=null;
 		    try {

@@ -18,27 +18,7 @@
 
         <version>1.53.18.2</version>
 
-        <executions>
-
-          <execution>
-
-            <phase>initialize</phase>
-
-            <goals>
-
-              <goal>install-sdk</goal>
-
-            </goals>
-
-            <configuration>
-
-              <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
-
-            </configuration>
-
-          </execution>
-
-        </executions>
+      
 
       </plugin>
     
@@ -160,6 +140,20 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+
+<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+<dependency>
+    <groupId>commons-net</groupId>
+    <artifactId>commons-net</artifactId>
+    <version>3.3</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+<dependency>
+    <groupId>com.jcraft</groupId>
+    <artifactId>jsch</artifactId>
+    <version>0.1.55</version>
+</dependency>
 
  </dependencies>
     

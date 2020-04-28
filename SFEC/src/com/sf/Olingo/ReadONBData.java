@@ -78,10 +78,10 @@ public class ReadONBData {
 		SOAPElement soapElement = soapBody.addChildElement("BeginSession", "hrd");
 
 		SOAPElement element1 = soapElement.addChildElement("Name", "hrd");
-		element1.addTextNode("API_Onboarding");
+		element1.addTextNode("SFEC_SYNC_ALL");
 
 		SOAPElement element2 = soapElement.addChildElement("Password", "hrd");
-		element2.addTextNode("Kpit@123");
+		element2.addTextNode("FreemanHR1");
 
 		soapMessage.saveChanges();
 		System.out.println("----------SOAP Request------------");
@@ -128,7 +128,11 @@ public class ReadONBData {
 	                
 	               String key =  dt1[0];
 	                
-	               readONBData(key,"82597187-add2-4740-b3c0-63c987fdde46");
+	     //          readONBData(key,"82597187-add2-4740-b3c0-63c987fdde46"); //DC
+	     //          readONBData(key,"d3b3af6a-6f26-48dd-8b1f-fe6e0131011f"); //CA
+	               readONBData(key,"a7413b39-6f60-4879-8a80-ad1476c33b75"); //HI
+	               
+	             
 	                
 	                
 	                
@@ -243,12 +247,12 @@ public class ReadONBData {
 		 
 		 
 		ArrayList <String> lst=  Read.getONBMapping();
+	
 		
-		for (String onbmapping: lst) {
+		
+	//	for (String onbmapping: lst) {
 		//	System.out.println(onbmapping);
 			
-		
-		 
 		 
 		 JSONObject  jObject = new JSONObject(jsonPrettyPrintString);
 	       JSONObject geoObject = jObject.getJSONObject("GetNewhireRecordResult");
@@ -261,23 +265,101 @@ public class ReadONBData {
 	       
 	      JSONArray item =  dictionary.getJSONArray("item");
 	      
+	     
+	      System.out.println("Mapped fields");
+	  	
+			for (String onbmapping: lst) {
+			//	System.out.println(onbmapping);
+				
 	      for(int z=0; z<= item.length()-1; z++) {
 	      
 	    	  JSONObject dt=  (JSONObject) item.get(z);
 
 	    	String key= dt.getString("key");
 	    	// System.out.println(dt.getString("key")+":");
-	    	 if (key.equalsIgnoreCase(onbmapping)) {
+	    	 if (key.equalsIgnoreCase(onbmapping) ) {
 	    		 
 	    	 
 	    		  System.out.print(dt.getString("key")+"=>");
 	    		  try {
-	    		 System.out.println(dt.getString("value"));}
+	    			  
+	    			  String Val = dt.getString("value").toString();
+	    			  System.out.println(Val);
+	    		 }
 	    		  catch(Exception e) {
+	    			 
+	    			  Long l = dt.getLong("value");
+	    			  System.out.println(l);
+	    			 
 	    	 }
 	    	 }
+	    	 
+	  
+	    	 
 	    	 }
 		 
 		}   
+		
+		
+		
+//			
+			
+			 System.out.println("All fields");
+			 
+			   for(int z=0; z<= item.length()-1; z++) {
+				      
+			    	  JSONObject dt=  (JSONObject) item.get(z);
+
+			    	String key= dt.getString("key");
+			    	// System.out.println(dt.getString("key")+":");
+			    	 if ((key.equalsIgnoreCase("HireDate"))) {
+			    		 
+			    	 
+			    		  System.out.print(dt.getString("key")+"=>");
+			    		  try {
+			    		 System.out.println(dt.getString("value"));}
+			    		  catch(Exception e) {
+			    			  Long l = dt.getLong("value");
+			    			  System.out.println(l);
+			    			  
+			    			  int i = dt.getInt("value");
+			    			  System.out.println(i);
+			    			  
+			    	 }
+			    	 }
+			    	 
+			  
+			    	 
+			    	 }
+				 
+
+			   
+			   // all
+			   
+			   for(int z=0; z<= item.length()-1; z++) {
+				      
+			    	  JSONObject dt=  (JSONObject) item.get(z);
+
+			    	String key= dt.getString("key");
+			    	// System.out.println(dt.getString("key")+":");
+			   
+			    		 
+			    	 
+			    		  System.out.print(dt.getString("key")+"=>");
+			    		  try {
+			    		 System.out.println(dt.getString("value"));}
+			    		  catch(Exception e) {
+			    	 }
+			    	 
+			    	 
+			  
+			    	 
+			    	 }
+				 
+		
+		
+		
+		
+		
 	}
 }
