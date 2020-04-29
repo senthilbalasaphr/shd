@@ -75,12 +75,12 @@ public class CreateExcelView extends AbstractXlsxView {
 				int colNum = 0;
 				for (MetaDataObj columnData : rowData) {
 					int colIndex = colNum++;
-					Cell cell = row.createCell(colIndex, CellType.BLANK);
+					Cell cell = row.createCell(colIndex, CellType.BLANK); 
 					if (rowNum <= valueIndex - 1) {
 						fieldValue = columnData.getFieldValue();
 						fieldType = columnData.getFieldType();
 					} else {
-						String headerCol = excelData.get(headerIndex - 1).get(colIndex).getFieldValue();
+						String headerCol = excelData.get(headerIndex - 1).get(colIndex).getFieldValue(); 
 						String typeCol = excelData.get(1).get(colIndex).getFieldValue();
 						String valueMapping = fieldMap.get(headerCol).getValueMapping();
 						String colValue = columnData.getFieldValue();
