@@ -69,6 +69,13 @@ public class CreateExcelView extends AbstractXlsxView {
 
 			int rowNum = 0;
 			logger.info("Creating excel");
+			String isTestRun = (String) model.get("isTestRun");
+			logger.info("isTestRun"+isTestRun);
+			if (isTestRun.equalsIgnoreCase("0")) {
+				logger.info("Select Testrun");
+				System.exit(0);
+			}
+			
 
 			for (List<MetaDataObj> rowData : excelData) {
 				Row row = sheet.createRow(rowNum++);
@@ -129,10 +136,10 @@ public class CreateExcelView extends AbstractXlsxView {
 //										logger.info("CreateExcelView: writeExcel: className:" + className);
 //										logger.info("CreateExcelView: writeExcel: methodName:" + methodName);
 										Method meth = Class.forName(utilPath + className).getMethod(methodName,
-												List.class, int.class, String.class, Map.class);
+												List.class, int.class, String.class, Map.class,String.class);
 										Object utilObject = Class.forName(utilPath + className).newInstance();
 										oldValue = (String) meth.invoke(utilObject, rowData, colIndex, company,
-												clientSystem);
+												clientSystem,isTestRun);
 
 //										logger.info("CreateExcelView: writeExcel: New Value:" + oldValue);
 									}

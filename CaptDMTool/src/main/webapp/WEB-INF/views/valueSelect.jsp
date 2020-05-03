@@ -169,6 +169,7 @@
 						<option value="04">SVI</option>
 						<option value="02">Taiwan</option>
 						<option value="09">Thailand</option>
+						<option value="99">TestRun</option>
 				</select></td>
 				<td width="10%"></td>
 			</tr>
@@ -184,8 +185,14 @@
 			</tr>
 			<tr>
 				<td width="10%">Test Run:</td>
-				<td width="30%"><input type="checkbox" id="isTestRun"
-					name="isTestRun" checked="checked" /></td>
+				<td width="30%">
+				<select id="comboTest" name="comboTest"
+					style="width: 200px">
+						<option value="0">--Test Run --</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+					</td>
 				<td width="10%"></td>
 				<td width="30%"></td>
 				<td width="10%"></td>

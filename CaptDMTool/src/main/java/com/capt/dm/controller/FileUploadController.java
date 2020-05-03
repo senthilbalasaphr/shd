@@ -50,7 +50,7 @@ public class FileUploadController {
 	public ModelAndView uploadExcelFile(MultipartFile file, @RequestParam("comboClient") String client,
 			@RequestParam("comboTemplateGrp") String templateGrp, @RequestParam("comboTemplate") String template,
 			@RequestParam("comboCompany") String company, @RequestParam("headerIndex") String headerIndex,
-			@RequestParam("valueIndex") String valueIndex, @RequestParam("isTestRun") String isTestRun)
+			@RequestParam("valueIndex") String valueIndex, @RequestParam("comboTest") String isTestRun)
 			throws Exception {
 
 		logger.info("FileUploadController: Inside uploadExcelFile Method");
@@ -110,6 +110,11 @@ public class FileUploadController {
 		model.addObject("client", client);
 		model.addObject("headIndex", this.headIndex);
 		model.addObject("valIndex", this.valIndex);
+		
+///		Senthil Bala
+		model.addObject("isTestRun", isTestRun);
+		
+		
 		model.addObject("company", company);
 		model.addObject("funcRules", funcRules);
 		model.addObject("clientSystem", clientSystem);
