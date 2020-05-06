@@ -481,8 +481,110 @@ public class FOUtility {
 		}
 		}
 		
+		// PayGrade
 		
-		// Get Grade id	
+		// Create PayRange ID
+			public String getCreatePayRangeID(List<MetaDataObj> rowData, int index, String company,
+					Map<String, String> clientSystem,String isTestRun) throws Exception {
+
+				
+//				logger.info("FOUtility: Inside getDepartmentID Method");
+				String effectiveStartDate = null;
+			
+				for (MetaDataObj metaDataObj : rowData) {
+//					logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
+//							+ metaDataObj.getFieldName());
+					if (null != metaDataObj.getFieldName()
+							&& "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+						effectiveStartDate = metaDataObj.getFieldValue();
+					}
+				}
+
+//				logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
+				
+				String epochDate = getEpoch(effectiveStartDate);
+
+//				logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
+				String externalCode = getRandomString(6);
+				String externalName = getRandomString(6);
+				String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+				String newValue = null;
+
+				if (isTestRun.equalsIgnoreCase("No")) {
+//				String url = "https://api12preview.sapsf.eu/odata/v2/";
+//				String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
+				String url = clientSystem.get("URL");
+				String userID = clientSystem.get("USER_ID");
+				String password = clientSystem.get("PWD");
+
+				Metadata metaData = new Metadata();
+				metaData.setUri(url + "/cust_Keymapping");
+				metaData.setType("SFOData.cust_Keymapping");
+
+				UpsertObject upsertObject = new UpsertObject();
+				upsertObject.setMetadata(metaData);
+				upsertObject.setExternalCode(externalCode);
+//				upsertObject.setEffectiveStartDate("/Date(946665000000)/");
+				upsertObject.setEffectiveStartDate(epochDate);
+				upsertObject.setCustLegacyID(legacyValue);
+				upsertObject.setExternalName(externalName);
+				upsertObject.setCustCompany(company);
+				upsertObject.setCustSFID("");
+				upsertObject.setCustObjectType("08");
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+//				RestTemplate postTemplate = new RestTemplate();
+//				postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+
+				String upsertURL = url + "/upsert";
+
+				String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+				RestTemplate restTemplate = new RestTemplate();
+//				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+//				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+				HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+//				Map <String, String> dummy = new HashMap<String, String>();
+				String custSFID = null;
+				boolean isEmpty = true;
+				do {
+					// Step-1: Post the values to get generate new department Id
+					String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+
+					logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
+
+					// Step-2: Get new department Id using external code
+					FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+//					System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
+
+					if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+						custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+					}
+
+					// Step-3: Check if any values are present already for the newly generated id.
+					String checkUrl = url + "/FOPayRange?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+
+					FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+//					System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+					isEmpty = checkObject.getD().getResults().isEmpty();
+
+				} while (!isEmpty);
+
+				return custSFID;
+			}else {
+				
+				return legacyValue;
+			}
+			}
+			
+			
+		
+		// Create Location id	
 		public String getCreateLocationID(List<MetaDataObj> rowData, int index, String company,
 				Map<String, String> clientSystem,String isTestRun) throws Exception {
 
