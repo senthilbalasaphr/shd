@@ -30,53 +30,27 @@ import com.capt.dm.model.Result;
  * Handles requests for the application login page.
  */
 @Controller
-public class LoginController {
+public class LogsController {
 
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-	@Autowired
-	private LoginDelegate loginDelegate;
-
-	@Autowired
-	private ODataDelegate templateDelegate;
+	private static final Logger logger = LoggerFactory.getLogger(LogsController.class);
 
 	/**
 	 * Method to verify the user credentials for login purpose
 	 */
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response,
-			@Valid @ModelAttribute("loginBean") LoginBean loginBean, BindingResult br) {
-		logger.info("Inside Login Method");
+	@RequestMapping(value = "/showLogs", method = RequestMethod.GET)
+	public ModelAndView showLogs(HttpServletRequest request, HttpServletResponse response) {
+		logger.info("Inside showLogs Method");
 
 		ModelAndView model = null;
-
 		HttpSession session = request.getSession();
-	
-
-		if (br.hasErrors()) {
-			return new ModelAndView("login");
-		}
 
 		try {
-			boolean isValidUser = loginDelegate.isValidUser(loginBean.getUserName(), loginBean.getPassword());
-
-			if (isValidUser) {
-				Map<String, String> clientMap = templateDelegate.getClient();
-				
-				session.setAttribute("data", "Hi "+loginBean.getUserName());
-				session.setAttribute("UserName", loginBean.getUserName());
-				
-				model = new ModelAndView("valueSelect");
-				model.addObject("clients", clientMap);
-
-			} else {
-				model = new ModelAndView("login");
-				model.addObject("loginBean", new LoginBean());
-				model.addObject("error", "Invalid credentials!!");
-				request.setAttribute("message", "Invalid credentials!!");
-			}
-
+			model = new ModelAndView("logs");
+			String data = session.getAttribute("data").toString();
+			logger.info("LogsController: showLogs: logs"+data);
+			session.setAttribute("data", data);
+			model.addObject("logs", data);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

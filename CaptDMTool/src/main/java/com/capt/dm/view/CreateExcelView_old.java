@@ -16,29 +16,31 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.sl.usermodel.TextRun.FieldType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Color;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 import com.capt.dm.binding.objects.BindingObject;
 import com.capt.dm.model.MetaDataObj;
 
-public class CreateExcelView extends AbstractXlsxView {
+public class CreateExcelView_old extends AbstractXlsxView {
 
-	private static final Logger logger = LoggerFactory.getLogger(CreateExcelView.class);
+	private static final Logger logger = LoggerFactory.getLogger(CreateExcelView_old.class);
 	private static final String utilPath = "com.capt.dm.util.";
+	static final short SOLID_FOREGROUND = 1;
 
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
@@ -48,9 +50,6 @@ public class CreateExcelView extends AbstractXlsxView {
 		logger.info("CreateExcelView: Inside buildExcelDocument Method");
 
 		try {
-			HttpSession session = request.getSession();
-			String data = session.getAttribute("data").toString();
-			String userName = session.getAttribute("UserName").toString();
 			String client = model.get("client").toString();
 			Map<String, BindingObject> fieldMap = (Map<String, BindingObject>) model.get("fieldMap");
 			Map<String, String> valueMap = (Map<String, String>) model.get("valueMap");
@@ -70,7 +69,6 @@ public class CreateExcelView extends AbstractXlsxView {
 
 			int rowNum = 0;
 			logger.info("Creating excel");
-
 			String isTestRun = (String) model.get("isTestRun");
 			logger.info("isTestRun"+isTestRun);
 			if (isTestRun.equalsIgnoreCase("0")) {
@@ -78,21 +76,18 @@ public class CreateExcelView extends AbstractXlsxView {
 				System.exit(0);
 			}
 			
+
 			for (List<MetaDataObj> rowData : excelData) {
-// Print log			
-				data+="<br>"+rowNum;
-				session.setAttribute("data", data);
-// Print log				
 				Row row = sheet.createRow(rowNum++);
 				int colNum = 0;
 				for (MetaDataObj columnData : rowData) {
 					int colIndex = colNum++;
-					Cell cell = row.createCell(colIndex,CellType.BLANK);
+					Cell cell = row.createCell(colIndex, CellType.BLANK); 
 					if (rowNum <= valueIndex - 1) {
 						fieldValue = columnData.getFieldValue();
 						fieldType = columnData.getFieldType();
 					} else {
-						String headerCol = excelData.get(headerIndex - 1).get(colIndex).getFieldValue();
+						String headerCol = excelData.get(headerIndex - 1).get(colIndex).getFieldValue(); 
 						String typeCol = excelData.get(1).get(colIndex).getFieldValue();
 						String valueMapping = fieldMap.get(headerCol).getValueMapping();
 						String colValue = columnData.getFieldValue();
@@ -113,9 +108,10 @@ public class CreateExcelView extends AbstractXlsxView {
 						String newValue = null;
 						if (null != columnData.getFieldType() && "date".equalsIgnoreCase(columnData.getFieldType())) {
 //							logger.info("CreateExcelView: writeExcel: Type:" + columnData.getFieldType());
-//							newValue = getDate(oldValue);
+//Senthil						
+							// newValue = getDate(oldValue);
 							newValue = oldValue;
-
+//Senthil	
 						}
 
 						if (null != valueMap.get(key) && !valueMap.get(key).isEmpty()) {
@@ -137,8 +133,8 @@ public class CreateExcelView extends AbstractXlsxView {
 										String rule[] = funcRule.split(":");
 										String className = rule[0];
 										String methodName = rule[1];
-										logger.info("CreateExcelView: writeExcel: className:" + className);
-										logger.info("CreateExcelView: writeExcel: methodName:" + methodName);
+//										logger.info("CreateExcelView: writeExcel: className:" + className);
+//										logger.info("CreateExcelView: writeExcel: methodName:" + methodName);
 										Method meth = Class.forName(utilPath + className).getMethod(methodName,
 												List.class, int.class, String.class, Map.class,String.class);
 										Object utilObject = Class.forName(utilPath + className).newInstance();
@@ -159,43 +155,29 @@ public class CreateExcelView extends AbstractXlsxView {
 						}
 						fieldType = columnData.getFieldType();
 					}
-					
-					
 
-					// Senthil
-					//**** Set the error values to red color
-										
-										if (!(fieldValue == null)) {
-										int index=fieldValue.indexOf("<--");
-										logger.info("fieldValue:" + fieldValue);
-										if (index != -1) {
-											CellStyle style = workbook.createCellStyle();
-											Font font = workbook.createFont();
-											font.setColor(HSSFColor.HSSFColorPredefined.RED.getIndex());
-											style.setFont(font);
+// Senthil
+//**** Set the error values to red color
+					
+					if (!(fieldValue == null)) {
+					int index=fieldValue.indexOf("<--");
+					logger.info("fieldValue:" + fieldValue);
+					if (index != -1) {
+						CellStyle style = workbook.createCellStyle();
+						Font font = workbook.createFont();
+						font.setColor(HSSFColor.HSSFColorPredefined.RED.getIndex());
+						style.setFont(font);
 
-											cell.setCellStyle(style);
-								        }
-										}
-										
-					// Senthil									
+						cell.setCellStyle(style);
+			        }
+					}
 					
-					
-					
-					
-					
-//					if (fieldType.equals("STRING")) {
-//					cell.setCellType(CellType.STRING);
+// Senthil				
 					cell.setCellValue(fieldValue);
-//					cell.setCellFormula(fieldType);
-//					} else if (fieldType.equals("NUMERIC")) {
-//						cell.setCellValue(fieldValue);
-//					}
 
 				}
 			}
 
-			logger.info("Session Value::::"+session.getAttribute("data").toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

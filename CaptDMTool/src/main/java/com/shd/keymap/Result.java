@@ -8,7 +8,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "__metadata",
-    "cust_SFID"
+    "cust_SFID",
+    "cust_LegacyID"
 })
 public class Result {
 
@@ -16,8 +17,18 @@ public class Result {
     private Metadata metadata;
     @JsonProperty("cust_SFID")
     private String custSFID;
+    @JsonProperty("cust_LegacyID")
+    private String cust_LegacyID;
 
-    @JsonProperty("__metadata")
+    public String getCust_LegacyID() {
+		return cust_LegacyID;
+	}
+
+	public void setCust_LegacyID(String cust_LegacyID) {
+		this.cust_LegacyID = cust_LegacyID;
+	}
+
+	@JsonProperty("__metadata")
     public Metadata getMetadata() {
         return metadata;
     }

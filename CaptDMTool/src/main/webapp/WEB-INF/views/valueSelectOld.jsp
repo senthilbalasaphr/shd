@@ -1,78 +1,57 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="false"%>
 <html>
 <head>
 <title>Home</title>
 <script
 	src="${pageContext.request.contextPath }/resources/js/jquery-1.7.1.min.js"></script>
-<script>
-window.setInterval("reloadIFrame();", 1000);
 
-function reloadIFrame() {
- //document.frames["logFrame"].location.reload();
-	//document.getElementById(logFrame).src="";
-	document.getElementById('logFrame').contentDocument.location.reload(true);
-}
-</script>
 <script type="text/javascript">
 	$(document)
 			.ready(
 					function() {
-						$('#upload')
-								.on(
-										'click',
-										function() {
+						$('#upload').on('click', function(){
 
-											//alert('File:'+$('#file').val());
-											if ($('#comboClient').val() == null
-													|| $('#comboClient').val() == '0') {
-												alert('Please select Client');
-												$('#comboClient').focus();
-												return false;
-											}
-											if ($('#comboTemplateGrp').val() == null
-													|| $('#comboTemplateGrp')
-															.val() == '0') {
-												alert('Please select Template Group');
-												$('#comboTemplateGrp').focus();
-												return false;
-											}
-											if ($('#comboTemplate').val() == null
-													|| $('#comboTemplate')
-															.val() == '0') {
-												alert('Please select Template');
-												$('#comboTemplate').focus();
-												return false;
-											}
-											if ($('#comboCompany').val() == null
-													|| $('#comboCompany').val() == '0') {
-												alert('Please select Company');
-												$('#comboCompany').focus();
-												return false;
-											}
-											if ($('#headerIndex').val() == null
-													|| $('#headerIndex').val() == ''
-													|| $('#headerIndex').val() <= '0') {
-												alert('Please Enter Header Index value between 1 to 10');
-												$('#headerIndex').focus();
-												return false;
-											}
-											if ($('#valueIndex').val() == null
-													|| $('#valueIndex').val() == ''
-													|| $('#valueIndex').val() <= '0') {
-												alert('Please Enter Value Index value between 1 to 10');
-												$('#valueIndex').focus();
-												return false;
-											}
-											if ($('#file').val() == null
-													|| $('#file').val() == '') {
-												alert('Please Choose .xls/.xlsx file to upload');
-												$('#file').focus();
-												return false;
-											}
-											document.uploadForm.submit();
-										});
+							//alert('File:'+$('#file').val());
+							if($('#comboClient').val()==null || $('#comboClient').val()=='0'){
+								alert('Please select Client');
+								$('#comboClient').focus();
+								return false;
+							}
+							if($('#comboTemplateGrp').val()==null || $('#comboTemplateGrp').val()=='0'){
+								alert('Please select Template Group');
+								$('#comboTemplateGrp').focus();
+								return false;
+							}
+							if($('#comboTemplate').val()==null || $('#comboTemplate').val()=='0'){
+								alert('Please select Template');
+								$('#comboTemplate').focus();
+								return false;
+							}
+							if($('#comboCompany').val()==null || $('#comboCompany').val()=='0'){
+								alert('Please select Company');
+								$('#comboCompany').focus();
+								return false;
+							}
+							if($('#headerIndex').val()==null || $('#headerIndex').val()=='' || $('#headerIndex').val()<='0'){
+								alert('Please Enter Header Index value between 1 to 10');
+								$('#headerIndex').focus();
+								return false;
+							}
+							if($('#valueIndex').val()==null || $('#valueIndex').val()=='' || $('#valueIndex').val()<='0'){
+								alert('Please Enter Value Index value between 1 to 10');
+								$('#valueIndex').focus();
+								return false;
+							}
+							if($('#file').val()==null || $('#file').val()==''){
+								alert('Please Choose .xls/.xlsx file to upload');
+								$('#file').focus();
+								return false;
+							}
+							document.uploadForm.submit();
+						});
 
 						$('#comboTemplateGrp')
 								.on(
@@ -189,7 +168,7 @@ function reloadIFrame() {
 						<option value="06">SPT</option>
 						<option value="04">SVI</option>
 						<option value="02">Taiwan</option>
-							<option value="09">Thailand</option>
+						<option value="09">Thailand</option>
 						<option value="99">TestRun</option>
 				</select></td>
 				<td width="10%"></td>
@@ -197,11 +176,11 @@ function reloadIFrame() {
 			<tr>
 				<td width="10%">Header Index:</td>
 				<td width="30%"><input type="text" id="headerIndex"
-					name="headerIndex" maxlength="2" value="5" /></td>
+					name="headerIndex" maxlength="2" value="5"/></td>
 				<td width="10%"></td>
 				<td width="10%">Value Index:</td>
 				<td width="30%"><input type="text" id="valueIndex"
-					name="valueIndex" maxlength="2" value="7" /></td>
+					name="valueIndex" maxlength="2" value="7"/></td>
 				<td width="10%"></td>
 			</tr>
 			<tr>
@@ -213,29 +192,16 @@ function reloadIFrame() {
 						<option value="Yes">Yes</option>
 						<option value="No">No</option>
 					</select>
-					
 					</td>
-				<td width="10%"></td>
 				<td width="10%"></td>
 				<td width="30%"></td>
 				<td width="10%"></td>
 			</tr>
 			<tr>
-				<td colspan="6" align="center">Upload: <input type="file"
+				<td colspan="5" align="center">Upload: <input type="file"
 					name="file" id="file" accept=".xls,.xlsx" /> <input type="button"
 					id="upload" name="upload" value="Upload file" /></td>
 
-			</tr>
-			<tr>
-				<td  colspan="6">
-				<input type="text" value="${sessionScope.data}" />
-				</td>
-			</tr>
-			<tr>
-				<td  colspan="6" width ="100%">
-				<iframe id="logFrame" name="logFrame" src="${pageContext.request.contextPath}/showLogs"></iframe>
-				<%-- <jsp:include page="../views/logs.jsp" flush="true"/> --%>
-				</td>
 			</tr>
 		</table>
 
