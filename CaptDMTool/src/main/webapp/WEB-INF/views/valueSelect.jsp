@@ -7,12 +7,25 @@
 <script
 	src="${pageContext.request.contextPath }/resources/js/jquery-1.7.1.min.js"></script>
 <script>
-window.setInterval("reloadIFrame();", 1000);
+window.setInterval("reloadIFrame();", 5000);
 
 function reloadIFrame() {
  //document.frames["logFrame"].location.reload();
 	//document.getElementById(logFrame).src="";
+	
+	
+		var e = document.getElementById("Log");
+	var log = e.options[e.selectedIndex].value;
+	
+	if (log=="Yes"){
+		
+	
 	document.getElementById('logFrame').contentDocument.location.reload(true);
+	
+	 var $contents = $('logFrame').contents();
+	    $contents.scrollTop($contents.height());
+	}
+	    
 }
 </script>
 <script type="text/javascript">
@@ -228,12 +241,20 @@ function reloadIFrame() {
 			</tr>
 			<tr>
 				<td  colspan="6">
-				<input type="text" value="${sessionScope.data}" />
+				<input type="text" value="${sessionScope.data}"  type="hidden"/>
 				</td>
+				<td width="30%">
+				<select id="Log" name="Log"
+					style="width: 200px">
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+					
+					</td>
 			</tr>
 			<tr>
-				<td  colspan="6" width ="100%">
-				<iframe id="logFrame" name="logFrame" src="${pageContext.request.contextPath}/showLogs"></iframe>
+				<td  colspan="6"  >
+				<iframe id="logFrame"  width="500" height="500" name="logFrame" src="${pageContext.request.contextPath}/showLogs"></iframe>
 				<%-- <jsp:include page="../views/logs.jsp" flush="true"/> --%>
 				</td>
 			</tr>

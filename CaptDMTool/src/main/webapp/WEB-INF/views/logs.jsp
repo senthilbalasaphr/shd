@@ -8,10 +8,18 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <script>
-window.setInterval("reloadIFrame();", 1000);
+
+
+
+window.setInterval("reloadIFrame();", 15000);
 
 function reloadIFrame() {
+	var e = document.getElementById("log");
+	var log = e.options[e.selectedIndex].value;
+	
+	if (log!="No"){
  document.frames["logFrame"].location.reload();
+	}
 }
 </script>
 </head>

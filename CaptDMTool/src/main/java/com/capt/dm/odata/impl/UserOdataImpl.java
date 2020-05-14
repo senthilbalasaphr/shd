@@ -36,16 +36,16 @@ public class UserOdataImpl implements UserOdata {
            return false;
        }
 */
-    	if (userName.equalsIgnoreCase("capt") && password.equalsIgnoreCase("capt")) {
+    	if (userName.equalsIgnoreCase("capt") && password.equalsIgnoreCase("Welcome1")) {
     		return true;
     	}   	
-    	else if (userName.equalsIgnoreCase("capt") && password.equalsIgnoreCase("capt")) {
+    	else if (userName.equalsIgnoreCase("user01") && password.equalsIgnoreCase("user01")) {
     		return true;
     	}
-    	else if (userName.equalsIgnoreCase("capt") && password.equalsIgnoreCase("capt")) {
+    	else if (userName.equalsIgnoreCase("user02") && password.equalsIgnoreCase("user02")) {
     		return true;
     	}
-    	else if (userName.equalsIgnoreCase("capt") && password.equalsIgnoreCase("capt")) {
+    	else if (userName.equalsIgnoreCase("user03") && password.equalsIgnoreCase("user03")) {
     		return true;
     	}
     	

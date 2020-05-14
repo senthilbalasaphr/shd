@@ -78,11 +78,17 @@ public class CreateExcelView extends AbstractXlsxView {
 				System.exit(0);
 			}
 			
+			if (!(userName.equalsIgnoreCase("capt"))) {
+				
+				if (isTestRun.equalsIgnoreCase("No")) {
+					logger.info("Please run live using capt user");
+					System.exit(0);
+				}	
+				
+			}
+			
 			for (List<MetaDataObj> rowData : excelData) {
-// Print log			
-				data+="<br>"+rowNum;
-				session.setAttribute("data", data);
-// Print log				
+			
 				Row row = sheet.createRow(rowNum++);
 				int colNum = 0;
 				for (MetaDataObj columnData : rowData) {
@@ -117,7 +123,8 @@ public class CreateExcelView extends AbstractXlsxView {
 							newValue = oldValue;
 
 						}
-
+	
+								
 						if (null != valueMap.get(key) && !valueMap.get(key).isEmpty()) {
 							newValue = valueMap.get(key); // this is for fetching values using value mapping
 						}
@@ -158,9 +165,15 @@ public class CreateExcelView extends AbstractXlsxView {
 							fieldValue = oldValue;
 						}
 						fieldType = columnData.getFieldType();
+						
+						// Print log			
+						data="<br>"+headerCol+":"+newValue+data;
+						session.setAttribute("data", data);
+						// Print log	
 					}
 					
 					
+
 
 					// Senthil
 					//**** Set the error values to red color
