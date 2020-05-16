@@ -1,7 +1,17 @@
 package com.shd.reports;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,10 +20,14 @@ import com.shd.DepartmentLevel2.DepartmentLevel2;
 import com.shd.DepartmentLevel3.DepartmentLevel3;
 import com.shd.DepartmentLevel4.DepartmentLevel4;
 import com.shd.DepartmentLevel5.DepartmentLevel5;
+import com.shd.FODepartment.FODepartment;
 import com.shd.FODivision.FODivision;
 import com.shd.Util.Utility;
 
 public class DivisionsReports {
+
+	public static Map<String, Object[]> DepDiv = new TreeMap<String, Object[]>();
+	public static Map<String, Object[]> DepLE = new TreeMap<String, Object[]>();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -21,7 +35,7 @@ public class DivisionsReports {
 		RestTemplate restTemplate = new RestTemplate();
 		Utility ut = new Utility();
 
-		String LegalEntity = "A1400";
+		String LegalEntity = "A0900";
 		String DivisionFilter = "0";
 		String DepartmentLevel1Filter = "0";
 		String DepartmentLevel2Filter = "0";
@@ -68,6 +82,9 @@ public class DivisionsReports {
 						+ DL1Result.getExternalNameDefaultValue());
 				System.out.println("," + ut.getOdataEpochiToJava(DL1Result.getEffectiveStartDate()));
 
+				// Check Department
+				getDepartment(DL1Result.getExternalCode(), FODivResult.getExternalCode(), LegalEntity,"1");
+
 				// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 				DepartmentLevel1Filter = DL1Result.getExternalCode();
 
@@ -91,6 +108,10 @@ public class DivisionsReports {
 							+ DL2Result.getExternalNameDefaultValue());
 					System.out.println("," + ut.getOdataEpochiToJava(DL2Result.getEffectiveStartDate()));
 					// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
+
+					// Check Department
+					getDepartment(DL2Result.getExternalCode(), FODivResult.getExternalCode(), LegalEntity,"2");
+
 					DepartmentLevel2Filter = DL2Result.getExternalCode();
 
 					//// ****** Get Department Level 3*******///
@@ -110,6 +131,10 @@ public class DivisionsReports {
 						System.out.print("Department Level 3===>" + DL3Result.getExternalCode() + " - "
 								+ DL3Result.getExternalNameDefaultValue());
 						System.out.println("," + ut.getOdataEpochiToJava(DL3Result.getEffectiveStartDate()));
+
+						// Check Department
+						getDepartment(DL3Result.getExternalCode(), FODivResult.getExternalCode(), LegalEntity,"3");
+
 						// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 						DepartmentLevel3Filter = DL3Result.getExternalCode();
 
@@ -130,6 +155,10 @@ public class DivisionsReports {
 							System.out.print("Department Level 4====>" + DL4Result.getExternalCode() + " - "
 									+ DL4Result.getExternalNameDefaultValue());
 							System.out.println("," + ut.getOdataEpochiToJava(DL4Result.getEffectiveStartDate()));
+
+							// Check Department
+							getDepartment(DL4Result.getExternalCode(), FODivResult.getExternalCode(), LegalEntity,"4");
+
 							// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 							DepartmentLevel4Filter = DL4Result.getExternalCode();
 
@@ -152,6 +181,10 @@ public class DivisionsReports {
 										+ DL5Result.getExternalNameDefaultValue());
 								System.out.println("," + ut.getOdataEpochiToJava(DL5Result.getEffectiveStartDate()));
 								// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
+
+								// Check Department
+								getDepartment(DL5Result.getExternalCode(), FODivResult.getExternalCode(), LegalEntity,"5");
+
 								DepartmentLevel5Filter = DL5Result.getExternalCode();
 
 							} // For Department level 5
@@ -166,8 +199,130 @@ public class DivisionsReports {
 
 		} // For Division
 
-		
+// Write to Excel
 
+		// Create blank workbook
+		XSSFWorkbook workbook = new XSSFWorkbook();
+
+		// Create a blank sheet
+		XSSFSheet Department_Div = workbook.createSheet(" Department_Div ");
+		XSSFSheet Department_LE = workbook.createSheet(" Department_LE ");
+
+		// Create row object
+		XSSFRow row;
+
+		// Iterate over data and write to sheet
+		Set<String> keyid = DepDiv.keySet();
+		int rowid = 0;
+
+		for (String key : keyid) {
+			row = Department_Div.createRow(rowid++);
+			Object[] objectArr = DepDiv.get(key);
+			int cellid = 0;
+
+			for (Object obj : objectArr) {
+				Cell cell = row.createCell(cellid++);
+				cell.setCellValue((String) obj);
+			}
+		}
+
+		// Iterate over data and write to sheet
+		Set<String> keyidLE = DepLE.keySet();
+		rowid = 0;
+
+		for (String key : keyidLE) {
+			row = Department_LE.createRow(rowid++);
+			Object[] objectArr = DepLE.get(key);
+			int cellid = 0;
+
+			for (Object obj : objectArr) {
+				Cell cell = row.createCell(cellid++);
+				cell.setCellValue((String) obj);
+			}
+		}
+
+		// Write the workbook in file system
+		FileOutputStream out;
+		try {
+			out = new FileOutputStream(new File("/Users/baps/Downloads/Department.xlsx"));
+
+			workbook.write(out);
+			out.close();
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("Department.xlsx written successfully");
+
+	}
+
+	public static void getDepartment(String DepID, String Div, String LE,String level) {
+
+		Utility ut1 = new Utility();
+		int i = 0;
+
+		RestTemplate restTemplate1 = new RestTemplate();
+		restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+
+		String FODepUrl = "https://api12preview.sapsf.eu/odata/v2/FODepartment?" + "$filter=externalCode in " + DepID
+				+ "&$expand=cust_Division,cust_LegalEntity" + "&$format=JSON"
+				+ "&$select=externalCode,name, name_defaultValue, description_defaultValue, description_localized, startDate, endDate, cust_deptLevel, cust_LegalEntity/externalCode,cust_Division/externalCode";
+
+		FODepartment FODep = restTemplate1.getForObject(FODepUrl, FODepartment.class);
+
+		com.shd.FODepartment.D FODepD = FODep.getD();
+		List<com.shd.FODepartment.Result> FODepResults = FODepD.getResults();
+		for (com.shd.FODepartment.Result FODepResult : FODepResults) {
+			System.out.print("Department ====>" + DepID + " - " + FODepResult.getName() + ","
+					+ ut1.getOdataEpochiToJava(FODepResult.getStartDate()) + ",");
+
+			i++;
+			String si = Integer.toString(i);
+			com.shd.FODepartment.CustDivision FODepDiv = FODepResult.getCustDivision();
+			com.shd.FODepartment.CustLegalEntity FODepLE = FODepResult.getCustLegalEntity();
+
+			List<com.shd.FODepartment.Result_> FODepDivResults = FODepDiv.getResults();
+
+			if (FODepDivResults.isEmpty()) {
+
+				System.out.print("Div not found: " + Div);
+				DepDiv.put(si, new Object[] { DepID, ut1.getOdataEpochiToJava(FODepResult.getStartDate()), Div,FODepResult.getName(),level });
+			}
+
+			for (com.shd.FODepartment.Result_ FODepDivResult : FODepDivResults) {
+				if (FODepDivResult.getExternalCode() == "") {
+					System.out.print("Div not found: " + Div);
+				} else {
+					System.out.print("Div  found: " + FODepDivResult.getExternalCode());
+				}
+
+			}
+
+			List<com.shd.FODepartment.Result__> FODepLEResults = FODepLE.getResults();
+
+			if (FODepLEResults.isEmpty()) {
+
+				System.out.print("LE not found: " + LE);
+				DepLE.put(si, new Object[] { DepID, ut1.getOdataEpochiToJava(FODepResult.getStartDate()), LE,FODepResult.getName(),level });
+			}
+
+			for (com.shd.FODepartment.Result__ FODepLEResult : FODepLEResults) {
+				if (FODepLEResult.getExternalCode() == "") {
+
+					System.out.print("LE not found: " + LE);
+				}
+
+				else {
+					System.out.print("Legal Entity found: " + FODepLEResult.getExternalCode());
+				}
+
+			}
+		}
+
+		System.out.println("");
+		System.out.println("---------------");
 	}
 
 }
