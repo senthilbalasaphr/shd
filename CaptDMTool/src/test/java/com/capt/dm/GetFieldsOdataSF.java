@@ -44,7 +44,7 @@ public class GetFieldsOdataSF {
 			e.printStackTrace();
 		}
 
-		serviceUrl="https://api12preview.sapsf.eu/odata/v2/Position?$format=JSON&$filter=code+eq+%2760012956%27&$expand=jobCodeNav";
+		serviceUrl="https://api12preview.sapsf.eu/odata/v2/Position?$format=JSON&$filter=code+eq+%2760054983%27&$expand=jobCodeNav";
 		ODataFeed Fed=null;
 		try {
 			Fed = app.readFeedSf(edm, serviceUrl, usedFormat, "Position","VKUMAR@shiseidocoT1", "Welcome@3");
