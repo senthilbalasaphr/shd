@@ -28,6 +28,7 @@ public class DivisionsReports {
 
 	public static Map<String, Object[]> DepDiv = new TreeMap<String, Object[]>();
 	public static Map<String, Object[]> DepLE = new TreeMap<String, Object[]>();
+	public static int i = 0;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -35,7 +36,7 @@ public class DivisionsReports {
 		RestTemplate restTemplate = new RestTemplate();
 		Utility ut = new Utility();
 
-		String LegalEntity = "A0900";
+		String LegalEntity = "A0800";
 		String DivisionFilter = "0";
 		String DepartmentLevel1Filter = "0";
 		String DepartmentLevel2Filter = "0";
@@ -169,7 +170,7 @@ public class DivisionsReports {
 									+ "&$expand=cust_emeaDeptLevel4" + "&$format=JSON"
 									+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel4/externalCode";
 
-							DepartmentLevel5 DepartmentLevel5 = restTemplate.getForObject(DL4Url,
+							DepartmentLevel5 DepartmentLevel5 = restTemplate.getForObject(DL5Url,
 									DepartmentLevel5.class);
 
 							com.shd.DepartmentLevel5.D DL5d = DepartmentLevel5.getD();
@@ -261,7 +262,7 @@ public class DivisionsReports {
 	public static void getDepartment(String DepID, String Div, String LE,String level) {
 
 		Utility ut1 = new Utility();
-		int i = 0;
+		i++;
 
 		RestTemplate restTemplate1 = new RestTemplate();
 		restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
@@ -278,7 +279,7 @@ public class DivisionsReports {
 			System.out.print("Department ====>" + DepID + " - " + FODepResult.getName() + ","
 					+ ut1.getOdataEpochiToJava(FODepResult.getStartDate()) + ",");
 
-			i++;
+	
 			String si = Integer.toString(i);
 			com.shd.FODepartment.CustDivision FODepDiv = FODepResult.getCustDivision();
 			com.shd.FODepartment.CustLegalEntity FODepLE = FODepResult.getCustLegalEntity();
@@ -286,9 +287,9 @@ public class DivisionsReports {
 			List<com.shd.FODepartment.Result_> FODepDivResults = FODepDiv.getResults();
 
 			if (FODepDivResults.isEmpty()) {
-
+				
 				System.out.print("Div not found: " + Div);
-				DepDiv.put(si, new Object[] { DepID, ut1.getOdataEpochiToJava(FODepResult.getStartDate()), Div,FODepResult.getName(),level });
+				DepDiv.put(si, new Object[] { DepID, ut1.getOdataEpochiToJava(FODepResult.getStartDate()), Div, FODepResult.getDescriptionLocalized(),level });
 			}
 
 			for (com.shd.FODepartment.Result_ FODepDivResult : FODepDivResults) {
@@ -305,7 +306,7 @@ public class DivisionsReports {
 			if (FODepLEResults.isEmpty()) {
 
 				System.out.print("LE not found: " + LE);
-				DepLE.put(si, new Object[] { DepID, ut1.getOdataEpochiToJava(FODepResult.getStartDate()), LE,FODepResult.getName(),level });
+				DepLE.put(si, new Object[] { DepID, ut1.getOdataEpochiToJava(FODepResult.getStartDate()), LE,FODepResult.getDescriptionLocalized(),level });
 			}
 
 			for (com.shd.FODepartment.Result__ FODepLEResult : FODepLEResults) {
@@ -315,7 +316,7 @@ public class DivisionsReports {
 				}
 
 				else {
-					System.out.print("Legal Entity found: " + FODepLEResult.getExternalCode());
+					System.out.print(", Legal Entity found: " + FODepLEResult.getExternalCode());
 				}
 
 			}

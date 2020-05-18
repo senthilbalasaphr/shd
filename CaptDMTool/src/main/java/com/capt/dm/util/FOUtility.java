@@ -1416,6 +1416,204 @@ return newValue;
 
 
 
+////Get address 1
+
+public String address1(List<MetaDataObj> rowData, int index, String company,
+Map<String, String> clientSystem,String isTestRun) throws Exception {
+
+String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+String ObjectType="12";
+
+
+String operation = null;
+
+for (MetaDataObj metaDataObj : rowData) {
+	if (null != metaDataObj.getFieldName()
+			&& "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
+		operation = metaDataObj.getFieldValue();
+	}
+}
+
+
+
+
+String newValue = "";
+
+String urlx = clientSystem.get("URL");
+String userID = clientSystem.get("USER_ID");
+String password = clientSystem.get("PWD");
+
+Metadata metaData = new Metadata();
+
+
+
+if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+RestTemplate restTemplate = new RestTemplate();
+
+String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and externalCode eq '"+operation+"'&$select=externalName";
+logger.info("url:" + url);
+System.out.println(url);	
+
+restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+
+
+KeyMap result = restTemplate.getForObject(url,KeyMap.class);
+
+if ( result != null) {
+D d = result.getD();
+List<Result> res = d.getResults();
+for (Result result1 :res) {
+newValue = result1.getExternalName();	
+
+}
+
+
+}
+
+}
+
+if (newValue.isEmpty()) {
+newValue = cust_LegacyID + "<-- Address 1 not found for :" +operation ;
+}
+
+
+return newValue;
+}
+
+
+////Get address 2
+
+public String address2(List<MetaDataObj> rowData, int index, String company,
+Map<String, String> clientSystem,String isTestRun) throws Exception {
+
+String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+String ObjectType="12";
+
+
+String operation = null;
+
+for (MetaDataObj metaDataObj : rowData) {
+if (null != metaDataObj.getFieldName()
+		&& "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
+	operation = metaDataObj.getFieldValue();
+}
+}
+
+
+
+
+String newValue = "";
+
+String urlx = clientSystem.get("URL");
+String userID = clientSystem.get("USER_ID");
+String password = clientSystem.get("PWD");
+
+Metadata metaData = new Metadata();
+
+
+
+if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+RestTemplate restTemplate = new RestTemplate();
+
+String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and externalCode eq '"+operation+"'&$select=cust_LegacyID";
+logger.info("url:" + url);
+System.out.println(url);	
+
+restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+
+
+KeyMap result = restTemplate.getForObject(url,KeyMap.class);
+
+if ( result != null) {
+D d = result.getD();
+List<Result> res = d.getResults();
+for (Result result1 :res) {
+newValue = result1.getCust_LegacyID();	
+
+}
+
+
+}
+
+}
+
+if (newValue.isEmpty()) {
+newValue = cust_LegacyID + "<-- Address 2 not found for :" +operation ;
+}
+
+
+return newValue;
+}
+
+
+////Get address 3
+
+public String address3(List<MetaDataObj> rowData, int index, String company,
+Map<String, String> clientSystem,String isTestRun) throws Exception {
+
+String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+String ObjectType="12";
+
+
+String operation = null;
+
+for (MetaDataObj metaDataObj : rowData) {
+if (null != metaDataObj.getFieldName()
+	&& "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
+operation = metaDataObj.getFieldValue();
+}
+}
+
+
+
+
+String newValue = "";
+
+String urlx = clientSystem.get("URL");
+String userID = clientSystem.get("USER_ID");
+String password = clientSystem.get("PWD");
+
+Metadata metaData = new Metadata();
+
+
+
+if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+RestTemplate restTemplate = new RestTemplate();
+
+String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and externalCode eq '"+operation+"'&$select=cust_SFID";
+logger.info("url:" + url);
+System.out.println(url);	
+
+restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+
+
+KeyMap result = restTemplate.getForObject(url,KeyMap.class);
+
+if ( result != null) {
+D d = result.getD();
+List<Result> res = d.getResults();
+for (Result result1 :res) {
+newValue = result1.getCustSFID();	
+
+}
+
+
+}
+
+}
+
+if (newValue.isEmpty()) {
+newValue = cust_LegacyID + "<-- Address 3 not found for :" +operation ;
+}
+
+
+return newValue;
+}
+
+
 
 
 }

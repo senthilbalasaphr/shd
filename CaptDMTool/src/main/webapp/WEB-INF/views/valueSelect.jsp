@@ -238,11 +238,7 @@ function reloadIFrame() {
 					name="file" id="file" accept=".xls,.xlsx" /> <input type="button"
 					id="upload" name="upload" value="Upload file" /></td>
 
-			</tr>
-			<tr>
-				<td  colspan="6">
-				<input type="text" value="${sessionScope.data}"  type="hidden"/>
-				</td>
+		<td colspan="16"  width="30%">Show Log</td>
 				<td width="30%">
 				<select id="Log" name="Log"
 					style="width: 200px">
@@ -251,6 +247,13 @@ function reloadIFrame() {
 					</select>
 					
 					</td>
+					
+			</tr>
+			<tr>
+				<td  colspan="6">
+				<input type="text" value="${sessionScope.data}"  type="hidden"/>
+				</td>
+				
 			</tr>
 			<tr>
 				<td  colspan="6"  >
