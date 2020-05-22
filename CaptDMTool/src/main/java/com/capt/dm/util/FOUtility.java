@@ -37,8 +37,8 @@ public class FOUtility {
 
 	private static final Logger logger = LoggerFactory.getLogger(FOUtility.class);
 
-	public String getSplitRight(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,String isTestRun)
-			throws Exception {
+	public String getSplitRight(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 //		logger.info("FOUtility: Inside getSplitRight Method");
 //		String newValue = oldValue.substring(oldValue.lastIndexOf("-")+1, oldValue.length());
@@ -46,16 +46,15 @@ public class FOUtility {
 //		logger.info("FOUtility: getSplitRight: legacyValue:"+legacyValue+"::"+index);
 		String newValue = "";
 
-		
 		if (null != legacyValue && !legacyValue.isEmpty()) {
-			
-			// Senthil		
+
+			// Senthil
 			if (!(legacyValue.contains("-"))) {
-				return legacyValue;		
-				
+				return legacyValue;
+
 			}
-	// Senthil
-			
+			// Senthil
+
 			newValue = legacyValue.substring(legacyValue.lastIndexOf("-") + 1, legacyValue.length()).trim();
 		}
 
@@ -64,26 +63,24 @@ public class FOUtility {
 		return newValue;
 	}
 
-	public String getSplitLeft(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,String isTestRun)
-			throws Exception {
+	public String getSplitLeft(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 //		logger.info("FOUtility: Inside getSplitRight Method");
 //		String newValue = oldValue.substring(oldValue.lastIndexOf("-")+1, oldValue.length());
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 //		logger.info("FOUtility: getSplitRight: legacyValue:"+legacyValue);
 		String newValue = "";
-		
 
-		
 		if (null != legacyValue && !legacyValue.isEmpty()) {
-			
+
 			// Senthil
 			if (!(legacyValue.contains("-"))) {
-				return legacyValue;		
-				
+				return legacyValue;
+
 			}
-	// Senthil
-			
+			// Senthil
+
 			newValue = legacyValue.substring(0, legacyValue.lastIndexOf("-")).trim();
 		}
 //		logger.info("FOUtility: getSplitLeft: newValue:" + newValue);
@@ -91,7 +88,7 @@ public class FOUtility {
 	}
 
 	public String getDepartmentID(List<MetaDataObj> rowData, int index, String company,
-			Map<String, String> clientSystem,String isTestRun) throws Exception {
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
 
 //		logger.info("FOUtility: Inside getDepartmentID Method");
 		String effectiveStartDate = null;
@@ -117,86 +114,82 @@ public class FOUtility {
 		if (isTestRun.equalsIgnoreCase("No")) {
 //		String url = "https://api12preview.sapsf.eu/odata/v2/";
 //		String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
-		String url = clientSystem.get("URL");
-		String userID = clientSystem.get("USER_ID");
-		String password = clientSystem.get("PWD");
+			String url = clientSystem.get("URL");
+			String userID = clientSystem.get("USER_ID");
+			String password = clientSystem.get("PWD");
 
-		Metadata metaData = new Metadata();
-		metaData.setUri(url + "/cust_Keymapping");
-		metaData.setType("SFOData.cust_Keymapping");
+			Metadata metaData = new Metadata();
+			metaData.setUri(url + "/cust_Keymapping");
+			metaData.setType("SFOData.cust_Keymapping");
 
-		UpsertObject upsertObject = new UpsertObject();
-		upsertObject.setMetadata(metaData);
-		upsertObject.setExternalCode(externalCode);
+			UpsertObject upsertObject = new UpsertObject();
+			upsertObject.setMetadata(metaData);
+			upsertObject.setExternalCode(externalCode);
 //		upsertObject.setEffectiveStartDate("/Date(946665000000)/");
-		upsertObject.setEffectiveStartDate(epochDate);
-		upsertObject.setCustLegacyID(legacyValue);
-		upsertObject.setExternalName(externalName);
-		upsertObject.setCustCompany(company);
-		upsertObject.setCustSFID("");
-		upsertObject.setCustObjectType("01");
+			upsertObject.setEffectiveStartDate(epochDate);
+			upsertObject.setCustLegacyID(legacyValue);
+			upsertObject.setExternalName(externalName);
+			upsertObject.setCustCompany(company);
+			upsertObject.setCustSFID("");
+			upsertObject.setCustObjectType("01");
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
 //		RestTemplate postTemplate = new RestTemplate();
 //		postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
 
-		String upsertURL = url + "/upsert";
+			String upsertURL = url + "/upsert";
 
-		String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+			String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
 
-		RestTemplate restTemplate = new RestTemplate();
+			RestTemplate restTemplate = new RestTemplate();
 //		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
 //		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-		HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+			HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
 
 //		Map <String, String> dummy = new HashMap<String, String>();
-		String custSFID = null;
-		boolean isEmpty = true;
-		do {
-			// Step-1: Post the values to get generate new department Id
-			String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+			String custSFID = null;
+			boolean isEmpty = true;
+			do {
+				// Step-1: Post the values to get generate new department Id
+				String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
 
-			logger.info("FOUtility: getDepartmentID Method: Upsert result:" + result);
+				logger.info("FOUtility: getDepartmentID Method: Upsert result:" + result);
 
-			// Step-2: Get new department Id using external code
-			FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+				// Step-2: Get new department Id using external code
+				FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
 //			System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
 
-			if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
-				custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
-			}
+				if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+					custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+				}
 
-			// Step-3: Check if any values are present already for the newly generated id.
-			String checkUrl = url + "/FODepartment?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+				// Step-3: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/FODepartment?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
 
-			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
 
 //			System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
-			isEmpty = checkObject.getD().getResults().isEmpty();
+				isEmpty = checkObject.getD().getResults().isEmpty();
 
-		} while (!isEmpty);
-		return custSFID;
-		}
-		else {
+			} while (!isEmpty);
+			return custSFID;
+		} else {
 			return legacyValue;
 
 		}
 
-
 	}
-	
-	
-	// Get job id	
-	public String getJobClassID(List<MetaDataObj> rowData, int index, String company,
-			Map<String, String> clientSystem,String isTestRun) throws Exception {
 
-		
+	// Get job id
+	public String getJobClassID(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
+
 //		logger.info("FOUtility: Inside getDepartmentID Method");
 		String effectiveStartDate = null;
-	
+
 		for (MetaDataObj metaDataObj : rowData) {
 //			logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
 //					+ metaDataObj.getFieldName());
@@ -207,7 +200,7 @@ public class FOUtility {
 		}
 
 //		logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
-		
+
 		String epochDate = getEpoch(effectiveStartDate);
 
 //		logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
@@ -219,84 +212,82 @@ public class FOUtility {
 		if (!company.equalsIgnoreCase("99")) {
 //		String url = "https://api12preview.sapsf.eu/odata/v2/";
 //		String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
-		String url = clientSystem.get("URL");
-		String userID = clientSystem.get("USER_ID");
-		String password = clientSystem.get("PWD");
+			String url = clientSystem.get("URL");
+			String userID = clientSystem.get("USER_ID");
+			String password = clientSystem.get("PWD");
 
-		Metadata metaData = new Metadata();
-		metaData.setUri(url + "/cust_Keymapping");
-		metaData.setType("SFOData.cust_Keymapping");
+			Metadata metaData = new Metadata();
+			metaData.setUri(url + "/cust_Keymapping");
+			metaData.setType("SFOData.cust_Keymapping");
 
-		UpsertObject upsertObject = new UpsertObject();
-		upsertObject.setMetadata(metaData);
-		upsertObject.setExternalCode(externalCode);
+			UpsertObject upsertObject = new UpsertObject();
+			upsertObject.setMetadata(metaData);
+			upsertObject.setExternalCode(externalCode);
 //		upsertObject.setEffectiveStartDate("/Date(946665000000)/");
-		upsertObject.setEffectiveStartDate(epochDate);
-		upsertObject.setCustLegacyID(legacyValue);
-		upsertObject.setExternalName(externalName);
-		upsertObject.setCustCompany(company);
-		upsertObject.setCustSFID("");
-		upsertObject.setCustObjectType("02");
+			upsertObject.setEffectiveStartDate(epochDate);
+			upsertObject.setCustLegacyID(legacyValue);
+			upsertObject.setExternalName(externalName);
+			upsertObject.setCustCompany(company);
+			upsertObject.setCustSFID("");
+			upsertObject.setCustObjectType("02");
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
 //		RestTemplate postTemplate = new RestTemplate();
 //		postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
 
-		String upsertURL = url + "/upsert";
+			String upsertURL = url + "/upsert";
 
-		String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+			String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
 
-		RestTemplate restTemplate = new RestTemplate();
+			RestTemplate restTemplate = new RestTemplate();
 //		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
 //		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-		HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+			HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
 
 //		Map <String, String> dummy = new HashMap<String, String>();
-		String custSFID = null;
-		boolean isEmpty = true;
-		do {
-			// Step-1: Post the values to get generate new department Id
-			String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+			String custSFID = null;
+			boolean isEmpty = true;
+			do {
+				// Step-1: Post the values to get generate new department Id
+				String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
 
-			logger.info("FOUtility: getJobclassID Method: Upsert result:" + result);
+				logger.info("FOUtility: getJobclassID Method: Upsert result:" + result);
 
-			// Step-2: Get new department Id using external code
-			FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+				// Step-2: Get new department Id using external code
+				FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
 //			System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
 
-			if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
-				custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
-			}
+				if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+					custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+				}
 
-			// Step-3: Check if any values are present already for the newly generated id.
-			String checkUrl = url + "/FOJobCode?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+				// Step-3: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/FOJobCode?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
 
-			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
 
 //			System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
-			isEmpty = checkObject.getD().getResults().isEmpty();
+				isEmpty = checkObject.getD().getResults().isEmpty();
 
-		} while (!isEmpty);
+			} while (!isEmpty);
 
-		return custSFID;
-	}else {
-		
-		return legacyValue;
+			return custSFID;
+		} else {
+
+			return legacyValue;
+		}
 	}
-	}
-	
-	
-	// Get Pos id	
-	public String getPosID(List<MetaDataObj> rowData, int index, String company,
-			Map<String, String> clientSystem,String isTestRun) throws Exception {
 
-		
+	// Get Pos id
+	public String getPosID(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
+
 //		logger.info("FOUtility: Inside getDepartmentID Method");
 		String effectiveStartDate = null;
-	
+
 		for (MetaDataObj metaDataObj : rowData) {
 //			logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
 //					+ metaDataObj.getFieldName());
@@ -307,7 +298,7 @@ public class FOUtility {
 		}
 
 //		logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
-		
+
 		String epochDate = getEpoch(effectiveStartDate);
 
 //		logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
@@ -319,104 +310,102 @@ public class FOUtility {
 		if (isTestRun.equalsIgnoreCase("No")) {
 //		String url = "https://api12preview.sapsf.eu/odata/v2/";
 //		String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
-		String url = clientSystem.get("URL");
-		String userID = clientSystem.get("USER_ID");
-		String password = clientSystem.get("PWD");
+			String url = clientSystem.get("URL");
+			String userID = clientSystem.get("USER_ID");
+			String password = clientSystem.get("PWD");
 
-		Metadata metaData = new Metadata();
-		metaData.setUri(url + "/cust_Keymapping");
-		metaData.setType("SFOData.cust_Keymapping");
+			Metadata metaData = new Metadata();
+			metaData.setUri(url + "/cust_Keymapping");
+			metaData.setType("SFOData.cust_Keymapping");
 
-		UpsertObject upsertObject = new UpsertObject();
-		upsertObject.setMetadata(metaData);
-		upsertObject.setExternalCode(externalCode);
+			UpsertObject upsertObject = new UpsertObject();
+			upsertObject.setMetadata(metaData);
+			upsertObject.setExternalCode(externalCode);
 //		upsertObject.setEffectiveStartDate("/Date(946665000000)/");
-		upsertObject.setEffectiveStartDate(epochDate);
-		upsertObject.setCustLegacyID(legacyValue);
-		upsertObject.setExternalName(externalName);
-		upsertObject.setCustCompany(company);
-		upsertObject.setCustSFID("");
-		upsertObject.setCustObjectType("09");
+			upsertObject.setEffectiveStartDate(epochDate);
+			upsertObject.setCustLegacyID(legacyValue);
+			upsertObject.setExternalName(externalName);
+			upsertObject.setCustCompany(company);
+			upsertObject.setCustSFID("");
+			upsertObject.setCustObjectType("09");
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
 //		RestTemplate postTemplate = new RestTemplate();
 //		postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
 
-		String upsertURL = url + "/upsert";
+			String upsertURL = url + "/upsert";
 
-		String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+			String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
 
-		RestTemplate restTemplate = new RestTemplate();
+			RestTemplate restTemplate = new RestTemplate();
 //		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
 //		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-		HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+			HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
 
 //		Map <String, String> dummy = new HashMap<String, String>();
-		String custSFID = null;
-		boolean isEmpty = true;
-		do {
-			// Step-1: Post the values to get generate new department Id
-			String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+			String custSFID = null;
+			boolean isEmpty = true;
+			do {
+				// Step-1: Post the values to get generate new department Id
+				String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
 
-			logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
+				logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
 
-			// Step-2: Get new department Id using external code
-			FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+				// Step-2: Get new department Id using external code
+				FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
 //			System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
 
-			if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
-				custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
-			}
+				if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+					custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+				}
 
-			// Step-3: Check if any values are present already for the newly generated id.
-			String checkUrl = url + "/Position?$format=JSON&$filter=code+eq+'" + custSFID + "'";
+				// Step-3: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/Position?$format=JSON&$filter=code+eq+'" + custSFID + "'";
 
-			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
 
 //			System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
-			isEmpty = checkObject.getD().getResults().isEmpty();
+				isEmpty = checkObject.getD().getResults().isEmpty();
 
-		} while (!isEmpty);
+			} while (!isEmpty);
 
-		return custSFID;
-	}else {
-		
-		return legacyValue;
-	}
+			return custSFID;
+		} else {
+
+			return legacyValue;
+		}
 	}
 // PayGrade
-	
-	// Get Grade id	
-		public String getCreateGradeID(List<MetaDataObj> rowData, int index, String company,
-				Map<String, String> clientSystem,String isTestRun) throws Exception {
 
-			
+	// Get Grade id
+	public String getCreateGradeID(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
 //			logger.info("FOUtility: Inside getDepartmentID Method");
-			String effectiveStartDate = null;
-		
-			for (MetaDataObj metaDataObj : rowData) {
+		String effectiveStartDate = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
 //				logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
 //						+ metaDataObj.getFieldName());
-				if (null != metaDataObj.getFieldName()
-						&& "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
-					effectiveStartDate = metaDataObj.getFieldValue();
-				}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				effectiveStartDate = metaDataObj.getFieldValue();
 			}
+		}
 
 //			logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
-			
-			String epochDate = getEpoch(effectiveStartDate);
+
+		String epochDate = getEpoch(effectiveStartDate);
 
 //			logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-			String externalCode = getRandomString(6);
-			String externalName = getRandomString(6);
-			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-			String newValue = null;
+		String externalCode = getRandomString(6);
+		String externalName = getRandomString(6);
+		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String newValue = null;
 
-			if (isTestRun.equalsIgnoreCase("No")) {
+		if (isTestRun.equalsIgnoreCase("No")) {
 //			String url = "https://api12preview.sapsf.eu/odata/v2/";
 //			String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
 			String url = clientSystem.get("URL");
@@ -482,143 +471,137 @@ public class FOUtility {
 			} while (!isEmpty);
 
 			return custSFID;
-		}else {
-			
+		} else {
+
 			return legacyValue;
 		}
-		}
-		
-		// PayGrade
-		
-		// Create PayRange ID
-			public String getCreatePayRangeID(List<MetaDataObj> rowData, int index, String company,
-					Map<String, String> clientSystem,String isTestRun) throws Exception {
+	}
 
-				
+	// PayGrade
+
+	// Create PayRange ID
+	public String getCreatePayRangeID(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
 //				logger.info("FOUtility: Inside getDepartmentID Method");
-				String effectiveStartDate = null;
-			
-				for (MetaDataObj metaDataObj : rowData) {
+		String effectiveStartDate = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
 //					logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
 //							+ metaDataObj.getFieldName());
-					if (null != metaDataObj.getFieldName()
-							&& "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
-						effectiveStartDate = metaDataObj.getFieldValue();
-					}
-				}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				effectiveStartDate = metaDataObj.getFieldValue();
+			}
+		}
 
 //				logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
-				
-				String epochDate = getEpoch(effectiveStartDate);
+
+		String epochDate = getEpoch(effectiveStartDate);
 
 //				logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-				String externalCode = getRandomString(6);
-				String externalName = getRandomString(6);
-				String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-				String newValue = null;
+		String externalCode = getRandomString(6);
+		String externalName = getRandomString(6);
+		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String newValue = null;
 
-				if (isTestRun.equalsIgnoreCase("No")) {
+		if (isTestRun.equalsIgnoreCase("No")) {
 //				String url = "https://api12preview.sapsf.eu/odata/v2/";
 //				String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
-				String url = clientSystem.get("URL");
-				String userID = clientSystem.get("USER_ID");
-				String password = clientSystem.get("PWD");
+			String url = clientSystem.get("URL");
+			String userID = clientSystem.get("USER_ID");
+			String password = clientSystem.get("PWD");
 
-				Metadata metaData = new Metadata();
-				metaData.setUri(url + "/cust_Keymapping");
-				metaData.setType("SFOData.cust_Keymapping");
+			Metadata metaData = new Metadata();
+			metaData.setUri(url + "/cust_Keymapping");
+			metaData.setType("SFOData.cust_Keymapping");
 
-				UpsertObject upsertObject = new UpsertObject();
-				upsertObject.setMetadata(metaData);
-				upsertObject.setExternalCode(externalCode);
+			UpsertObject upsertObject = new UpsertObject();
+			upsertObject.setMetadata(metaData);
+			upsertObject.setExternalCode(externalCode);
 //				upsertObject.setEffectiveStartDate("/Date(946665000000)/");
-				upsertObject.setEffectiveStartDate(epochDate);
-				upsertObject.setCustLegacyID(legacyValue);
-				upsertObject.setExternalName(externalName);
-				upsertObject.setCustCompany(company);
-				upsertObject.setCustSFID("");
-				upsertObject.setCustObjectType("08");
+			upsertObject.setEffectiveStartDate(epochDate);
+			upsertObject.setCustLegacyID(legacyValue);
+			upsertObject.setExternalName(externalName);
+			upsertObject.setCustCompany(company);
+			upsertObject.setCustSFID("");
+			upsertObject.setCustObjectType("08");
 
-				HttpHeaders headers = new HttpHeaders();
-				headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
 //				RestTemplate postTemplate = new RestTemplate();
 //				postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
 
-				String upsertURL = url + "/upsert";
+			String upsertURL = url + "/upsert";
 
-				String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+			String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
 
-				RestTemplate restTemplate = new RestTemplate();
+			RestTemplate restTemplate = new RestTemplate();
 //				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
 //				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
-				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-				HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+			HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
 
 //				Map <String, String> dummy = new HashMap<String, String>();
-				String custSFID = null;
-				boolean isEmpty = true;
-				do {
-					// Step-1: Post the values to get generate new department Id
-					String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+			String custSFID = null;
+			boolean isEmpty = true;
+			do {
+				// Step-1: Post the values to get generate new department Id
+				String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
 
-					logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
+				logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
 
-					// Step-2: Get new department Id using external code
-					FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+				// Step-2: Get new department Id using external code
+				FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
 //					System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
 
-					if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
-						custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
-					}
+				if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+					custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+				}
 
-					// Step-3: Check if any values are present already for the newly generated id.
-					String checkUrl = url + "/FOPayRange?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+				// Step-3: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/FOPayRange?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
 
-					FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
 
 //					System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
-					isEmpty = checkObject.getD().getResults().isEmpty();
+				isEmpty = checkObject.getD().getResults().isEmpty();
 
-				} while (!isEmpty);
+			} while (!isEmpty);
 
-				return custSFID;
-			}else {
-				
-				return legacyValue;
-			}
-			}
-			
-			
-		
-		// Create Location id	
-		public String getCreateLocationID(List<MetaDataObj> rowData, int index, String company,
-				Map<String, String> clientSystem,String isTestRun) throws Exception {
+			return custSFID;
+		} else {
 
-			
+			return legacyValue;
+		}
+	}
+
+	// Create Location id
+	public String getCreateLocationID(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
 //			logger.info("FOUtility: Inside getDepartmentID Method");
-			String effectiveStartDate = null;
-		
-			for (MetaDataObj metaDataObj : rowData) {
+		String effectiveStartDate = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
 //				logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
 //						+ metaDataObj.getFieldName());
-				if (null != metaDataObj.getFieldName()
-						&& "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
-					effectiveStartDate = metaDataObj.getFieldValue();
-				}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				effectiveStartDate = metaDataObj.getFieldValue();
 			}
+		}
 
 //			logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
-			
-			String epochDate = getEpoch(effectiveStartDate);
+
+		String epochDate = getEpoch(effectiveStartDate);
 
 //			logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-			String externalCode = getRandomString(6);
-			String externalName = getRandomString(6);
-			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-			String newValue = null;
+		String externalCode = getRandomString(6);
+		String externalName = getRandomString(6);
+		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String newValue = null;
 
-			if (isTestRun.equalsIgnoreCase("No")) {
+		if (isTestRun.equalsIgnoreCase("No")) {
 //			String url = "https://api12preview.sapsf.eu/odata/v2/";
 //			String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
 			String url = clientSystem.get("URL");
@@ -684,13 +667,12 @@ public class FOUtility {
 			} while (!isEmpty);
 
 			return custSFID;
-		}else {
-			
+		} else {
+
 			return legacyValue;
 		}
-		}
-		
-	
+	}
+
 	private String getRandomString(int length) {
 
 		boolean useLetters = true;
@@ -702,17 +684,17 @@ public class FOUtility {
 	private String getEpoch(String strDate) {
 
 //		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
-		String epociInputDate = strDate.substring(6, 10)+"-"+strDate.substring(0, 2)+"-"+strDate.substring(3, 5)+'T'+"00:00";
-		
+		String epociInputDate = strDate.substring(6, 10) + "-" + strDate.substring(0, 2) + "-" + strDate.substring(3, 5)
+				+ 'T' + "00:00";
+
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		formatter.setTimeZone(TimeZone.getTimeZone("SGT"));
-
 
 		String formatedDate = null;
 		Date today = null;
 		try {
 			today = (Date) formatter.parse(epociInputDate);
-			
+
 			// getTime() returns the number of milliseconds since January 1, 1970, 00:00:00
 			// GMT represented by this Date object.
 			long epochTime = today.getTime();
@@ -728,7 +710,7 @@ public class FOUtility {
 	/// *****************Default email *******************///
 
 	public String getDefaultEmail(List<MetaDataObj> rowData, int index, String company,
-			Map<String, String> clientSystem,String isTestRun) throws Exception {
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = "";
 		if (null != legacyValue && !legacyValue.isEmpty()) {
@@ -739,7 +721,8 @@ public class FOUtility {
 
 	/// *****************Default Date of Birth *******************///
 
-	public String getScrambleDOB(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,String isTestRun)
+	public String getScrambleDOB(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun)
 
 			throws Exception {
 
@@ -814,10 +797,10 @@ public class FOUtility {
 
 	/// *****************Scramble amount / Percentage *******************///
 	public String getScrambleAmount(List<MetaDataObj> rowData, int index, String company,
-			Map<String, String> clientSystem,String isTestRun) throws Exception {
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
 
 		String Actualamount = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		float Actualamountnew ;
+		float Actualamountnew;
 
 		if (null != Actualamount && !Actualamount.isEmpty()) {
 			Actualamountnew = Float.parseFloat(Actualamount);
@@ -832,11 +815,10 @@ public class FOUtility {
 
 			}
 			return String.valueOf(Math.round(Actualamountnew));
-		}
-		else {
+		} else {
 			return ("");
 		}
-		
+
 	}
 
 	/// *****************Default Sequence Number *******************///
@@ -849,8 +831,8 @@ public class FOUtility {
 
 	/// *****************Default Sequence Number *******************///
 
-	public String getDepLevel1(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,String isTestRun)
-			throws Exception {
+	public String getDepLevel1(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 		String url = clientSystem.get("URL");
 		String userID = clientSystem.get("USER_ID");
@@ -890,8 +872,8 @@ public class FOUtility {
 
 	}
 
-	public String CheckDate(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,String isTestRun)
-			throws Exception {
+	public String CheckDate(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 		String strDate = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		Date start = null;
@@ -920,24 +902,24 @@ public class FOUtility {
 		return strDate;
 	}
 
-	public String defaultManager(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,String isTestRun)
-			throws Exception {
+	public String defaultManager(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 		String newValue = "NO_MANAGER";
 
 		return newValue;
 	}
 
-	public String defaultHR(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,String isTestRun)
-			throws Exception {
+	public String defaultHR(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 		String newValue = "NO_HR";
 
 		return newValue;
 	}
 
-	public String checkUserID(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,String isTestRun)
-			throws Exception {
+	public String checkUserID(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 		String strDate = ((MetaDataObj) rowData.get(index)).getFieldValue();
 
@@ -957,7 +939,7 @@ public class FOUtility {
 	}
 
 	public String getScrambleAccount(List<MetaDataObj> rowData, int index, String company,
-			Map<String, String> clientSystem,String isTestRun) throws Exception {
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
 
 		String AccountNo = ((MetaDataObj) rowData.get(index)).getFieldValue();
 
@@ -978,644 +960,1275 @@ public class FOUtility {
 
 		return newValue;
 	}
-	
-	public String getDept(List<MetaDataObj> rowData, int index, String company,
-			Map<String, String> clientSystem,String isTestRun) throws Exception {
+
+	public String getDept(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		String ObjectType="01";
+		String ObjectType = "01";
 
 		String newValue = "";
-		
+
 		String urlx = clientSystem.get("URL");
 		String userID = clientSystem.get("USER_ID");
 		String password = clientSystem.get("PWD");
 
 		Metadata metaData = new Metadata();
-
-
 
 		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
 			RestTemplate restTemplate = new RestTemplate();
-			
-			String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and cust_LegacyID eq '"+cust_LegacyID+"'&$select=cust_SFID";
+
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_LegacyID eq '" + cust_LegacyID + "'&$select=cust_SFID";
 			logger.info("url:" + url);
-			System.out.println(url);	
-			
-			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+			System.out.println(url);
 
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-			KeyMap result = restTemplate.getForObject(url,KeyMap.class);
-		
-			if ( result != null) {
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
 				D d = result.getD();
 				List<Result> res = d.getResults();
-				for (Result result1 :res) {
-					newValue = result1.getCustSFID();	
-					
+				for (Result result1 : res) {
+					newValue = result1.getCustSFID();
+
 				}
-				
-				
+
+				if (newValue.isEmpty()) {
+
+					RestTemplate restTemplate1 = new RestTemplate();
+
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
+
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
+
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
+
+						}
+
+					}
+
+				}
 			}
-			
+
 		}
-		
-		if (newValue.isEmpty()) {
-			newValue = cust_LegacyID + "<-- Invalid Department";
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Department";
+			}
 		}
-		
-	
-		
+
 		return newValue;
 	}
 
-	
-	public String getLegacyDept(List<MetaDataObj> rowData, int index, String company,
-			Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String getLegacyDept(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
 		String SFDep = null;
-		
+
 		for (MetaDataObj metaDataObj : rowData) {
 //			logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
 //					+ metaDataObj.getFieldName());
-			if (null != metaDataObj.getFieldName()
-					&& "externalCode".equalsIgnoreCase(metaDataObj.getFieldName())) {
+			if (null != metaDataObj.getFieldName() && "externalCode".equalsIgnoreCase(metaDataObj.getFieldName())) {
 				SFDep = metaDataObj.getFieldValue();
 			}
 		}
 
-		
 		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		String ObjectType="01";
+		String ObjectType = "01";
 
 		String newValue = "";
-		
+
 		String urlx = clientSystem.get("URL");
 		String userID = clientSystem.get("USER_ID");
 		String password = clientSystem.get("PWD");
 
 		Metadata metaData = new Metadata();
 
-
-
 		if (null != SFDep && !SFDep.isEmpty()) {
 
 			RestTemplate restTemplate = new RestTemplate();
-			
-			String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and cust_SFID eq '"+SFDep+"'&$select=cust_LegacyID";
+
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_SFID eq '" + SFDep + "'&$select=cust_LegacyID";
 			logger.info("url:" + url);
-			System.out.println(url);	
-			
-			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+			System.out.println(url);
 
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-			KeyMap result = restTemplate.getForObject(url,KeyMap.class);
-		
-			if ( result != null) {
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
 				D d = result.getD();
 				List<Result> res = d.getResults();
-				for (Result result1 :res) {
-					newValue = result1.getCust_LegacyID();	
-					
+				for (Result result1 : res) {
+					newValue = result1.getCust_LegacyID();
+
 				}
-				
-				
+
+				if (newValue.isEmpty()) {
+
+					RestTemplate restTemplate1 = new RestTemplate();
+
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
+
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
+
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
+
+						}
+
+					}
+
+				}
+
 			}
-			
+
 		}
-		
-		if (newValue.isEmpty()) {
-			newValue = cust_LegacyID ;
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID;
+			}
+
 		}
-		
-	
-		
+
 		return newValue;
 	}
 
+	public String getDiv(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "11";
 
-public String getDiv(List<MetaDataObj> rowData, int index, String company,
-		Map<String, String> clientSystem,String isTestRun) throws Exception {
+		String newValue = "";
 
-	String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-	String ObjectType="11";
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
-	String newValue = "";
-	
-	String urlx = clientSystem.get("URL");
-	String userID = clientSystem.get("USER_ID");
-	String password = clientSystem.get("PWD");
+		Metadata metaData = new Metadata();
 
-	Metadata metaData = new Metadata();
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
+			RestTemplate restTemplate = new RestTemplate();
 
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_LegacyID eq '" + cust_LegacyID + "'&$select=cust_SFID";
+			logger.info("url:" + url);
+			System.out.println(url);
 
-	if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-		RestTemplate restTemplate = new RestTemplate();
-		
-		String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and cust_LegacyID eq '"+cust_LegacyID+"'&$select=cust_SFID";
-		logger.info("url:" + url);
-		System.out.println(url);	
-		
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCustSFID();
 
-		KeyMap result = restTemplate.getForObject(url,KeyMap.class);
-	
-		if ( result != null) {
-			D d = result.getD();
-			List<Result> res = d.getResults();
-			for (Result result1 :res) {
-				newValue = result1.getCustSFID();	
-				
+				}
+
+				if (newValue.isEmpty()) {
+
+					RestTemplate restTemplate1 = new RestTemplate();
+
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
+
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
+
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
+
+						}
+
+					}
+
+				}
+
 			}
-			
-			
+
 		}
-		
-	}
-	
-	if (newValue.isEmpty()) {
-		newValue = cust_LegacyID + "<-- Invalid Division";
-	}
 
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Division";
+			}
+		}
 
-	return newValue;
-}
+		return newValue;
+	}
 //// Get Job Classification
 
-public String getJobClassificationID(List<MetaDataObj> rowData, int index, String company,
-		Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String getJobClassificationID(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
 
-	String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-	String ObjectType="02";
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "02";
 
-	String newValue = "";
-	
-	String urlx = clientSystem.get("URL");
-	String userID = clientSystem.get("USER_ID");
-	String password = clientSystem.get("PWD");
+		String newValue = "";
 
-	Metadata metaData = new Metadata();
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
+		Metadata metaData = new Metadata();
 
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
-	if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+			RestTemplate restTemplate = new RestTemplate();
 
-		RestTemplate restTemplate = new RestTemplate();
-		
-		String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and cust_LegacyID eq '"+cust_LegacyID+"'&$select=cust_SFID";
-		logger.info("url:" + url);
-		System.out.println(url);	
-		
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_LegacyID eq '" + cust_LegacyID + "'&$select=cust_SFID";
+			logger.info("url:" + url);
+			System.out.println(url);
 
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-		KeyMap result = restTemplate.getForObject(url,KeyMap.class);
-	
-		if ( result != null) {
-			D d = result.getD();
-			List<Result> res = d.getResults();
-			for (Result result1 :res) {
-				newValue = result1.getCustSFID();	
-				
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCustSFID();
+
+				}
 			}
+
+				if (newValue.isEmpty()) // Check reverse mapping
+				{
+
+					RestTemplate restTemplate1 = new RestTemplate();
+
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
+
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
+
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
+
+						}
+					}
+				}
+
+					if (newValue.isEmpty()) // Check Jobcode
+					{
+
+						RestTemplate restTemplate2 = new RestTemplate();
+
+						String url2 = urlx + "/FOJobCode?$filter=externalCode eq '" + cust_LegacyID
+								+ "'&$select=externalCode";
+						logger.info("url:" + url2);
+						System.out.println(url2);
+
+						restTemplate2.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+						com.shd.FOJobCode.JobCode result2 = restTemplate2.getForObject(url2,
+								com.shd.FOJobCode.JobCode.class);
+
+						if (result2 != null) {
+							com.shd.FOJobCode.D d2 = result2.getD();
+							List<com.shd.FOJobCode.Result> res2 = d2.getResults();
+							for (com.shd.FOJobCode.Result result3 : res2) {
+								newValue = result3.getExternalCode();
+
+							}
+						}
+
+					}
+
+				}
+
 			
-			
-		}
+
 		
-	}
-	
-	if (newValue.isEmpty()) {
-		newValue = cust_LegacyID + "<-- Invalid Job Classification";
-	}
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Job Classification";
+			}
+		}
 
-
-	return newValue;
-}
+		return newValue;
+	}
 
 ////Get Job Position
 
-public String getJobPositionID(List<MetaDataObj> rowData, int index, String company,
-	Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String getJobPositionID(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
 
-String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-String ObjectType="09";
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "09";
 
-String newValue = "";
+		String newValue = "";
 
-String urlx = clientSystem.get("URL");
-String userID = clientSystem.get("USER_ID");
-String password = clientSystem.get("PWD");
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
-Metadata metaData = new Metadata();
+		Metadata metaData = new Metadata();
 
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
+			RestTemplate restTemplate = new RestTemplate();
 
-if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_LegacyID eq '" + cust_LegacyID + "'&$select=cust_SFID";
+			logger.info("url:" + url);
+			System.out.println(url);
 
-	RestTemplate restTemplate = new RestTemplate();
-	
-	String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and cust_LegacyID eq '"+cust_LegacyID+"'&$select=cust_SFID";
-	logger.info("url:" + url);
-	System.out.println(url);	
-	
-	restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
-	KeyMap result = restTemplate.getForObject(url,KeyMap.class);
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCustSFID();
 
-	if ( result != null) {
-		D d = result.getD();
-		List<Result> res = d.getResults();
-		for (Result result1 :res) {
-			newValue = result1.getCustSFID();	
-			
+				}
+
+				if (newValue.isEmpty()) {
+
+					RestTemplate restTemplate1 = new RestTemplate();
+
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
+
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
+
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
+
+						}
+
+					}
+
+				}
+
+			}
+
 		}
-		
-		
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Position";
+			}
+		}
+
+		return newValue;
 	}
-	
-}
-
-if (newValue.isEmpty()) {
-	newValue = cust_LegacyID + "<-- Invalid Position";
-}
-
-
-return newValue;
-}
-
-
-
-
 
 ////Get Grade Id
 
-public String getPaygradeID(List<MetaDataObj> rowData, int index, String company,
-Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String getPaygradeID(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
-String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-String ObjectType="06";
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "06";
 
-String newValue = "";
+		String newValue = "";
 
-String urlx = clientSystem.get("URL");
-String userID = clientSystem.get("USER_ID");
-String password = clientSystem.get("PWD");
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
-Metadata metaData = new Metadata();
+		Metadata metaData = new Metadata();
 
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
+			RestTemplate restTemplate = new RestTemplate();
 
-if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_LegacyID eq '" + cust_LegacyID + "'&$select=cust_SFID";
+			logger.info("url:" + url);
+			System.out.println(url);
 
-RestTemplate restTemplate = new RestTemplate();
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and cust_LegacyID eq '"+cust_LegacyID+"'&$select=cust_SFID";
-logger.info("url:" + url);
-System.out.println(url);	
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
-restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCustSFID();
 
+				}
 
-KeyMap result = restTemplate.getForObject(url,KeyMap.class);
+				if (newValue.isEmpty()) {
 
-if ( result != null) {
-	D d = result.getD();
-	List<Result> res = d.getResults();
-	for (Result result1 :res) {
-		newValue = result1.getCustSFID();	
-		
+					RestTemplate restTemplate1 = new RestTemplate();
+
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
+
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
+
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid PayGrade";
+			}
+		}
+
+		return newValue;
 	}
-	
-	
-}
-
-}
-
-if (newValue.isEmpty()) {
-newValue = cust_LegacyID + "<-- Invalid PayGrade";
-}
-
-
-return newValue;
-}
-
-
 
 ////Get Location Id
 
-public String getLocationID(List<MetaDataObj> rowData, int index, String company,
-Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String getLocationID(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
-String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-String ObjectType="03";
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "03";
 
-String newValue = "";
+		String newValue = "";
 
-String urlx = clientSystem.get("URL");
-String userID = clientSystem.get("USER_ID");
-String password = clientSystem.get("PWD");
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
-Metadata metaData = new Metadata();
+		Metadata metaData = new Metadata();
 
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
+			RestTemplate restTemplate = new RestTemplate();
 
-if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_LegacyID eq '" + cust_LegacyID + "'&$select=cust_SFID";
+			logger.info("url:" + url);
+			System.out.println(url);
 
-RestTemplate restTemplate = new RestTemplate();
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and cust_LegacyID eq '"+cust_LegacyID+"'&$select=cust_SFID";
-logger.info("url:" + url);
-System.out.println(url);	
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
-restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCustSFID();
 
+				}
 
-KeyMap result = restTemplate.getForObject(url,KeyMap.class);
+				if (newValue.isEmpty()) {
 
-if ( result != null) {
-D d = result.getD();
-List<Result> res = d.getResults();
-for (Result result1 :res) {
-	newValue = result1.getCustSFID();	
-	
-}
+					RestTemplate restTemplate1 = new RestTemplate();
 
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
 
-}
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-}
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
 
-if (newValue.isEmpty()) {
-newValue = cust_LegacyID + "<-- Invalid Location";
-}
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
 
+						}
 
-return newValue;
-}
+					}
 
+				}
 
+			}
+
+		}
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Location";
+			}
+		}
+
+		return newValue;
+	}
 
 ////Get Cost Center Id
 
-public String getCCID(List<MetaDataObj> rowData, int index, String company,
-Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String getCCID(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
-String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-String ObjectType="03";
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "03";
 
-String newValue = "";
+		String newValue = "";
 
-String urlx = clientSystem.get("URL");
-String userID = clientSystem.get("USER_ID");
-String password = clientSystem.get("PWD");
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
-Metadata metaData = new Metadata();
+		Metadata metaData = new Metadata();
 
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
+			RestTemplate restTemplate = new RestTemplate();
 
-if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_LegacyID eq '" + cust_LegacyID + "'&$select=cust_SFID";
+			logger.info("url:" + url);
+			System.out.println(url);
 
-RestTemplate restTemplate = new RestTemplate();
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and cust_LegacyID eq '"+cust_LegacyID+"'&$select=cust_SFID";
-logger.info("url:" + url);
-System.out.println(url);	
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
-restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCustSFID();
 
+				}
 
-KeyMap result = restTemplate.getForObject(url,KeyMap.class);
+				if (newValue.isEmpty()) {
 
-if ( result != null) {
-D d = result.getD();
-List<Result> res = d.getResults();
-for (Result result1 :res) {
-newValue = result1.getCustSFID();	
+					RestTemplate restTemplate1 = new RestTemplate();
 
-}
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
 
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-}
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
 
-}
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
 
-if (newValue.isEmpty()) {
-newValue = cust_LegacyID + "<-- Invalid Cost Center";
-}
+						}
 
+					}
 
-return newValue;
-}
+				}
 
+			}
 
+		}
 
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Cost Center";
+			}
+		}
+
+		return newValue;
+	}
 
 ////Get address 1
 
-public String address1(List<MetaDataObj> rowData, int index, String company,
-Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String address1(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
-String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-String ObjectType="12";
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "12";
 
+		String operation = null;
 
-String operation = null;
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				operation = metaDataObj.getFieldValue();
+			}
+		}
 
-for (MetaDataObj metaDataObj : rowData) {
-	if (null != metaDataObj.getFieldName()
-			&& "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
-		operation = metaDataObj.getFieldValue();
-	}
-}
+		String newValue = "";
 
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
+		Metadata metaData = new Metadata();
 
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
-String newValue = "";
+			RestTemplate restTemplate = new RestTemplate();
 
-String urlx = clientSystem.get("URL");
-String userID = clientSystem.get("USER_ID");
-String password = clientSystem.get("PWD");
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and externalCode eq '" + operation + "'&$select=externalName";
+			logger.info("url:" + url);
+			System.out.println(url);
 
-Metadata metaData = new Metadata();
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getExternalName();
 
-if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+				}
 
-RestTemplate restTemplate = new RestTemplate();
+			}
 
-String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and externalCode eq '"+operation+"'&$select=externalName";
-logger.info("url:" + url);
-System.out.println(url);	
-
-restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
-
-
-KeyMap result = restTemplate.getForObject(url,KeyMap.class);
-
-if ( result != null) {
-D d = result.getD();
-List<Result> res = d.getResults();
-for (Result result1 :res) {
-newValue = result1.getExternalName();	
-
-}
-
-
-}
-
-}
+		}
 
 //if (newValue.isEmpty()) {
 //newValue = cust_LegacyID + "<-- Address 1 not found for :" +operation ;
 //}
 
-
-return newValue;
-}
-
+		return newValue;
+	}
 
 ////Get address 2
 
-public String address2(List<MetaDataObj> rowData, int index, String company,
-Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String address2(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
-String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-String ObjectType="12";
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "12";
 
+		String operation = null;
 
-String operation = null;
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				operation = metaDataObj.getFieldValue();
+			}
+		}
 
-for (MetaDataObj metaDataObj : rowData) {
-if (null != metaDataObj.getFieldName()
-		&& "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
-	operation = metaDataObj.getFieldValue();
-}
-}
+		String newValue = "";
 
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
+		Metadata metaData = new Metadata();
 
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
-String newValue = "";
+			RestTemplate restTemplate = new RestTemplate();
 
-String urlx = clientSystem.get("URL");
-String userID = clientSystem.get("USER_ID");
-String password = clientSystem.get("PWD");
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and externalCode eq '" + operation + "'&$select=cust_LegacyID";
+			logger.info("url:" + url);
+			System.out.println(url);
 
-Metadata metaData = new Metadata();
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCust_LegacyID();
 
-if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+				}
 
-RestTemplate restTemplate = new RestTemplate();
+			}
 
-String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and externalCode eq '"+operation+"'&$select=cust_LegacyID";
-logger.info("url:" + url);
-System.out.println(url);	
-
-restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
-
-
-KeyMap result = restTemplate.getForObject(url,KeyMap.class);
-
-if ( result != null) {
-D d = result.getD();
-List<Result> res = d.getResults();
-for (Result result1 :res) {
-newValue = result1.getCust_LegacyID();	
-
-}
-
-
-}
-
-}
+		}
 
 //if (newValue.isEmpty()) {
 //newValue = cust_LegacyID + "<-- Address 2 not found for :" +operation ;
 //}
 
-
-return newValue;
-}
-
+		return newValue;
+	}
 
 ////Get address 3
 
-public String address3(List<MetaDataObj> rowData, int index, String company,
-Map<String, String> clientSystem,String isTestRun) throws Exception {
+	public String address3(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
 
-String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-String ObjectType="12";
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "12";
 
+		String operation = null;
 
-String operation = null;
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				operation = metaDataObj.getFieldValue();
+			}
+		}
 
-for (MetaDataObj metaDataObj : rowData) {
-if (null != metaDataObj.getFieldName()
-	&& "operation".equalsIgnoreCase(metaDataObj.getFieldName())) {
-operation = metaDataObj.getFieldValue();
-}
-}
+		String newValue = "";
 
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
 
+		Metadata metaData = new Metadata();
 
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
-String newValue = "";
+			RestTemplate restTemplate = new RestTemplate();
 
-String urlx = clientSystem.get("URL");
-String userID = clientSystem.get("USER_ID");
-String password = clientSystem.get("PWD");
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and externalCode eq '" + operation + "'&$select=cust_SFID";
+			logger.info("url:" + url);
+			System.out.println(url);
 
-Metadata metaData = new Metadata();
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCustSFID();
 
-if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+				}
 
-RestTemplate restTemplate = new RestTemplate();
+			}
 
-String url = urlx+"/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+ObjectType+"' and externalCode eq '"+operation+"'&$select=cust_SFID";
-logger.info("url:" + url);
-System.out.println(url);	
-
-restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID,password));
-
-
-KeyMap result = restTemplate.getForObject(url,KeyMap.class);
-
-if ( result != null) {
-D d = result.getD();
-List<Result> res = d.getResults();
-for (Result result1 :res) {
-newValue = result1.getCustSFID();	
-
-}
-
-
-}
-
-}
+		}
 
 //if (newValue.isEmpty()) {
 //newValue = cust_LegacyID + "<-- Address 3 not found for :" +operation ;
 //}
 
+		return newValue;
+	}
+	
 
-return newValue;
+	public String ValidateJHJobClass(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
+		String JobCode = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		
+
+		
+		if (!(JobCode == null))  // Already has errors
+		{
+			int index1=JobCode.indexOf("<--");
+			if (index1 != -1) {
+				return JobCode;
+			}
+			}
+			
+
+		
+		String position=null;
+		String startDate=null;
+		String StartDatePrint=null;
+		
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "position".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				position = metaDataObj.getFieldValue();
+			}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint=startDate;
+				startDate = startDate.substring(6,10)+"-"+startDate.substring(3,5)+"-"+startDate.substring(0,2);
+			}
+			
+		}
+		
+		if (!(position == null))  // Already has errors
+		{
+			int index1=position.indexOf("<--");
+			if (index1 != -1) {
+				return JobCode;
+			}
+			}
+				
+		String ValidJobCode = "";
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+
+		if (null != JobCode && !JobCode.isEmpty()) {
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			String url = urlx + "/Position?$filter=code eq '" + position + "'&$fromDate="+startDate+"&toDate="+startDate+"&$select=jobCode";
+			logger.info("url:" + url);
+			System.out.println(url);
+
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			com.shd.Position.Position Position = restTemplate.getForObject(url, com.shd.Position.Position.class);
+
+			if (Position != null) {
+				com.shd.Position.D d = Position.getD();
+				List<com.shd.Position.Result> res = d.getResults();
+				for (com.shd.Position.Result result1 : res) {
+					ValidJobCode = result1.getJobCode();
+
+				}
+			}
+			
+			
+			if (!ValidJobCode.isEmpty()) {
+			if (!(ValidJobCode.equalsIgnoreCase(JobCode))) {
+				
+				 JobCode = JobCode + "<-- Not same as in Position :" +position + "effective "+StartDatePrint+" Valid Value: "+	ValidJobCode ;
+			}
+			else
+			{
+			
+
+			}
+			
+		}
+			else
+			{
+				 JobCode = JobCode + "<-- Not same for Position :" +position + "effective "+StartDatePrint;
+			}
+
+			
+		}
+		return JobCode;
+	}
+	
+	
+	public String ValidateJHJobFamily(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
+		String JobFamily = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		
+
+		
+		if (!(JobFamily == null))  // Already has errors
+		{
+			int index1=JobFamily.indexOf("<--");
+			if (index1 != -1) {
+				return JobFamily;
+			}
+			}
+			
+
+		
+		String position=null;
+		String startDate=null;
+		String StartDatePrint=null;
+		
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "position".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				position = metaDataObj.getFieldValue();
+			}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint=startDate;
+				startDate = startDate.substring(6,10)+"-"+startDate.substring(3,5)+"-"+startDate.substring(0,2);
+			}
+			
+		}
+		
+
+		if (!(position == null))  // Already has errors
+		{
+			int index1=position.indexOf("<--");
+			if (index1 != -1) {
+				return JobFamily;
+			}
+			}
+		
+				
+		String ValidValue = "";
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+
+		if (null != JobFamily && !JobFamily.isEmpty()) {
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			String url = urlx + "/Position?$filter=code eq '" + position + "'&$fromDate="+startDate+"&toDate="+startDate+"&$select=cust_JobFamily";
+			logger.info("url:" + url);
+			System.out.println(url);
+
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			com.shd.Position.Position Position = restTemplate.getForObject(url, com.shd.Position.Position.class);
+
+			if (Position != null) {
+				com.shd.Position.D d = Position.getD();
+				List<com.shd.Position.Result> res = d.getResults();
+				for (com.shd.Position.Result result1 : res) {
+					ValidValue = result1.getCustJobFamily();
+
+				}
+			}
+			
+			
+			if (!ValidValue.isEmpty()) {
+			if (!(ValidValue.equalsIgnoreCase(JobFamily))) {
+				
+				 JobFamily = JobFamily + "<-- Not same as in Position :" +position + "effective "+StartDatePrint+" Valid Value: "+	ValidValue 	 ;
+			}
+			else
+			{
+			
+
+			}
+			
+		}
+			else {
+				JobFamily = JobFamily + "<-- Not same for Position :" +position + "effective "+StartDatePrint 	 ;
+			}
+
+			
+		}
+		return JobFamily;
+	}
+	
+	public String ValidateJHJobFunction(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
+		String JobFunction = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		
+
+		
+		if (!(JobFunction == null))  // Already has errors
+		{
+			int index1=JobFunction.indexOf("<--");
+			if (index1 != -1) {
+				return JobFunction;
+			}
+			}
+			
+
+		
+		String position=null;
+		String startDate=null;
+		String StartDatePrint=null;
+		
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "position".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				position = metaDataObj.getFieldValue();
+			}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				 StartDatePrint=startDate;
+				startDate = startDate.substring(6,10)+"-"+startDate.substring(3,5)+"-"+startDate.substring(0,2);
+			}
+			
+		}
+		
+
+		if (!(position == null))  // Already has errors
+		{
+			int index1=position.indexOf("<--");
+			if (index1 != -1) {
+				return JobFunction;
+			}
+			}
+		
+				
+		String ValidValue = "";
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+
+		if (null != JobFunction && !JobFunction.isEmpty()) {
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			String url = urlx + "/Position?$filter=code eq '" + position + "'&$fromDate="+startDate+"&toDate="+startDate+"&$select=cust_jobFunction";
+			logger.info("url:" + url);
+			System.out.println(url);
+
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			com.shd.Position.Position Position = restTemplate.getForObject(url, com.shd.Position.Position.class);
+
+			if (Position != null) {
+				com.shd.Position.D d = Position.getD();
+				List<com.shd.Position.Result> res = d.getResults();
+				for (com.shd.Position.Result result1 : res) {
+					ValidValue = result1.getCustJobFunction();
+
+				}
+			}
+			
+			
+			if (!ValidValue.isEmpty()) {
+			if (!(ValidValue.equalsIgnoreCase(JobFunction))) {
+				
+				 JobFunction = JobFunction + "<-- Not same as in Position :" +position + " effective "+StartDatePrint+" Valid Value: "+	ValidValue	 ;
+			}
+			else
+			{
+			
+
+			}
+			
+		}
+			else {
+				JobFunction = JobFunction + "<-- Not a Valid for Position :" +position + " effective "+StartDatePrint	 ;
+			}
+
+			
+		}
+		return JobFunction;
+	}
+	
+	
+	public String ValidateJHDepLevel1(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
+		String DepLevel1 = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		
+
+		
+		if (!(DepLevel1 == null))  // Already has errors
+		{
+			int index1=DepLevel1.indexOf("<--");
+			if (index1 != -1) {
+				return DepLevel1;
+			}
+			}
+			
+
+		
+		String position=null;
+		String startDate=null;
+		String StartDatePrint=null;
+		
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "position".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				position = metaDataObj.getFieldValue();
+			}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint=startDate;
+				startDate = startDate.substring(6,10)+"-"+startDate.substring(3,5)+"-"+startDate.substring(0,2);
+
+				
+			}
+			
+		}
+		
+		if (!(position == null))  // Already has errors
+		{
+			int index1=position.indexOf("<--");
+			if (index1 != -1) {
+				return DepLevel1;
+			}
+			}
+			
+
+				
+		String ValidValue = "";
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+
+		if (null != DepLevel1 && !DepLevel1.isEmpty()) {
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			String url = urlx + "/Position?$filter=code eq '" + position + "'&$fromDate="+startDate+"&toDate="+startDate+"&$select=cust_deptLevel1";
+			logger.info("url:" + url);
+			System.out.println(url);
+
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			com.shd.Position.Position Position = restTemplate.getForObject(url, com.shd.Position.Position.class);
+
+			if (Position != null) {
+				com.shd.Position.D d = Position.getD();
+				List<com.shd.Position.Result> res = d.getResults();
+				for (com.shd.Position.Result result1 : res) {
+					ValidValue = result1.getCustDeptLevel1();
+
+				}
+			}
+
+			if (!ValidValue.isEmpty()) {
+			if (!(ValidValue.equalsIgnoreCase(DepLevel1))) {
+				
+				 DepLevel1 = DepLevel1 + "<-- Not same as in Position :" +position + " effective "+StartDatePrint+" Valid Value: "+	ValidValue	 ;
+			}
+			else
+			{
+			
+			
+			}
+			
+		}else {
+			
+			 DepLevel1 = DepLevel1 + "<-- Not a Valid for Position  :" +position + " effective "+StartDatePrint ;
+		}
+
+			
+		}
+		return DepLevel1;
+	}
+	
+	public String ValidateJHPos(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
+		String position = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		
+
+		
+		if (!(position == null))  // Already has errors
+		{
+			int index1=position.indexOf("<--");
+			if (index1 != -1) {
+				return position;
+			}
+			}
+			
+
+		
+
+		String startDate=null;
+		String StartDatePrint=null;
+		
+		for (MetaDataObj metaDataObj : rowData) {
+
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint= startDate;
+				startDate = startDate.substring(6,10)+"-"+startDate.substring(3,5)+"-"+startDate.substring(0,2);
+
+				
+			}
+			
+		}
+		
+
+				
+		String ValidValue = "";
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+
+		if (null != position && !position.isEmpty()) {
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			String url = urlx + "/Position?$filter=code eq '" + position + "'&$fromDate="+startDate+"&toDate="+startDate+"&$select=code";
+			logger.info("url:" + url);
+			System.out.println(url);
+
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			com.shd.Position.Position Position = restTemplate.getForObject(url, com.shd.Position.Position.class);
+
+			if (Position != null) {
+				com.shd.Position.D d = Position.getD();
+				List<com.shd.Position.Result> res = d.getResults();
+				for (com.shd.Position.Result result1 : res) {
+					ValidValue = result1.getCode();
+			
+				}
+			}
+			
+
+			if (!ValidValue.isEmpty()) {
+			if (!(ValidValue.equalsIgnoreCase(position))) {
+				
+				position = position + "<-- Not valid Position :" +position + " effective "+StartDatePrint	 ;
+			}
+			else
+			{
+			
+			
+			}
+			
+		}else {
+			
+			position = position + "<-- Not a Valid for Position  :" +position + " effective "+StartDatePrint	;
+		}
+
+			
+		}
+		return position;
+	}
+			
 }
-
-
-
-
-}
-
-

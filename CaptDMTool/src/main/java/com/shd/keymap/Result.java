@@ -10,7 +10,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "__metadata",
     "cust_SFID",
     "cust_LegacyID",
-    "externalName"
+    "externalName",
+    "externalCode"
     
 })
 public class Result {
@@ -23,10 +24,21 @@ public class Result {
     private String cust_LegacyID;
     @JsonProperty("externalName")
     private String externalName; 
+    @JsonProperty("externalCode")
+    private String externalCode; 
+    
 
     
 
-    public String getExternalName() {
+    public String getExternalCode() {
+		return externalCode;
+	}
+
+	public void setExternalCode(String externalCode) {
+		this.externalCode = externalCode;
+	}
+
+	public String getExternalName() {
 		return externalName;
 	}
 

@@ -18,7 +18,9 @@ public class Utility {
 
 
 		Epochi = Epochi.substring(Epochi.indexOf("(") + 1,Epochi.indexOf(")"));
-
+		if (Epochi.contains("+")) {
+			Epochi = Epochi.substring(0,Epochi.indexOf("+") );
+		}
 
 		String d = null;
 		try {

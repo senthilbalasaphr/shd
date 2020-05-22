@@ -52,7 +52,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "location",
     "multipleIncumbentsAllowed",
     "positionMatrixRelationship",
-    "parentPosition"
+    "parentPosition",
+    "createdDateTime",
+    "createdBy",
+    "lastModifiedDateTime",
+    "lastModifiedBy"    
+    
 })
 public class Result {
 
@@ -148,6 +153,43 @@ public class Result {
     private PositionMatrixRelationship positionMatrixRelationship;
     @JsonProperty("parentPosition")
     private ParentPosition parentPosition;
+    
+    private String createdDateTime;
+    public String getCreatedDateTime() {
+		return createdDateTime;
+	}
+
+	public void setCreatedDateTime(String createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+
+	public void setLastModifiedDateTime(String lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
+	}
+
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	private String createdBy;
+    private String lastModifiedDateTime;
+    private String lastModifiedBy;
 
     @JsonProperty("__metadata")
     public Metadata getMetadata() {
