@@ -16,7 +16,7 @@
 
 		<table border="1">
 			<tr>
-	
+	 
 				<td>
 				<form:label path="company">Company</form:label>
 				<form:input id="company" name="company" path="company" />
