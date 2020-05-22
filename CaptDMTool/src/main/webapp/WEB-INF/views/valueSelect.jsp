@@ -261,7 +261,19 @@ function reloadIFrame() {
 				<%-- <jsp:include page="../views/logs.jsp" flush="true"/> --%>
 				</td>
 			</tr>
+			
+			
+			<tr>
+			<td>
+			<a href="${pageContext.request.contextPath}/PositionReport">Position Report</a>
+			</td>
+			
+			
+			</tr>
 		</table>
+		
+		
+		
 
 	</form:form>
 </body>

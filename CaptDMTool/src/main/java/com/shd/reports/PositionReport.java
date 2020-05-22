@@ -59,7 +59,7 @@ public class PositionReport {
 		
 		
 		String PositionUrlCount = "https://api12preview.sapsf.eu/odata/v2/Position/$count?$format=JSON&" 
-				+ "&$filter=company+eq+'A0900'&fromDate=1900-12-31&toDate=9999-12-31";
+				+ "&$filter=company+eq+'A1000'&fromDate=1900-12-31&toDate=9999-12-31";
 		
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@9"));
 		
@@ -416,7 +416,7 @@ public static List<com.shd.Position.Position> getPosList(String count) {
 	
 	while (c>s) {
 	PositionUrl = "https://api12preview.sapsf.eu/odata/v2/Position?$format=JSON&"
-			+ "&$filter=company+eq+'A0900'&fromDate=1900-12-31&toDate=9999-12-31&$top="+t+"&$skip="+s+""
+			+ "&$filter=company+eq+'A1000'&fromDate=1900-12-31&toDate=9999-12-31&$top="+t+"&$skip="+s+""
 		//	+ "&$filter=createdBy+eq+'VKUMAR' and company+eq+'" + LegalEntity + "'&fromDate=1900-12-31&toDate=9999-12-31"
 			+ "&$expand=positionMatrixRelationship,parentPosition"
 			+ "&$select= code,externalName_defaultValue,externalName_localized,effectiveStatus,effectiveStartDate,type,cust_keyPosition,criticality,description,cust_JobFamily,cust_jobFunction,jobCode,jobLevel,employeeClass,payGrade,cust_PayGradeLevel,payRange,targetFTE,vacant, company,division,cust_deptLevel1,cust_deptLevel2,cust_deptLevel3,cust_deptLevel4,cust_deptLevel5,department,location,costCenter,\n" + 

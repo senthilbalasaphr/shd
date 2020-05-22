@@ -151,7 +151,12 @@ public class CreateExcelView extends AbstractXlsxView {
 										Object utilObject = Class.forName(utilPath + className).newInstance();
 										oldValue = (String) meth.invoke(utilObject, rowData, colIndex, company,
 												clientSystem,isTestRun);
-
+									
+										//Sen
+										if (!(rowData.get(colIndex).getFieldValue()==null))
+										if (!(rowData.get(colIndex).getFieldValue().equalsIgnoreCase(oldValue))) {
+										rowData.get(colIndex).setFieldValue(oldValue);
+										}
 //										logger.info("CreateExcelView: writeExcel: New Value:" + oldValue);
 									}
 								}

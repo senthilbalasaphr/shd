@@ -28,6 +28,16 @@ public class DivisionsReports {
 
 	public static Map<String, Object[]> DepDiv = new TreeMap<String, Object[]>();
 	public static Map<String, Object[]> DepLE = new TreeMap<String, Object[]>();
+	
+	public static  Map<String, Object[]> DivisionXlxs = new TreeMap<String, Object[]>();
+	public static Map<String, Object[]> DepartmentLevel1Xlxs = new TreeMap<String, Object[]>();
+	public static Map<String, Object[]> DepartmentLevel2Xlxs = new TreeMap<String, Object[]>();
+	public static Map<String, Object[]> DepartmentLevel3Xlxs = new TreeMap<String, Object[]>();
+	public static Map<String, Object[]> DepartmentLevel4Xlxs = new TreeMap<String, Object[]>();
+	public static Map<String, Object[]> DepartmentLevel5Xlxs = new TreeMap<String, Object[]>();
+	
+	 
+	 
 	public static int i = 0;
 
 	public static void main(String[] args) {
@@ -44,13 +54,17 @@ public class DivisionsReports {
 		String DepartmentLevel4Filter = "0";
 		String DepartmentLevel5Filter = "0";
 
+
+		
+	
+		
 ////****** Get Divisions*******///
 
 		String checkUrl = "https://api12preview.sapsf.eu/odata/v2/FODivision?$format=JSON" + "&$expand=cust_LegalEntity"
 				+ "&$select=externalCode,startDate,endDate,name_localized, status, name, name_defaultValue, name_en_US, name_vi_VN, description_localized, description_defaultValue, lastModifiedBy, lastModifiedDateTime, createdBy, createdOn, cust_LegalEntity/externalCode"
 				+ "&$filter=cust_LegalEntity/externalCode+eq+'" + LegalEntity + "'";
 		// System.out.println(checkUrl);
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@9"));
 		FODivision FODiv = restTemplate.getForObject(checkUrl, FODivision.class);
 
 		com.shd.FODivision.D FODivd = FODiv.getD();
@@ -60,6 +74,30 @@ public class DivisionsReports {
 			System.out.println(ut.getOdataEpochiToJava(FODivResult.getStartDate()));
 			// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 			DivisionFilter = FODivResult.getExternalCode();
+			
+			
+			DivisionXlxs.put(FODivResult.getExternalCode(), new Object[] {FODivResult.getExternalCode(),
+																		  ut.getOdataEpochiToJava( FODivResult.getStartDate()),
+																		  FODivResult.getNameLocalized(),
+																		  FODivResult.getNameDefaultValue(),
+																		  FODivResult.getStatus(),
+																		  FODivResult.getName(),
+																		  FODivResult.getNameDefaultValue(),
+																		  FODivResult.getNameEnUS(),
+																		  FODivResult.getDescriptionDefaultValue(),
+																		  FODivResult.getDescriptionLocalized(),
+																		  FODivResult.getCustLegalEntity().getResults().get(0).getExternalCode(),
+																		  ut.getOdataEpochiToJava(FODivResult.getCreatedOn()),
+																		  FODivResult.getCreatedBy(),
+																		  ut.getOdataEpochiToJava(FODivResult.getLastModifiedDateTime()),
+																		  FODivResult.getLastModifiedBy() } );
+			
+
+			
+			
+			
+			
+			
 
 			// System.out.println(DivisionFilter);
 
@@ -88,6 +126,17 @@ public class DivisionsReports {
 
 				// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 				DepartmentLevel1Filter = DL1Result.getExternalCode();
+				
+				DepartmentLevel1Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL1Result.getExternalCode(),
+						  ut.getOdataEpochiToJava( DL1Result.getEffectiveStartDate()),
+						  DL1Result.getExternalNameLocalized(),
+						  DL1Result.getExternalNameDefaultValue(),
+						  DL1Result.getMdfSystemStatus(),
+						  DL1Result.getExternalNameEnUS(),
+						  DL1Result.getCustDivision().getResults().get(0).getExternalCode(),
+						  DL1Result.getCustLegalEntity().getResults().get(0).getExternalCode(),
+				 } );
+				
 
 				//// ****** Get Department Level 2*******///
 
@@ -114,6 +163,16 @@ public class DivisionsReports {
 					getDepartment(DL2Result.getExternalCode(), FODivResult.getExternalCode(), LegalEntity,"2");
 
 					DepartmentLevel2Filter = DL2Result.getExternalCode();
+					
+					DepartmentLevel2Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL2Result.getExternalCode(),
+							  ut.getOdataEpochiToJava( DL2Result.getEffectiveStartDate()),
+							  DL2Result.getExternalNameLocalized(),
+							  DL2Result.getExternalNameDefaultValue(),
+							  DL2Result.getMdfSystemStatus(),
+							  DL2Result.getExternalNameEnUS(),
+							  DL2Result.getCustEmeaDeptLevel1().getResults().get(0).getExternalCode(),
+					 } );
+					
 
 					//// ****** Get Department Level 3*******///
 
@@ -138,6 +197,16 @@ public class DivisionsReports {
 
 						// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 						DepartmentLevel3Filter = DL3Result.getExternalCode();
+						
+						DepartmentLevel3Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL3Result.getExternalCode(),
+								  ut.getOdataEpochiToJava( DL3Result.getEffectiveStartDate()),
+								  DL3Result.getExternalNameLocalized(),
+								  DL3Result.getExternalNameDefaultValue(),
+								  DL3Result.getMdfSystemStatus(),
+								  DL3Result.getExternalNameEnUS(),
+								  DL3Result.getCustEmeaDeptLevel2().getResults().get(0).getExternalCode(),
+						 } );
+						
 
 						//// ****** Get Department Level 4*******///
 
@@ -162,6 +231,16 @@ public class DivisionsReports {
 
 							// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 							DepartmentLevel4Filter = DL4Result.getExternalCode();
+							
+							DepartmentLevel4Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL4Result.getExternalCode(),
+									  ut.getOdataEpochiToJava( DL4Result.getEffectiveStartDate()),
+									  DL4Result.getExternalNameLocalized(),
+									  DL4Result.getExternalNameDefaultValue(),
+									  DL4Result.getMdfSystemStatus(),
+									  DL4Result.getExternalNameEnUS(),
+									  DL4Result.getCustEmeaDeptLevel3().getResults().get(0).getExternalCode(),
+							 } );
+							
 
 							//// ****** Get Department Level 5*******///
 
@@ -187,6 +266,17 @@ public class DivisionsReports {
 								getDepartment(DL5Result.getExternalCode(), FODivResult.getExternalCode(), LegalEntity,"5");
 
 								DepartmentLevel5Filter = DL5Result.getExternalCode();
+								
+								
+								DepartmentLevel5Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL5Result.getExternalCode(),
+										  ut.getOdataEpochiToJava( DL5Result.getEffectiveStartDate()),
+										  DL5Result.getExternalNameLocalized(),
+										  DL5Result.getExternalNameDefaultValue(),
+										  DL5Result.getMdfSystemStatus(),
+										  DL5Result.getExternalNameEnUS(),
+										  DL5Result.getCustEmeaDeptLevel4().getResults().get(0).getExternalCode(),
+								 } );
+								
 
 							} // For Department level 5
 
@@ -241,6 +331,117 @@ public class DivisionsReports {
 				cell.setCellValue((String) obj);
 			}
 		}
+		
+		
+		XSSFSheet Division = workbook.createSheet("Division");
+		
+		// Iterate over data and write to sheet
+		Set<String> Divisionkeyid = DivisionXlxs.keySet();
+		rowid = 0;
+
+		for (String key : Divisionkeyid) {
+			row = Division.createRow(rowid++);
+			Object[] objectArr = DivisionXlxs.get(key);
+			int cellid = 0;
+
+			for (Object obj : objectArr) {
+				Cell cell = row.createCell(cellid++);
+				cell.setCellValue((String) obj);
+			}
+		}
+		
+		XSSFSheet DepartmentLevel1 = workbook.createSheet("DepartmentLevel1");
+		
+		// Iterate over data and write to sheet
+		Set<String> DepartmentLevel1keyid = DepartmentLevel1Xlxs.keySet();
+		rowid = 0;
+
+		for (String key : DepartmentLevel1keyid) {
+			row = DepartmentLevel1.createRow(rowid++);
+			Object[] objectArr = DepartmentLevel1Xlxs.get(key);
+			int cellid = 0;
+
+			for (Object obj : objectArr) {
+				Cell cell = row.createCell(cellid++);
+				cell.setCellValue((String) obj);
+			}
+		}
+		
+		XSSFSheet DepartmentLevel2 = workbook.createSheet("DepartmentLevel2");
+		
+		// Iterate over data and write to sheet
+		Set<String> DepartmentLevel2keyid = DepartmentLevel2Xlxs.keySet();
+		rowid = 0;
+
+		for (String key : DepartmentLevel2keyid) {
+			row = DepartmentLevel2.createRow(rowid++);
+			Object[] objectArr = DepartmentLevel2Xlxs.get(key);
+			int cellid = 0;
+
+			for (Object obj : objectArr) {
+				Cell cell = row.createCell(cellid++);
+				cell.setCellValue((String) obj);
+			}
+		}
+		
+XSSFSheet DepartmentLevel3 = workbook.createSheet("DepartmentLevel3");
+		
+		// Iterate over data and write to sheet
+		Set<String> DepartmentLevel3keyid = DepartmentLevel3Xlxs.keySet();
+		rowid = 0;
+
+		for (String key : DepartmentLevel3keyid) {
+			row = DepartmentLevel3.createRow(rowid++);
+			Object[] objectArr = DepartmentLevel3Xlxs.get(key);
+			int cellid = 0;
+
+			for (Object obj : objectArr) {
+				Cell cell = row.createCell(cellid++);
+				cell.setCellValue((String) obj);
+			}
+		}
+		
+		
+		
+XSSFSheet DepartmentLevel4 = workbook.createSheet("DepartmentLevel4");
+		
+		// Iterate over data and write to sheet
+		Set<String> DepartmentLevel4keyid = DepartmentLevel4Xlxs.keySet();
+		rowid = 0;
+
+		for (String key : DepartmentLevel4keyid) {
+			row = DepartmentLevel4.createRow(rowid++);
+			Object[] objectArr = DepartmentLevel4Xlxs.get(key);
+			int cellid = 0;
+
+			for (Object obj : objectArr) {
+				Cell cell = row.createCell(cellid++);
+				cell.setCellValue((String) obj);
+			}
+		}
+		
+		
+		
+XSSFSheet DepartmentLevel5 = workbook.createSheet("DepartmentLevel5");
+		
+		// Iterate over data and write to sheet
+		Set<String> DepartmentLevel5keyid = DepartmentLevel5Xlxs.keySet();
+		rowid = 0;
+
+		for (String key : DepartmentLevel5keyid) {
+			row = DepartmentLevel5.createRow(rowid++);
+			Object[] objectArr = DepartmentLevel5Xlxs.get(key);
+			int cellid = 0;
+
+			for (Object obj : objectArr) {
+				Cell cell = row.createCell(cellid++);
+				cell.setCellValue((String) obj);
+			}
+		}
+		
+		
+		
+		
 
 		// Write the workbook in file system
 		FileOutputStream out;
@@ -265,7 +466,7 @@ public class DivisionsReports {
 		i++;
 
 		RestTemplate restTemplate1 = new RestTemplate();
-		restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+		restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@9"));
 
 		String FODepUrl = "https://api12preview.sapsf.eu/odata/v2/FODepartment?" + "$filter=externalCode in " + DepID
 				+ "&$expand=cust_Division,cust_LegalEntity" + "&$format=JSON"

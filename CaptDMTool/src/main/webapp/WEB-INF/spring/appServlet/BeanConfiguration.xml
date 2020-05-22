@@ -64,4 +64,6 @@
 	<bean name="clientOdata"
 		class="com.capt.dm.odata.impl.ClientOdataImpl" />
 
+<bean id="reports" class="com.capt.dm.model.Reports" />
+
 </beans>
