@@ -340,7 +340,7 @@ public class PositionReport {
 			
 			});
 		
-		}
+		} 
 		}
 		
 		if ( System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
