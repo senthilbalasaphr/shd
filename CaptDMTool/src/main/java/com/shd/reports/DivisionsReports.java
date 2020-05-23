@@ -3,6 +3,7 @@ package com.shd.reports;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,9 @@ import com.shd.DepartmentLevel5.DepartmentLevel5;
 import com.shd.FODepartment.FODepartment;
 import com.shd.FODivision.FODivision;
 import com.shd.Util.Utility;
+import com.shd.keymap.D;
+import com.shd.keymap.KeyMap;
+import com.shd.keymap.Result;
 
 public class DivisionsReports {
 
@@ -36,7 +40,8 @@ public class DivisionsReports {
 	public static Map<String, Object[]> DepartmentLevel4Xlxs = new TreeMap<String, Object[]>();
 	public static Map<String, Object[]> DepartmentLevel5Xlxs = new TreeMap<String, Object[]>();
 	
-	 
+	public static Map< String,String> m1=new HashMap< String,String>();
+
 	 
 	public static int i = 0;
 
@@ -55,13 +60,15 @@ public class DivisionsReports {
 		String DepartmentLevel5Filter = "0";
 
 
-		
+		String  KeyMapexternalCode="";
+		String cust_SFID="";
+		String cust_LegacyID="";
 	
 		
 ////****** Get Divisions*******///
 
 		String checkUrl = "https://api12preview.sapsf.eu/odata/v2/FODivision?$format=JSON" + "&$expand=cust_LegalEntity"
-				+ "&$select=externalCode,startDate,endDate,name_localized, status, name, name_defaultValue, name_en_US, name_vi_VN, description_localized, description_defaultValue, lastModifiedBy, lastModifiedDateTime, createdBy, createdOn, cust_LegalEntity/externalCode"
+				+ "&$select=externalCode,startDate,endDate,name_localized, status, name, name_defaultValue, name_en_US, name_vi_VN, description_localized, description_defaultValue,lastModifiedBy,lastModifiedDateTime,createdBy,createdOn,cust_LegalEntity/externalCode"
 				+ "&$filter=cust_LegalEntity/externalCode+eq+'" + LegalEntity + "'";
 		// System.out.println(checkUrl);
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@9"));
@@ -75,6 +82,19 @@ public class DivisionsReports {
 			// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 			DivisionFilter = FODivResult.getExternalCode();
 			
+			 
+			 m1=null;
+			  KeyMapexternalCode="";
+			 cust_SFID="";
+			 cust_LegacyID="";
+			 m1 = getKeyMap(FODivResult.getExternalCode(),"11");
+			 if(m1 != null) {
+				 KeyMapexternalCode = m1.get("externalCode");
+				 cust_SFID = m1.get("cust_SFID");
+				 cust_LegacyID = m1.get("cust_LegacyID");
+				 
+			 }
+			 
 			
 			DivisionXlxs.put(FODivResult.getExternalCode(), new Object[] {FODivResult.getExternalCode(),
 																		  ut.getOdataEpochiToJava( FODivResult.getStartDate()),
@@ -90,7 +110,12 @@ public class DivisionsReports {
 																		  ut.getOdataEpochiToJava(FODivResult.getCreatedOn()),
 																		  FODivResult.getCreatedBy(),
 																		  ut.getOdataEpochiToJava(FODivResult.getLastModifiedDateTime()),
-																		  FODivResult.getLastModifiedBy() } );
+																		  FODivResult.getLastModifiedBy(),
+																		  KeyMapexternalCode,
+																		  cust_SFID,
+																		  cust_LegacyID
+																		  
+																		  } );
 			
 
 			
@@ -106,9 +131,9 @@ public class DivisionsReports {
 			String DL1Url = "https://api12preview.sapsf.eu/odata/v2/cust_emeaDeptLevel1?"
 					+ "&$filter=cust_Division/externalCode in " + DivisionFilter
 					+ "&$expand=cust_Division,cust_LegalEntity" + "&$format=JSON"
-					+ "&$select=externalCode,effectiveStartDate,mdfSystemEffectiveEndDate,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_Division/externalCode,cust_LegalEntity/externalCode";
+					+ "&$select=externalCode,effectiveStartDate,mdfSystemEffectiveEndDate,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,lastModifiedBy,lastModifiedDateTime,createdBy,createdDateTime,cust_Division/externalCode,cust_LegalEntity/externalCode,";
 
-			// System.out.println(DL1Url);
+			 System.out.println(DL1Url);
 
 			DepartmentLevel1 DepartmentLevel1 = restTemplate.getForObject(DL1Url, DepartmentLevel1.class);
 
@@ -127,6 +152,18 @@ public class DivisionsReports {
 				// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 				DepartmentLevel1Filter = DL1Result.getExternalCode();
 				
+				 m1=null;
+				  KeyMapexternalCode="";
+				 cust_SFID="";
+				 cust_LegacyID="";
+				 m1 = getKeyMap(DepartmentLevel1Filter,"01");
+				 if(m1 != null) {
+					 KeyMapexternalCode = m1.get("externalCode");
+					 cust_SFID = m1.get("cust_SFID");
+					 cust_LegacyID = m1.get("cust_LegacyID");
+					 
+				 }
+				
 				DepartmentLevel1Xlxs.put(DL1Result.getExternalCode(), new Object[] {DL1Result.getExternalCode(),
 						  ut.getOdataEpochiToJava( DL1Result.getEffectiveStartDate()),
 						  DL1Result.getExternalNameLocalized(),
@@ -135,6 +172,15 @@ public class DivisionsReports {
 						  DL1Result.getExternalNameEnUS(),
 						  DL1Result.getCustDivision().getResults().get(0).getExternalCode(),
 						  DL1Result.getCustLegalEntity().getResults().get(0).getExternalCode(),
+						  ut.getOdataEpochiToJava(DL1Result.getCreatedDateTime()),
+						  DL1Result.getCreatedBy(),
+						  ut.getOdataEpochiToJava(DL1Result.getLastModifiedDateTime()),
+						  DL1Result.getLastModifiedBy(),
+						  KeyMapexternalCode,
+						  cust_SFID,
+						  cust_LegacyID
+						  
+						  
 				 } );
 				
 
@@ -143,9 +189,9 @@ public class DivisionsReports {
 				String DL2Url = "https://api12preview.sapsf.eu/odata/v2/cust_emeaDeptLevel2?"
 						+ "&$filter=cust_emeaDeptLevel1/externalCode in " + DepartmentLevel1Filter
 						+ "&$expand=cust_emeaDeptLevel1" + "&$format=JSON"
-						+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel1/externalCode";
+						+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel1/externalCode, lastModifiedBy, lastModifiedDateTime, createdBy, createdDateTime";
 
-				// System.out.println(DL2Url);
+				 System.out.println(DL2Url);
 
 				DepartmentLevel2 DepartmentLevel2 = restTemplate.getForObject(DL2Url, DepartmentLevel2.class);
 
@@ -164,6 +210,18 @@ public class DivisionsReports {
 
 					DepartmentLevel2Filter = DL2Result.getExternalCode();
 					
+					 m1=null;
+					  KeyMapexternalCode="";
+					 cust_SFID="";
+					 cust_LegacyID="";
+					 m1 = getKeyMap(DepartmentLevel2Filter,"01");
+					 if(m1 != null) {
+						 KeyMapexternalCode = m1.get("externalCode");
+						 cust_SFID = m1.get("cust_SFID");
+						 cust_LegacyID = m1.get("cust_LegacyID");
+						 
+					 }
+					
 					DepartmentLevel2Xlxs.put(DL2Result.getExternalCode(), new Object[] {DL2Result.getExternalCode(),
 							  ut.getOdataEpochiToJava( DL2Result.getEffectiveStartDate()),
 							  DL2Result.getExternalNameLocalized(),
@@ -171,6 +229,15 @@ public class DivisionsReports {
 							  DL2Result.getMdfSystemStatus(),
 							  DL2Result.getExternalNameEnUS(),
 							  DL2Result.getCustEmeaDeptLevel1().getResults().get(0).getExternalCode(),
+							  ut.getOdataEpochiToJava(DL2Result.getCreatedDateTime()),
+							  DL2Result.getCreatedBy(),
+							  ut.getOdataEpochiToJava(DL2Result.getLastModifiedDateTime()),
+							  DL2Result.getLastModifiedBy(),
+							  KeyMapexternalCode,
+							  cust_SFID,
+							  cust_LegacyID
+							  
+							  
 					 } );
 					
 
@@ -179,7 +246,7 @@ public class DivisionsReports {
 					String DL3Url = "https://api12preview.sapsf.eu/odata/v2/cust_emeaDeptLevel3?"
 							+ "&$filter=cust_emeaDeptLevel2/externalCode in " + DepartmentLevel2Filter
 							+ "&$expand=cust_emeaDeptLevel2" + "&$format=JSON"
-							+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel2/externalCode";
+							+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel2/externalCode, lastModifiedBy, lastModifiedDateTime, createdBy, createdDateTime";
 
 					DepartmentLevel3 DepartmentLevel3 = restTemplate.getForObject(DL3Url, DepartmentLevel3.class);
 
@@ -198,6 +265,18 @@ public class DivisionsReports {
 						// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 						DepartmentLevel3Filter = DL3Result.getExternalCode();
 						
+						 m1=null;
+						  KeyMapexternalCode="";
+						 cust_SFID="";
+						 cust_LegacyID="";
+						 m1 = getKeyMap(DepartmentLevel3Filter,"01");
+						 if(m1 != null) {
+							 KeyMapexternalCode = m1.get("externalCode");
+							 cust_SFID = m1.get("cust_SFID");
+							 cust_LegacyID = m1.get("cust_LegacyID");
+							 
+						 }
+						
 						DepartmentLevel3Xlxs.put(DL3Result.getExternalCode(), new Object[] {DL3Result.getExternalCode(),
 								  ut.getOdataEpochiToJava( DL3Result.getEffectiveStartDate()),
 								  DL3Result.getExternalNameLocalized(),
@@ -205,6 +284,14 @@ public class DivisionsReports {
 								  DL3Result.getMdfSystemStatus(),
 								  DL3Result.getExternalNameEnUS(),
 								  DL3Result.getCustEmeaDeptLevel2().getResults().get(0).getExternalCode(),
+								  ut.getOdataEpochiToJava(DL3Result.getCreatedDateTime()),
+								  DL3Result.getCreatedBy(),
+								  ut.getOdataEpochiToJava(DL3Result.getLastModifiedDateTime()),
+								  DL3Result.getLastModifiedBy(),
+								  KeyMapexternalCode,
+								  cust_SFID,
+								  cust_LegacyID
+								  
 						 } );
 						
 
@@ -213,7 +300,7 @@ public class DivisionsReports {
 						String DL4Url = "https://api12preview.sapsf.eu/odata/v2/cust_emeaDeptLevel4?"
 								+ "&$filter=cust_emeaDeptLevel3/externalCode in " + DepartmentLevel3Filter
 								+ "&$expand=cust_emeaDeptLevel3" + "&$format=JSON"
-								+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel3/externalCode";
+								+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel3/externalCode, lastModifiedBy, lastModifiedDateTime, createdBy, createdDateTime";
 
 						DepartmentLevel4 DepartmentLevel4 = restTemplate.getForObject(DL4Url, DepartmentLevel4.class);
 
@@ -232,6 +319,18 @@ public class DivisionsReports {
 							// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 							DepartmentLevel4Filter = DL4Result.getExternalCode();
 							
+							 m1=null;
+							  KeyMapexternalCode="";
+							 cust_SFID="";
+							 cust_LegacyID="";
+							 m1 = getKeyMap(DepartmentLevel4Filter,"01");
+							 if(m1 != null) {
+								 KeyMapexternalCode = m1.get("externalCode");
+								 cust_SFID = m1.get("cust_SFID");
+								 cust_LegacyID = m1.get("cust_LegacyID");
+								 
+							 }
+							
 							DepartmentLevel4Xlxs.put(DL4Result.getExternalCode(), new Object[] {DL4Result.getExternalCode(),
 									  ut.getOdataEpochiToJava( DL4Result.getEffectiveStartDate()),
 									  DL4Result.getExternalNameLocalized(),
@@ -239,6 +338,13 @@ public class DivisionsReports {
 									  DL4Result.getMdfSystemStatus(),
 									  DL4Result.getExternalNameEnUS(),
 									  DL4Result.getCustEmeaDeptLevel3().getResults().get(0).getExternalCode(),
+									  ut.getOdataEpochiToJava(DL4Result.getCreatedDateTime()),
+									  DL4Result.getCreatedBy(),
+									  ut.getOdataEpochiToJava(DL4Result.getLastModifiedDateTime()),
+									  DL4Result.getLastModifiedBy(),
+									  KeyMapexternalCode,
+									  cust_SFID,
+									  cust_LegacyID
 							 } );
 							
 
@@ -247,7 +353,7 @@ public class DivisionsReports {
 							String DL5Url = "https://api12preview.sapsf.eu/odata/v2/cust_emeaDeptLevel5?"
 									+ "&$filter=cust_emeaDeptLevel4/externalCode in " + DepartmentLevel4Filter
 									+ "&$expand=cust_emeaDeptLevel4" + "&$format=JSON"
-									+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel4/externalCode";
+									+ "&$select=externalCode,effectiveStartDate,cust_department,externalName_localized,externalName_defaultValue,externalName_en_US,mdfSystemStatus,cust_emeaDeptLevel4/externalCode, lastModifiedBy, lastModifiedDateTime, createdBy, createdDateTime";
 
 							DepartmentLevel5 DepartmentLevel5 = restTemplate.getForObject(DL5Url,
 									DepartmentLevel5.class);
@@ -267,6 +373,17 @@ public class DivisionsReports {
 
 								DepartmentLevel5Filter = DL5Result.getExternalCode();
 								
+								 m1=null;
+								  KeyMapexternalCode="";
+								 cust_SFID="";
+								 cust_LegacyID="";
+								 m1 = getKeyMap(DepartmentLevel5Filter,"01");
+								 if(m1 != null) {
+									 KeyMapexternalCode = m1.get("externalCode");
+									 cust_SFID = m1.get("cust_SFID");
+									 cust_LegacyID = m1.get("cust_LegacyID");
+									 
+								 }
 								
 								DepartmentLevel5Xlxs.put(DL5Result.getExternalCode(), new Object[] {DL5Result.getExternalCode(),
 										  ut.getOdataEpochiToJava( DL5Result.getEffectiveStartDate()),
@@ -275,6 +392,16 @@ public class DivisionsReports {
 										  DL5Result.getMdfSystemStatus(),
 										  DL5Result.getExternalNameEnUS(),
 										  DL5Result.getCustEmeaDeptLevel4().getResults().get(0).getExternalCode(),
+										  ut.getOdataEpochiToJava(DL5Result.getCreatedDateTime()),
+										  DL5Result.getCreatedBy(),
+										  ut.getOdataEpochiToJava(DL5Result.getLastModifiedDateTime()),
+										  DL5Result.getLastModifiedBy(),
+										  KeyMapexternalCode,
+										  cust_SFID,
+										  cust_LegacyID
+										  
+										  
+										  
 								 } );
 								
 
@@ -446,12 +573,12 @@ XSSFSheet DepartmentLevel5 = workbook.createSheet("DepartmentLevel5");
 		// Write the workbook in file system
 		FileOutputStream out;
 		try {
-			if ( System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
+		//	if ( System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
 			out = new FileOutputStream(new File("/Users/baps/Downloads/Department.xlsx"));
-			}
-			else {
-				out = new FileOutputStream(new File("C:\\SHD\\Reports\\Department.xlsx"));
-			}
+//			}
+//			else {
+//				out = new FileOutputStream(new File("C:\\SHD\\Reports\\Department.xlsx"));
+//			}
 			workbook.write(out);
 			out.close();
 
@@ -531,4 +658,33 @@ XSSFSheet DepartmentLevel5 = workbook.createSheet("DepartmentLevel5");
 		System.out.println("---------------");
 	}
 
+	
+	public static Map< String,String> getKeyMap(String code,String object) {
+		Map< String,String> m1 =  new HashMap< String,String>();
+		RestTemplate restTemplate1 = new RestTemplate();
+		
+		String company = "01" ;
+		String url1 = "https://api12preview.sapsf.eu/odata/v2/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '"+object+"' and cust_SFID eq '"+code+"'&$select=cust_SFID,cust_LegacyID,externalCode";
+
+
+		restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@9"));
+
+
+		KeyMap result1 = restTemplate1.getForObject(url1,KeyMap.class);
+
+		if ( result1 != null) {
+			D d1 = result1.getD();
+			List<Result> res1 = d1.getResults();
+			for (Result result2 :res1) {
+				m1.put("externalCode", result2.getExternalCode());
+				m1.put("cust_SFID", result2.getCustSFID());
+				m1.put("cust_LegacyID", result2.getCust_LegacyID());
+				
+			}
+		
+	}
+	return m1;
+	}
+	
+	
 }

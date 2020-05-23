@@ -15,11 +15,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "externalName_defaultValue",
     "externalName_localized",
     "externalName_en_US",
-    "cust_emeaDeptLevel1"
+    "cust_emeaDeptLevel1",
+    "lastModifiedDateTime",
+    "createdDateTime",
+    "createdBy",
+    "lastModifiedBy"
 })
 public class Result {
 
-    @JsonProperty("__metadata")
+    public String getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+
+	public void setLastModifiedDateTime(String lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
+	}
+
+	@JsonProperty("__metadata")
     private Metadata metadata;
     @JsonProperty("externalCode")
     private String externalCode;
@@ -37,6 +49,43 @@ public class Result {
     private String externalNameEnUS;
     @JsonProperty("cust_emeaDeptLevel1")
     private CustEmeaDeptLevel1 custEmeaDeptLevel1;
+    
+    @JsonProperty("lastModifiedDateTime")
+    private String lastModifiedDateTime;
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	@JsonProperty("createdDateTime")
+    private String createdDateTime;
+    public String getCreatedDateTime() {
+		return createdDateTime;
+	}
+
+	public void setCreatedDateTime(String createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
+
+	@JsonProperty("createdBy")
+    private String createdBy;
+    @JsonProperty("lastModifiedBy")
+    private String lastModifiedBy;
+
+
+    
 
     @JsonProperty("__metadata")
     public Metadata getMetadata() {

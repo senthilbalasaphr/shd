@@ -16,7 +16,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "externalName_localized",
     "externalName_en_US",
     "cust_Division",
-    "cust_LegalEntity"
+    "cust_LegalEntity",
+    "lastModifiedDateTime",
+    "createdDateTime",
+    "createdBy",
+    "lastModifiedBy"
+    
 })
 public class Result {
 
@@ -40,6 +45,51 @@ public class Result {
     private CustDivision custDivision;
     @JsonProperty("cust_LegalEntity")
     private CustLegalEntity custLegalEntity;
+    @JsonProperty("lastModifiedDateTime")
+    private String lastModifiedDateTime;
+	@JsonProperty("createdDateTime")
+    private String createdDateTime;
+    public String getCreatedDateTime() {
+		return createdDateTime;
+	}
+
+	public void setCreatedDateTime(String createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
+
+	@JsonProperty("createdBy")
+    private String createdBy;
+    @JsonProperty("lastModifiedBy")
+    private String lastModifiedBy;
+
+    
+    
+    public String getLastModifiedDateTime() {
+		return lastModifiedDateTime;
+	}
+
+	public void setLastModifiedDateTime(String lastModifiedDateTime) {
+		this.lastModifiedDateTime = lastModifiedDateTime;
+	}
+
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+
+
 
     @JsonProperty("__metadata")
     public Metadata getMetadata() {
