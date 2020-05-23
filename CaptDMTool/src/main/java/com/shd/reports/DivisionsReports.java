@@ -127,7 +127,7 @@ public class DivisionsReports {
 				// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 				DepartmentLevel1Filter = DL1Result.getExternalCode();
 				
-				DepartmentLevel1Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL1Result.getExternalCode(),
+				DepartmentLevel1Xlxs.put(DL1Result.getExternalCode(), new Object[] {DL1Result.getExternalCode(),
 						  ut.getOdataEpochiToJava( DL1Result.getEffectiveStartDate()),
 						  DL1Result.getExternalNameLocalized(),
 						  DL1Result.getExternalNameDefaultValue(),
@@ -164,7 +164,7 @@ public class DivisionsReports {
 
 					DepartmentLevel2Filter = DL2Result.getExternalCode();
 					
-					DepartmentLevel2Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL2Result.getExternalCode(),
+					DepartmentLevel2Xlxs.put(DL2Result.getExternalCode(), new Object[] {DL2Result.getExternalCode(),
 							  ut.getOdataEpochiToJava( DL2Result.getEffectiveStartDate()),
 							  DL2Result.getExternalNameLocalized(),
 							  DL2Result.getExternalNameDefaultValue(),
@@ -198,7 +198,7 @@ public class DivisionsReports {
 						// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 						DepartmentLevel3Filter = DL3Result.getExternalCode();
 						
-						DepartmentLevel3Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL3Result.getExternalCode(),
+						DepartmentLevel3Xlxs.put(DL3Result.getExternalCode(), new Object[] {DL3Result.getExternalCode(),
 								  ut.getOdataEpochiToJava( DL3Result.getEffectiveStartDate()),
 								  DL3Result.getExternalNameLocalized(),
 								  DL3Result.getExternalNameDefaultValue(),
@@ -232,7 +232,7 @@ public class DivisionsReports {
 							// DivisionFilter = DivisionFilter +","+ FODivResult.getExternalCode();
 							DepartmentLevel4Filter = DL4Result.getExternalCode();
 							
-							DepartmentLevel4Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL4Result.getExternalCode(),
+							DepartmentLevel4Xlxs.put(DL4Result.getExternalCode(), new Object[] {DL4Result.getExternalCode(),
 									  ut.getOdataEpochiToJava( DL4Result.getEffectiveStartDate()),
 									  DL4Result.getExternalNameLocalized(),
 									  DL4Result.getExternalNameDefaultValue(),
@@ -268,7 +268,7 @@ public class DivisionsReports {
 								DepartmentLevel5Filter = DL5Result.getExternalCode();
 								
 								
-								DepartmentLevel5Xlxs.put(FODivResult.getExternalCode(), new Object[] {DL5Result.getExternalCode(),
+								DepartmentLevel5Xlxs.put(DL5Result.getExternalCode(), new Object[] {DL5Result.getExternalCode(),
 										  ut.getOdataEpochiToJava( DL5Result.getEffectiveStartDate()),
 										  DL5Result.getExternalNameLocalized(),
 										  DL5Result.getExternalNameDefaultValue(),
@@ -446,8 +446,12 @@ XSSFSheet DepartmentLevel5 = workbook.createSheet("DepartmentLevel5");
 		// Write the workbook in file system
 		FileOutputStream out;
 		try {
+			if ( System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
 			out = new FileOutputStream(new File("/Users/baps/Downloads/Department.xlsx"));
-
+			}
+			else {
+				out = new FileOutputStream(new File("C:\\SHD\\Reports\\Department.xlsx"));
+			}
 			workbook.write(out);
 			out.close();
 

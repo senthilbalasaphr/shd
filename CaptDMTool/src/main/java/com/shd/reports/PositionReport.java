@@ -343,7 +343,14 @@ public class PositionReport {
 		}
 		}
 		
-		writeexcel(FOPosXlxs,"/Users/baps/Downloads/","Position.xlsx","Position");
+		if ( System.getProperty("os.name").equalsIgnoreCase("Mac OS X")){
+			writeexcel(FOPosXlxs,"/Users/baps/Downloads/","Position.xlsx","Position");
+		}
+		else
+		{
+			writeexcel(FOPosXlxs,"C:\\SHD\\Reports\\","Position.xlsx","Position");
+
+		}
 
 	}
 	
