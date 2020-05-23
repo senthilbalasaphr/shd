@@ -329,7 +329,7 @@ public class PositionReport {
 				//	positionMatrixRelationship/matrixRelationshipType,
 				//	positionMatrixRelationship/relatedPosition,
 					parentPosition_code,
-					createdDateTime,
+					createdDateTime, 
 					createdBy,
 					lastModifiedDateTime,
 					lastModifiedBy	,

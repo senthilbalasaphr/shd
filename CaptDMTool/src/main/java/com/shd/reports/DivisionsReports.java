@@ -435,7 +435,7 @@ XSSFSheet DepartmentLevel5 = workbook.createSheet("DepartmentLevel5");
 
 			for (Object obj : objectArr) {
 				Cell cell = row.createCell(cellid++);
-				cell.setCellValue((String) obj);
+				cell.setCellValue((String) obj); 
 			}
 		}
 		
