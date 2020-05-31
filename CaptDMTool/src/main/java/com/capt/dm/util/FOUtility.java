@@ -209,7 +209,7 @@ public class FOUtility {
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
-		if (!company.equalsIgnoreCase("99")) {
+		if (isTestRun.equalsIgnoreCase("No"))  {
 //		String url = "https://api12preview.sapsf.eu/odata/v2/";
 //		String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
 			String url = clientSystem.get("URL");

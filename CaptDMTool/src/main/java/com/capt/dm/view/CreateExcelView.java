@@ -99,6 +99,7 @@ public class CreateExcelView extends AbstractXlsxView {
 						fieldType = columnData.getFieldType();
 					} else {
 						String headerCol = excelData.get(headerIndex - 1).get(colIndex).getFieldValue();
+						logger.info("headerCol:" + headerCol);
 						String typeCol = excelData.get(1).get(colIndex).getFieldValue();
 						String valueMapping = fieldMap.get(headerCol).getValueMapping();
 						String colValue = columnData.getFieldValue();
