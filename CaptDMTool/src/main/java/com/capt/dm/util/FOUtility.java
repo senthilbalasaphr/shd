@@ -2230,5 +2230,174 @@ public class FOUtility {
 		}
 		return position;
 	}
+	
+	public String getLegacyJobClass(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
+
+		String SFjc = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
+//			logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
+//					+ metaDataObj.getFieldName());
+			if (null != metaDataObj.getFieldName() && "externalCode".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				SFjc = metaDataObj.getFieldValue();
+			}
+		}
+
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "02";
+
+		String newValue = "";
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+
+		if (null != SFjc && !SFjc.isEmpty()) {
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_SFID eq '" + SFjc + "'&$select=cust_LegacyID";
+			logger.info("url:" + url);
+			System.out.println(url);
+
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCust_LegacyID();
+
+				}
+
+				if (newValue.isEmpty()) {
+
+					RestTemplate restTemplate1 = new RestTemplate();
+
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
+
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
+
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID;
+			}
+
+		}
+
+		return newValue;
+	}
+	
+	
+	public String getLegacyPos(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun) throws Exception {
+
+		String SFPos = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
+//			logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
+//					+ metaDataObj.getFieldName());
+			if (null != metaDataObj.getFieldName() && "externalCode".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				SFPos = metaDataObj.getFieldValue();
+			}
+		}
+
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "02";
+
+		String newValue = "";
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+
+		if (null != SFPos && !SFPos.isEmpty()) {
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			String url = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company + "' and cust_ObjectType eq '"
+					+ ObjectType + "' and cust_SFID eq '" + SFPos + "'&$select=cust_LegacyID";
+			logger.info("url:" + url);
+			System.out.println(url);
+
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
+				D d = result.getD();
+				List<Result> res = d.getResults();
+				for (Result result1 : res) {
+					newValue = result1.getCust_LegacyID();
+
+				}
+
+				if (newValue.isEmpty()) {
+
+					RestTemplate restTemplate1 = new RestTemplate();
+
+					String url1 = urlx + "/cust_Keymapping?$filter=cust_Company eq '" + company
+							+ "' and cust_ObjectType eq '" + ObjectType + "' and cust_SFID eq '" + cust_LegacyID
+							+ "'&$select=cust_SFID";
+					logger.info("url:" + url1);
+					System.out.println(url1);
+
+					restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					KeyMap result1 = restTemplate1.getForObject(url1, KeyMap.class);
+
+					if (result1 != null) {
+						D d1 = result1.getD();
+						List<Result> res1 = d1.getResults();
+						for (Result result2 : res1) {
+							newValue = result2.getCustSFID();
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID;
+			}
+
+		}
+
+		return newValue;
+	}
 			
 }
