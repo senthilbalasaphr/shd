@@ -52,6 +52,7 @@ public class CreateExcelView_old extends AbstractXlsxView {
 		try {
 			String client = model.get("client").toString();
 			Map<String, BindingObject> fieldMap = (Map<String, BindingObject>) model.get("fieldMap");
+			Map<String, BindingObject> fieldInitMap = (Map<String, BindingObject>) model.get("InitfuncMap");
 			Map<String, String> valueMap = (Map<String, String>) model.get("valueMap");
 			List<List<MetaDataObj>> excelData = (List<List<MetaDataObj>>) model.get("excelData");
 			Map<String, Map<String, String>> funcMaps = (Map<String, Map<String, String>>) model.get("funcMap");
@@ -75,6 +76,7 @@ public class CreateExcelView_old extends AbstractXlsxView {
 				logger.info("Select Testrun");
 				System.exit(0);
 			}
+			
 			
 
 			for (List<MetaDataObj> rowData : excelData) {
@@ -206,5 +208,7 @@ public class CreateExcelView_old extends AbstractXlsxView {
 		System.out.println("formatedDate : " + formatedDate);
 		return formatedDate;
 	}
+	
+	
 
 }

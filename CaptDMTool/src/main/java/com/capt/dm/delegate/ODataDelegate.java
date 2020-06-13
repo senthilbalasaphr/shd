@@ -60,6 +60,14 @@ public class ODataDelegate {
 		
 	}
 	
+	public FieldSet getInitFuncMap(String client, String tempGrp, String template) throws Exception {
+		// TODO Auto-generated method stub
+		logger.info("ODataDelegate: Inside getFuncMap Method");
+		FieldSet result = oDataService.getInitFuncMap(client, tempGrp, template);
+		return result;
+		
+	}
+	
 	public FieldSet getFuncRules(String client) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("ODataDelegate: Inside getFuncRules Method");

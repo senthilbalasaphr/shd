@@ -25,8 +25,26 @@ public class FuncMapOdataImpl implements FuncMapOdata{
 		FieldSet resultObj = restTemplate.getForObject(url, FieldSet.class);
 		logger.info("FuncMapOdataImpl:getFuncMap:Results:" + resultObj.getD().getResults());
 		logger.info("FuncMapOdataImpl:getFuncMap:Results size:" + resultObj.getD().getResults().size());
+		return resultObj; 
+	}
+	
+	@Override
+	public FieldSet getInitFuncMap(String client, String tempGrp, String template) throws Exception {
+		
+		logger.info("FuncMapOdataImpl: Inside getFuncMap Method");
+
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "https://bs1e3cc05196.eu2.hana.ondemand.com/sap/SHDdev/services.xsodata/INIT_FUNC"
+				+ "?$filter=Client+eq+'"+client+"' and TEMPLATEGRP+eq+'"+tempGrp+"' and TEMPLATE+eq+'"+template+"'";
+
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("DM_APP_USER", "Welcome123456789$X$$"));
+
+		FieldSet resultObj = restTemplate.getForObject(url, FieldSet.class);
+		logger.info("FuncMapOdataImpl:getFuncMap:Results:" + resultObj.getD().getResults());
+		logger.info("FuncMapOdataImpl:getFuncMap:Results size:" + resultObj.getD().getResults().size());
 		return resultObj;
 	}
+	
 	@Override
 	public FieldSet getFuncRules(String client) throws Exception {
 		

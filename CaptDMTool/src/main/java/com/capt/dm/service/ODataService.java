@@ -17,6 +17,8 @@ public interface ODataService {
 	public FieldSet getValueMap(String client) throws Exception;
 
 	public FieldSet getFuncMap(String client, String tempGrp, String template) throws Exception;
+	
+	public FieldSet getInitFuncMap(String client, String tempGrp, String template) throws Exception;
 
 	public FieldSet getFuncRules(String client) throws Exception;
 

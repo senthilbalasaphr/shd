@@ -1,5 +1,7 @@
 package com.capt.dm.view;
 
+import java.lang.reflect.InvocationTargetException;
+import com.capt.dm.util.InitVal;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import com.capt.dm.util.FOUtility;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,12 +36,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 import com.capt.dm.binding.objects.BindingObject;
+import com.capt.dm.controller.FileUploadController;
 import com.capt.dm.model.MetaDataObj;
+import com.capt.dm.util.InitVal;
 
 public class CreateExcelView extends AbstractXlsxView {
 
 	private static final Logger logger = LoggerFactory.getLogger(CreateExcelView.class);
 	private static final String utilPath = "com.capt.dm.util.";
+	public Map<String, Map<String, String>> initfuncMap = null;
 
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
@@ -58,9 +64,12 @@ public class CreateExcelView extends AbstractXlsxView {
 			Map<String, Map<String, String>> funcMaps = (Map<String, Map<String, String>>) model.get("funcMap");
 			Map<String, String> funcRules = (Map<String, String>) model.get("funcRules");
 			Map<String, String> clientSystem = (Map<String, String>) model.get("clientSystem");
+			initfuncMap = (Map<String, Map<String, String>>) model.get("initfuncMap");
 			int headerIndex = (Integer) model.get("headIndex");
 			int valueIndex = (Integer) model.get("valIndex");
 			String company = (String) model.get("company");
+			String template = (String) model.get("template");
+			String tempGrp = (String) model.get("tempGrp");
 
 //			XSSFWorkbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet("Department_Odata");
@@ -72,28 +81,73 @@ public class CreateExcelView extends AbstractXlsxView {
 			logger.info("Creating excel");
 
 			String isTestRun = (String) model.get("isTestRun");
-			logger.info("isTestRun"+isTestRun);
+			logger.info("isTestRun" + isTestRun);
 			if (isTestRun.equalsIgnoreCase("0")) {
 				logger.info("Select Testrun");
 				System.exit(0);
 			}
-			
+
 			if (!(userName.equalsIgnoreCase("capt"))) {
-				
+
 				if (isTestRun.equalsIgnoreCase("No")) {
 					logger.info("Please run live using capt user");
 					System.exit(0);
-				}	
-				
+				}
+
 			}
+
+///// Map (<String>,<ArrayList>)
+//			Map<String,Map> initVal = null;
+//			FileUploadController fuc = new FileUploadController();
+//			fuc.getInitFuncMap( client,  tempGrp,  template);
+//			Map<String,Map> initVal = getInitFunc(funcRules, client,tempGrp,template, company, clientSystem, isTestRun);
+
+//-------------------------------Init Method	
+
+			Map<String, Map> initVal = null;
+			initVal = new HashMap<String, Map>();
 			
+
+			if (initfuncMap.containsKey(template)) {
+				Map<String, String> initMap = new HashMap<String, String>();
+
+				initMap = initfuncMap.get(template);
+				if (!initMap.isEmpty()) {
+					Iterator<Map.Entry<String, String>> itr = initMap.entrySet().iterator();
+					while (itr.hasNext()) {
+						Map.Entry<String, String> entry = itr.next();
+						String ruleKey = entry.getValue();
+						if (funcRules.containsKey(ruleKey)) {
+							String funcRule = funcRules.get(ruleKey);
+							String rule[] = funcRule.split(":");
+							String className = rule[0];
+							String methodName = rule[1];
+
+							Class<?> clas = Class.forName(utilPath + className);
+
+							Method meth = clas.getMethod(methodName, String.class, String.class, String.class,
+									String.class, Map.class, String.class);
+							Object utilObject = Class.forName(utilPath + className).newInstance();
+							// ValueMap
+							InitVal iV = (InitVal) meth.invoke(utilObject, client, tempGrp, template, company,
+									clientSystem, isTestRun);
+							
+							initVal = iV.getInitVal();
+						
+						}
+					}
+				}
+			}
+
+//-------------------------------Excel Row Iterate			
+
 			for (List<MetaDataObj> rowData : excelData) {
-			
+
 				Row row = sheet.createRow(rowNum++);
 				int colNum = 0;
 				for (MetaDataObj columnData : rowData) {
 					int colIndex = colNum++;
-					Cell cell = row.createCell(colIndex,CellType.BLANK);
+					Cell cell = row.createCell(colIndex, CellType.BLANK);
 					if (rowNum <= valueIndex - 1) {
 						fieldValue = columnData.getFieldValue();
 						fieldType = columnData.getFieldType();
@@ -124,8 +178,7 @@ public class CreateExcelView extends AbstractXlsxView {
 							newValue = oldValue;
 
 						}
-	
-								
+
 						if (null != valueMap.get(key) && !valueMap.get(key).isEmpty()) {
 							newValue = valueMap.get(key); // this is for fetching values using value mapping
 						}
@@ -148,16 +201,17 @@ public class CreateExcelView extends AbstractXlsxView {
 										logger.info("CreateExcelView: writeExcel: className:" + className);
 										logger.info("CreateExcelView: writeExcel: methodName:" + methodName);
 										Method meth = Class.forName(utilPath + className).getMethod(methodName,
-												List.class, int.class, String.class, Map.class,String.class);
+												List.class, int.class, String.class, Map.class, String.class,
+												Map.class);
 										Object utilObject = Class.forName(utilPath + className).newInstance();
 										oldValue = (String) meth.invoke(utilObject, rowData, colIndex, company,
-												clientSystem,isTestRun);
-									
-										//Sen
-										if (!(rowData.get(colIndex).getFieldValue()==null))
-										if (!(rowData.get(colIndex).getFieldValue().equalsIgnoreCase(oldValue))) {
-										rowData.get(colIndex).setFieldValue(oldValue);
-										}
+												clientSystem, isTestRun, initVal);
+
+										// Sen
+										if (!(rowData.get(colIndex).getFieldValue() == null))
+											if (!(rowData.get(colIndex).getFieldValue().equalsIgnoreCase(oldValue))) {
+												rowData.get(colIndex).setFieldValue(oldValue);
+											}
 //										logger.info("CreateExcelView: writeExcel: New Value:" + oldValue);
 									}
 								}
@@ -171,38 +225,31 @@ public class CreateExcelView extends AbstractXlsxView {
 							fieldValue = oldValue;
 						}
 						fieldType = columnData.getFieldType();
-						
-						// Print log			
-						data="<br>"+headerCol+":"+newValue+data;
-						session.setAttribute("data", data);
-						// Print log	
-					}
-					
-					
 
+						// Print log
+						data = "<br>" + headerCol + ":" + newValue + data;
+						session.setAttribute("data", data);
+						// Print log
+					}
 
 					// Senthil
-					//**** Set the error values to red color
-										
-										if (!(fieldValue == null)) {
-										int index=fieldValue.indexOf("<--");
-										logger.info("fieldValue:" + fieldValue);
-										if (index != -1) {
-											CellStyle style = workbook.createCellStyle();
-											Font font = workbook.createFont();
-											font.setColor(HSSFColor.HSSFColorPredefined.RED.getIndex());
-											style.setFont(font);
+					// **** Set the error values to red color
 
-											cell.setCellStyle(style);
-								        }
-										}
-										
-					// Senthil									
-					
-					
-					
-					
-					
+					if (!(fieldValue == null)) {
+						int index = fieldValue.indexOf("<--");
+						logger.info("fieldValue:" + fieldValue);
+						if (index != -1) {
+							CellStyle style = workbook.createCellStyle();
+							Font font = workbook.createFont();
+							font.setColor(HSSFColor.HSSFColorPredefined.RED.getIndex());
+							style.setFont(font);
+
+							cell.setCellStyle(style);
+						}
+					}
+
+					// Senthil
+
 //					if (fieldType.equals("STRING")) {
 //					cell.setCellType(CellType.STRING);
 					cell.setCellValue(fieldValue);
@@ -214,7 +261,7 @@ public class CreateExcelView extends AbstractXlsxView {
 				}
 			}
 
-			logger.info("Session Value::::"+session.getAttribute("data").toString());
+			logger.info("Session Value::::" + session.getAttribute("data").toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -243,5 +290,63 @@ public class CreateExcelView extends AbstractXlsxView {
 		System.out.println("formatedDate : " + formatedDate);
 		return formatedDate;
 	}
+
+	private String getInitialObjectsList(String date) throws Exception {
+
+		// String company = (String) model.get("company");
+
+		return null;
+
+	}
+
+//	public Map<String, Map> getInitFunc(Map<String, String> funcRules, String client, String tempGrp, String template,
+//			String company, Map<String, String> clientSystem, String isTestRun)
+//			throws NoSuchMethodException, SecurityException, ClassNotFoundException, InstantiationException,
+//			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+//
+//		Map<String, Map> ValueMap = null;
+//		Map<String, Object> ObjectsMap = null;
+//
+//		if (initfuncMap.containsKey(template)) {
+//			Map<String, String> initMap = new HashMap<String, String>();
+//
+//			initMap = initfuncMap.get(template);
+//			if (!initMap.isEmpty()) {
+//				Iterator<Map.Entry<String, String>> itr = initMap.entrySet().iterator();
+//				while (itr.hasNext()) {
+//					Map.Entry<String, String> entry = itr.next();
+//					String ruleKey = entry.getValue();
+//					if (funcRules.containsKey(ruleKey)) {
+//						String funcRule = funcRules.get(ruleKey);
+//						String rule[] = funcRule.split(":");
+//						String className = rule[0];
+//						String methodName = rule[1];
+//						Method meth = Class.forName(utilPath + className).getMethod(methodName, String.class,
+//								String.class, String.class, String.class, Map.class, String.class);
+//						Object utilObject = Class.forName(utilPath + className).newInstance();
+//						// ValueMap
+//						String x = (String) meth.invoke(utilObject, client, tempGrp, template, company, clientSystem,
+//								isTestRun);
+//					}
+//				}
+//			}
+//		}
+//
+////		Method meth = Class.forName(utilPath + className).getMethod(methodName,
+////				List.class, int.class, String.class, Map.class,String.class);
+////		Object utilObject = Class.forName(utilPath + className).newInstance();
+////		oldValue = (String) meth.invoke(utilObject, rowData, colIndex, company,
+////				clientSystem,isTestRun);
+//
+////		initfuncMap
+////		Method meth = Class.forName(utilPath + className).getMethod(methodName,
+////				List.class, int.class, String.class, Map.class,String.class);
+////		Object utilObject = Class.forName(utilPath + className).newInstance();
+////		oldValue = (String) meth.invoke(utilObject, rowData, colIndex, company,
+////				clientSystem,isTestRun);
+//
+//		return ValueMap;
+//
+//	}
 
 }

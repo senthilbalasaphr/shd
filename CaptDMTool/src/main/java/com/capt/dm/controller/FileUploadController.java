@@ -1,6 +1,8 @@
 package com.capt.dm.controller;
 
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +43,9 @@ public class FileUploadController {
 	public int columnSize;
 	public int valIndex;
 	public int headIndex;
-
+	public Map<String, Map<String, String>> initfuncMap=null;
+	public Map<String, String> funcRules =null;
+	private static final String utilPath = "com.capt.dm.util.";
 	@Autowired
 	ODataDelegate oDataDelegate;
 
@@ -103,13 +107,16 @@ public class FileUploadController {
 
 		Map<String, String> valueMap = getValueMap(client);
 		Map<String, Map<String, String>> funcMap = getFuncMap(client, tempGrp, template);
-		Map<String, String> funcRules = getFuncRules(client);
+		initfuncMap = getInitFuncMap(client, tempGrp, template);
+		funcRules = getFuncRules(client);
 		Map<String, String> clientSystem = oDataDelegate.getClientSystem(client);
 		List<List<MetaDataObj>> excelData = readFileData(file.getInputStream());
 		model = new ModelAndView(new CreateExcelView());
 		model.addObject("client", client);
 		model.addObject("headIndex", this.headIndex);
 		model.addObject("valIndex", this.valIndex);
+		model.addObject("tempGrp", tempGrp);
+		model.addObject("template", template);
 		
 ///		Senthil Bala
 		model.addObject("isTestRun", isTestRun);
@@ -122,6 +129,7 @@ public class FileUploadController {
 		model.addObject("valueMap", valueMap);
 		model.addObject("excelData", excelData);
 		model.addObject("funcMap", funcMap);
+		model.addObject("initfuncMap", initfuncMap);
 		model.addObject("funcRules", funcRules);
 
 		return model;
@@ -161,6 +169,42 @@ public class FileUploadController {
 		logger.info("FileUploadController: getFuncMap(): funcMap:" + funcMap.toString());
 		return funcMap;
 	}
+	
+	public Map<String, Map<String, String>> getInitFuncMap(String client, String tempGrp, String template)
+			throws Exception {
+
+		logger.info("FileUploadController: Inside getFuncMap()");
+
+		Map<String, Map<String, String>> funcMap = new HashMap<String, Map<String, String>>();
+		FieldSet fieldSet = oDataDelegate.getInitFuncMap(client, tempGrp, template);
+		String mKey = null;
+		if (!fieldSet.getD().getResults().isEmpty()) {
+			for (Result result : fieldSet.getD().getResults()) {
+				mKey = result.getTEMPLATE();
+				String key = String.valueOf(result.getSEQNR());
+				String funcId = result.getFUNCTIONID();
+				String funcRoutine = result.getFUNCTIONROUTINE();
+				Map<String, String> subMap = null;
+				if (null != mKey && !mKey.isEmpty()) {
+					logger.info("FileUploadController: getFuncMap(): funcMap:" + funcMap);
+					if (null != funcMap && !funcMap.containsKey(mKey)) {
+						logger.info("FileUploadController: getFuncMap(): mKey:" + mKey);
+						subMap = new HashMap<String, String>();
+					} else if (null != funcMap && !funcMap.isEmpty() && funcMap.containsKey(mKey)) {
+						subMap = funcMap.get(mKey);
+						funcMap.remove(mKey);
+					}
+					logger.info("FileUploadController: getFuncMap(): subMap:" + subMap);
+					subMap.put(key, funcId + ":" + funcRoutine);
+					logger.info("FileUploadController: getFuncMap(): subMap string:" + subMap.toString());
+					funcMap.put(mKey, subMap);
+				}
+			}
+		}
+		logger.info("FileUploadController: getFuncMap(): funcMap:" + funcMap.toString());
+		return funcMap;
+	}
+	
 
 	private Map<String, String> getFuncRules(String client) throws Exception {
 
@@ -370,6 +414,52 @@ public class FileUploadController {
 		// TODO Auto-generated method stub
 		System.out.println("rowList Size:" + rowList.size());
 		return rowList.get(this.headIndex-1).get(cn).getFieldValue();
+	}
+	
+	public  Map<String,Map> getInitFunc(Map<String, String> funcRules,String template,String company,
+			Map<String, String> clientSystem,String isTestRun) throws NoSuchMethodException, SecurityException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		
+		Map<String,Map> ValueMap=null;
+		Map<String,Object> ObjectsMap=null;
+		
+
+		
+
+		if (initfuncMap.containsKey(template)) {
+		Map<String, String> initMap = new HashMap<String, String>();
+		
+		initMap = initfuncMap.get(template);
+		if (!initMap.isEmpty()) {
+			Iterator<Map.Entry<String, String>> itr = initMap.entrySet().iterator(); 
+			while (itr.hasNext()) {
+				Map.Entry<String, String> entry = itr.next();
+				String ruleKey = entry.getValue();
+//				logger.info("CreateExcelView: writeExcel: ruleKey:" + ruleKey);
+				if (funcRules.containsKey(ruleKey)) {
+					String funcRule = funcRules.get(ruleKey);
+					String rule[] = funcRule.split(":");
+					String className = rule[0];
+					String methodName = rule[1];
+					Method meth = Class.forName(utilPath + className).getMethod(methodName,
+							List.class, int.class, String.class, Map.class,String.class);
+					Object utilObject = Class.forName(utilPath + className).newInstance();
+					ValueMap = (Map<String,Map>) meth.invoke(utilObject, template, company,
+							clientSystem,isTestRun);
+				}
+			}
+		}
+		}
+//		initfuncMap
+//		Method meth = Class.forName(utilPath + className).getMethod(methodName,
+//				List.class, int.class, String.class, Map.class,String.class);
+//		Object utilObject = Class.forName(utilPath + className).newInstance();
+//		oldValue = (String) meth.invoke(utilObject, rowData, colIndex, company,
+//				clientSystem,isTestRun);
+		
+		return ValueMap;
+		
+		
+
 	}
 
 }

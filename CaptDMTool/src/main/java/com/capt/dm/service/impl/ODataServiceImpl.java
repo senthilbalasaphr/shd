@@ -109,6 +109,13 @@ public class ODataServiceImpl implements ODataService {
 	}
 
 	@Override
+	public FieldSet getInitFuncMap(String client, String tempGrp, String template) throws Exception {
+		// TODO Auto-generated method stub
+		logger.info("ODataServiceImpl: Inside getFuncMap Method");
+		FieldSet result = funcMapOdata.getInitFuncMap(client, tempGrp, template);
+		return result;
+	}
+	@Override
 	public FieldSet getFuncRules(String client) throws Exception {
 		// TODO Auto-generated method stub
 		logger.info("ODataServiceImpl: Inside getFuncRules Method");
