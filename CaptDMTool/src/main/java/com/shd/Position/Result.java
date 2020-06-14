@@ -56,7 +56,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "createdDateTime",
     "createdBy",
     "lastModifiedDateTime",
-    "lastModifiedBy"    
+    "lastModifiedBy" ,
+    "effectiveEndDate"
     
 })
 public class Result {
@@ -153,8 +154,18 @@ public class Result {
     private PositionMatrixRelationship positionMatrixRelationship;
     @JsonProperty("parentPosition")
     private ParentPosition parentPosition;
+    @JsonProperty("effectiveEndDate")
+    private String effectiveEndDate;
     
-    private String createdDateTime;
+    public String getEffectiveEndDate() {
+		return effectiveEndDate;
+	}
+
+	public void setEffectiveEndDate(String effectiveEndDate) {
+		this.effectiveEndDate = effectiveEndDate;
+	}
+
+	private String createdDateTime;
     public String getCreatedDateTime() {
 		return createdDateTime;
 	}

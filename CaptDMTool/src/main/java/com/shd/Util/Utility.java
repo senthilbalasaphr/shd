@@ -34,4 +34,29 @@ public class Utility {
 		return d;
 
 	}
+	
+	public String getOdataEpochiToJavaDsh(String Epochi) {
+		
+		
+
+
+		Epochi = Epochi.substring(Epochi.indexOf("(") + 1,Epochi.indexOf(")"));
+		if (Epochi.contains("+")) {
+			Epochi = Epochi.substring(0,Epochi.indexOf("+") );
+		}
+
+		String d = null;
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			sdf.setTimeZone(TimeZone.getTimeZone("SGT"));
+			d = sdf.format(new Date(Long.parseLong(Epochi)));
+		} catch (Exception e) {
+
+		}
+		return d;
+
+	}
+
+
 }
