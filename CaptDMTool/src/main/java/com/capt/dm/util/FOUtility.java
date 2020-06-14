@@ -2415,7 +2415,7 @@ public class FOUtility {
 		}
 
 		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		String ObjectType = "01";
+		String ObjectType = "'01'";
 
 		String newValue = "";
 
@@ -2495,7 +2495,7 @@ public class FOUtility {
 		String urlx = clientSystem.get("URL");
 		String userID = clientSystem.get("USER_ID");
 		String password = clientSystem.get("PWD");
-		String ObjectType = "01";
+		String ObjectType = "'01'"; // Department
 		RestTemplate restTemplateCount = new RestTemplate();
 
 		Map<String, Object> ObjectMap = new HashMap<String, Object>();
@@ -2509,7 +2509,7 @@ public class FOUtility {
 		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
 		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-				+ "' and cust_ObjectType eq '" + ObjectType + "'&fromDate=1900-12-31&toDate=9999-12-31";
+				+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
 
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
@@ -2521,7 +2521,7 @@ public class FOUtility {
 		while (c > s) {
 
 			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_ObjectType eq '" + ObjectType + "'&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+					+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
 					+ "&$skip=" + s + "";
 
 			System.out.println(url);
@@ -2550,6 +2550,202 @@ public class FOUtility {
 
 	}
 
+//-------------------- Init Method for Job Classification ---------------------------//
+	public InitVal getInitJobClass(String client, String tempgrp, String template, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+		InitVal InitVal = new InitVal();
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+		String ObjectType = "'06'"; // Pay Grade
+		RestTemplate restTemplateCount = new RestTemplate();
+
+		Map<String, Object> ObjectMap = new HashMap<String, Object>();
+		Map<String, Map> InitMap = new HashMap<String, Map>();
+
+		int t = 1000;
+		long s = 0;
+		long x = 0;
+
+		String url = null;
+		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+//------- Key Mapping table --------------//
+
+		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+				+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		String count = restTemplateCount.getForObject(url, String.class);
+		System.out.println(count);
+
+		long c = Long.parseLong(count);
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		while (c > s) {
+
+			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+					+ "&$skip=" + s + "";
+
+			System.out.println(url);
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
+				D d1 = result.getD();
+				List<Result> res1 = d1.getResults();
+				for (Result result2 : res1) {
+
+					ObjectMap.put(result2.getExternalCode(), result2);
+
+				}
+
+				s = s + t;
+
+			}
+
+		}
+
+		InitMap.put("cust_Keymapping", ObjectMap);
+
+		InitVal.setInitVal(InitMap);
+
+		return InitVal;
+
+	}
+
+//-------------------- Init Method for Job Classification to Job Function Relationship ---------------------------//
+	public InitVal getInitJobClasstoJobFunc(String client, String tempgrp, String template, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+		InitVal InitVal = new InitVal();
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+		String ObjectType = "'02'"; // Job Classification
+		RestTemplate restTemplateCount = new RestTemplate();
+
+		Map<String, Object> ObjectMap = new HashMap<String, Object>();
+		Map<String, Map> InitMap = new HashMap<String, Map>();
+
+		int t = 1000;
+		long s = 0;
+		long x = 0;
+
+		String url = null;
+		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+		// ------- Key Mapping table --------------//
+
+		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+				+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		String count = restTemplateCount.getForObject(url, String.class);
+		System.out.println(count);
+
+		long c = Long.parseLong(count);
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		while (c > s) {
+
+			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+					+ "&$skip=" + s + "";
+
+			System.out.println(url);
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
+				D d1 = result.getD();
+				List<Result> res1 = d1.getResults();
+				for (Result result2 : res1) {
+
+					ObjectMap.put(result2.getExternalCode(), result2);
+
+				}
+
+				s = s + t;
+
+			}
+
+		}
+
+		InitMap.put("cust_Keymapping", ObjectMap);
+
+		InitVal.setInitVal(InitMap);
+
+		return InitVal;
+
+	}
+	
+//-------------------- Init Method for Position ---------------------------//
+		public InitVal getInitPos(String client, String tempgrp, String template, String company,
+				Map<String, String> clientSystem, String isTestRun) throws Exception {
+			InitVal InitVal = new InitVal();
+
+			String urlx = clientSystem.get("URL");
+			String userID = clientSystem.get("USER_ID");
+			String password = clientSystem.get("PWD");
+			String ObjectType = "'02','09','11','01','06','03'"; // JobClass,Position,Division,Dep,Pay Grade,Location
+			RestTemplate restTemplateCount = new RestTemplate();
+
+			Map<String, Object> ObjectMap = new HashMap<String, Object>();
+			Map<String, Map> InitMap = new HashMap<String, Map>();
+
+			int t = 1000;
+			long s = 0;
+			long x = 0;
+
+			String url = null;
+			restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			// ------- Key Mapping table --------------//
+
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+
+			String count = restTemplateCount.getForObject(url, String.class);
+			System.out.println(count);
+
+			long c = Long.parseLong(count);
+
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+			while (c > s) {
+
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+
+				System.out.println(url);
+				KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+				if (result != null) {
+					D d1 = result.getD();
+					List<Result> res1 = d1.getResults();
+					for (Result result2 : res1) {
+
+						ObjectMap.put(result2.getExternalCode(), result2);
+
+					}
+
+					s = s + t;
+
+				}
+
+			}
+
+			InitMap.put("cust_Keymapping", ObjectMap);
+
+			InitVal.setInitVal(InitMap);
+
+			return InitVal;
+
+		}
+
+//----------------------------------------------------- Legacy to MIRAI Methods V2 ------------------------------------------------------------//	
 // ------Get MIRAI Department from Legacy ID -------------//	
 
 	public String getDept_v2(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
@@ -2559,8 +2755,8 @@ public class FOUtility {
 		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
 
 		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		final String lid = cust_LegacyID;
-		String ObjectType = "01";
+
+		String ObjectType = "01"; // Department
 
 		String newValue = "";
 
@@ -2578,20 +2774,23 @@ public class FOUtility {
 			// ---Check if legacy id is same as the legacy id?
 			for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
 
-				if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
-					newValue = cust_Keymapping.getCustSFID();
-				}
+				if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+					if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
 
+						newValue = cust_Keymapping.getCustSFID();
+					}
+				}
 			}
 			// ---Check if legacy id is same as the SFID?
 			if (newValue.isEmpty()) {
 
 				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+						if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
+							newValue = cust_Keymapping.getCustSFID();
+						}
 
-					if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
-						newValue = cust_Keymapping.getCustSFID();
 					}
-
 				}
 
 			}
@@ -2606,4 +2805,378 @@ public class FOUtility {
 		return newValue;
 
 	}
+
+//------Get MIRAI Division from Legacy ID -------------//
+
+	public String getDiv_v2(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
+		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
+
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "11"; // Division
+
+		String newValue = "";
+
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+			cust_KeymappingMap = initVal.get("cust_Keymapping");
+
+			Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+
+			}
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+
+				if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+					if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
+
+						newValue = cust_Keymapping.getCustSFID();
+					}
+				}
+			}
+			// ---Check if legacy id is same as the SFID?
+			if (newValue.isEmpty()) {
+
+				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+						if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
+							newValue = cust_Keymapping.getCustSFID();
+						}
+
+					}
+				}
+
+			}
+		}
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Division";
+			}
+		}
+
+		return newValue;
+	}
+
+//------Get MIRAI Job Classification from Legacy ID + including FO Job Class check-------------//	
+	public String getJobClassificationID_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
+		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "02"; // Job Classification
+
+		String newValue = "";
+
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+			cust_KeymappingMap = initVal.get("cust_Keymapping");
+
+			Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+
+			}
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+
+				if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+					if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
+
+						newValue = cust_Keymapping.getCustSFID();
+					}
+				}
+			}
+			// ---Check if legacy id is same as the SFID?
+			if (newValue.isEmpty()) {
+
+				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+						if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
+							newValue = cust_Keymapping.getCustSFID();
+						}
+
+					}
+				}
+
+			}
+
+			if (newValue.isEmpty()) // Check Jobcode
+			{
+
+// Let it read for each entry as it will be very less
+				RestTemplate restTemplate2 = new RestTemplate();
+
+				String url2 = urlx + "/FOJobCode?$filter=externalCode eq '" + cust_LegacyID + "'&$select=externalCode";
+				logger.info("url:" + url2);
+				System.out.println(url2);
+
+				restTemplate2.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+				com.shd.FOJobCode.JobCode result2 = restTemplate2.getForObject(url2, com.shd.FOJobCode.JobCode.class);
+
+				if (result2 != null) {
+					com.shd.FOJobCode.D d2 = result2.getD();
+					List<com.shd.FOJobCode.Result> res2 = d2.getResults();
+					for (com.shd.FOJobCode.Result result3 : res2) {
+						newValue = result3.getExternalCode();
+
+					}
+				}
+
+			}
+
+		}
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Job Classification";
+			}
+		}
+
+		return newValue;
+	}
+
+	// ------Get MIRAI Job Classification from Legacy ID -------------//
+	public String getJobClassificationID_func(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
+		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "02"; // Job Classification
+
+		String newValue = "";
+
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+			cust_KeymappingMap = initVal.get("cust_Keymapping");
+
+			Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+
+			}
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+
+				if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+					if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
+
+						newValue = cust_Keymapping.getCustSFID();
+					}
+				}
+			}
+			// ---Check if legacy id is same as the SFID?
+			if (newValue.isEmpty()) {
+
+				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+						if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
+							newValue = cust_Keymapping.getCustSFID();
+						}
+
+					}
+				}
+
+			}
+
+		}
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Job Classification";
+			}
+		}
+
+		return newValue;
+	}
+
+//------Get MIRAI Pay Grade from Legacy ID -------------//	
+
+	public String getPaygradeID_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
+		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "06"; // Pay Grade
+
+		String newValue = "";
+
+		Metadata metaData = new Metadata();
+
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+			cust_KeymappingMap = initVal.get("cust_Keymapping");
+
+			Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+
+			}
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+
+				if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+					if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
+
+						newValue = cust_Keymapping.getCustSFID();
+					}
+				}
+			}
+			// ---Check if legacy id is same as the SFID?
+			if (newValue.isEmpty()) {
+
+				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+						if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
+							newValue = cust_Keymapping.getCustSFID();
+						}
+
+					}
+				}
+			}
+		}
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid PayGrade";
+			}
+		}
+
+		return newValue;
+	}
+
+	//------Get MIRAI Position from Legacy ID -------------//	
+	public String getJobPositionID_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		
+		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
+		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "09";
+
+		String newValue = "";
+
+		
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+			cust_KeymappingMap = initVal.get("cust_Keymapping");
+
+			Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+
+			}
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+
+				if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+					if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
+
+						newValue = cust_Keymapping.getCustSFID();
+					}
+				}
+			}
+			// ---Check if legacy id is same as the SFID?
+			if (newValue.isEmpty()) {
+
+				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+						if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
+							newValue = cust_Keymapping.getCustSFID();
+						}
+
+					}
+				}
+			}
+		}
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Position";
+			}
+		}
+
+		return newValue;
+	}
+
+	//------Get MIRAI Location from Legacy ID -------------//	
+	
+	public String getLocationID_v2(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		
+		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
+		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "03";
+
+		String newValue = "";
+
+		
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+			cust_KeymappingMap = initVal.get("cust_Keymapping");
+
+			Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+
+			}
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+
+				if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+					if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
+
+						newValue = cust_Keymapping.getCustSFID();
+					}
+				}
+			}
+			// ---Check if legacy id is same as the SFID?
+			if (newValue.isEmpty()) {
+
+				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+						if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
+							newValue = cust_Keymapping.getCustSFID();
+						}
+
+					}
+				}
+			}
+		}
+
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Location";
+			}
+		}
+
+		return newValue;
+	}
+	
 }

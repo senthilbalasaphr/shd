@@ -26,11 +26,21 @@ public class Result {
     private String externalName; 
     @JsonProperty("externalCode")
     private String externalCode; 
+    @JsonProperty("cust_ObjectType")
+    private String cust_ObjectType; 
     
 
     
 
-    public String getExternalCode() {
+    public String getCust_ObjectType() {
+		return cust_ObjectType;
+	}
+
+	public void setCust_ObjectType(String cust_ObjectType) {
+		this.cust_ObjectType = cust_ObjectType;
+	}
+
+	public String getExternalCode() {
 		return externalCode;
 	}
 
