@@ -33,6 +33,7 @@ import com.capt.dm.model.FieldSet;
 import com.capt.dm.model.MetaDataObj;
 import com.capt.dm.upsert.objects.Metadata;
 import com.capt.dm.upsert.objects.UpsertObject;
+import com.shd.Util.Utility;
 import com.shd.keymap.D;
 import com.shd.keymap.KeyMap;
 import com.shd.keymap.Result;
@@ -2340,66 +2341,6 @@ public class FOUtility {
 		return newValue;
 	}
 
-	public InitVal getInitJobHistory(String client, String tempgrp, String template, String company,
-			Map<String, String> clientSystem, String isTestRun) throws Exception {
-		InitVal InitVal = new InitVal();
-
-		String urlx = clientSystem.get("URL");
-		String userID = clientSystem.get("USER_ID");
-		String password = clientSystem.get("PWD");
-		RestTemplate restTemplateCount = new RestTemplate();
-
-		Map<String, Object> ObjectMap = new HashMap<String, Object>();
-		Map<String, Map> InitMap = new HashMap<String, Map>();
-
-		int t = 1000;
-		long s = 0;
-		long x = 0;
-
-		String url = null;
-		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
-
-		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-				+ "'&fromDate=1900-12-31&toDate=9999-12-31";
-
-		String count = restTemplateCount.getForObject(url, String.class);
-		System.out.println(count);
-
-		long c = Long.parseLong(count);
-
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
-		while (c > s) {
-
-			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "'&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
-
-			System.out.println(url);
-			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
-
-			if (result != null) {
-				D d1 = result.getD();
-				List<Result> res1 = d1.getResults();
-				for (Result result2 : res1) {
-
-					ObjectMap.put(result2.getExternalCode(), result2);
-
-				}
-
-				s = s + t;
-
-			}
-
-		}
-
-		InitMap.put("cust_Keymapping", ObjectMap);
-
-		InitVal.setInitVal(InitMap);
-
-		return InitVal;
-
-	}
-
 //-------------------- Version 2 ----------------------------//
 
 	public String getLegacyDept_v2(List<MetaDataObj> rowData, int index, String company,
@@ -2571,7 +2512,7 @@ public class FOUtility {
 		String url = null;
 		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-//------- Key Mapping table --------------//
+//--- Key Mapping table ---//
 
 		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
 				+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
@@ -2738,12 +2679,137 @@ public class FOUtility {
 			}
 
 			InitMap.put("cust_Keymapping", ObjectMap);
+			
+			
 
 			InitVal.setInitVal(InitMap);
 
 			return InitVal;
 
 		}
+		
+//-------------------- Init Method for Job History ---------------------------//
+				public InitVal getInitJobHistory(String client, String tempgrp, String template, String company,
+						Map<String, String> clientSystem, String isTestRun) throws Exception {
+					
+					
+					
+					InitVal InitVal = new InitVal();
+
+					String urlx = clientSystem.get("URL");
+					String userID = clientSystem.get("USER_ID");
+					String password = clientSystem.get("PWD");
+					String ObjectType = "'02','09','11','01','06','03'"; // JobClass,Position,Division,Dep,Pay Grade,Location
+					RestTemplate restTemplateCount = new RestTemplate();
+
+					Map<String, Object> ObjectMap = new HashMap<String, Object>();
+					Map<String, Map> InitMap = new HashMap<String, Map>();
+
+					int t = 1000;
+					long s = 0;
+					long x = 0;
+
+					String url = null;
+					restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+					// ------- Key Mapping table --------------//
+
+					url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+							+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+
+					String count = restTemplateCount.getForObject(url, String.class);
+					System.out.println(count);
+
+					long c = Long.parseLong(count);
+
+					RestTemplate restTemplate = new RestTemplate();
+					restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+					while (c > s) {
+
+						url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+								+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+								+ "&$skip=" + s + "";
+
+						System.out.println(url);
+						KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+						if (result != null) {
+							D d1 = result.getD();
+							List<Result> res1 = d1.getResults();
+							for (Result result2 : res1) {
+
+								ObjectMap.put(result2.getExternalCode(), result2);
+
+							}
+
+							s = s + t;
+
+						}
+
+					}
+
+					InitMap.put("cust_Keymapping", ObjectMap);
+					
+					
+					//------- Position table -------//
+
+					Map<String, Object> PosObjectMap = new HashMap<String, Object>();
+					String LE=null;
+
+							if  (company.equalsIgnoreCase("02")) {
+								
+								LE="'A0500','A9999','A0700'";
+								
+							}
+					
+					url = urlx + "/Position/$count?" + "$format=JSON&" + "$filter=company+in+" + LE
+							+ "&fromDate=1900-12-31&toDate=9999-12-31";
+					
+				
+					RestTemplate restTemplateCountPos = new RestTemplate();
+					restTemplateCountPos.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+					
+					count="";
+					count = restTemplateCountPos.getForObject(url, String.class);
+					System.out.println(count);
+					
+					c = Long.parseLong(count);
+					RestTemplate restTemplatePos = new RestTemplate();
+					restTemplatePos.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+					s=0;
+					while (c > s) {
+
+						url = urlx + "/Position?" + "$format=JSON&" + "$filter=company+in+" + LE
+								+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+								+ "&$skip=" + s + "&$select= code,effectiveEndDate,externalName_defaultValue,externalName_localized,effectiveStatus,effectiveStartDate,type,cust_keyPosition,criticality,description,cust_JobFamily,cust_jobFunction,jobCode,jobLevel,employeeClass,payGrade,cust_PayGradeLevel,payRange,targetFTE,vacant, company,division,cust_deptLevel1,cust_deptLevel2,cust_deptLevel3,cust_deptLevel4,cust_deptLevel5,department,location,costCenter,"+ 
+										"cust_ProfitCenter,cust_line,cust_BrandsGroup,multipleIncumbentsAllowed,positionControlled,standardHours,changeReason,cust_BusinessCategory,cust_EmployeePayType,cust_Budgeted_Salary,cust_ParentDivision,cust_LegacyPositionID,cust_Bonus_STIP,cust_Region,";
+
+						System.out.println(url);
+						com.shd.Position.Position resultPos = restTemplatePos.getForObject(url, com.shd.Position.Position.class);
+
+						if (resultPos != null) {
+							com.shd.Position.D dpos = resultPos.getD();
+							List<com.shd.Position.Result> resPos = dpos.getResults();
+							for (com.shd.Position.Result result2 : resPos) {
+
+								PosObjectMap.put(result2.getCode(), result2);
+
+							}
+
+							s = s + t;
+
+						}
+
+					}
+					
+					
+					InitMap.put("Position", PosObjectMap);
+					
+					InitVal.setInitVal(InitMap);
+
+					return InitVal;
+
+				}
 
 //----------------------------------------------------- Legacy to MIRAI Methods V2 ------------------------------------------------------------//	
 // ------Get MIRAI Department from Legacy ID -------------//	
@@ -3179,4 +3245,526 @@ public class FOUtility {
 		return newValue;
 	}
 	
+
+	
+	
+//----------------------------------------------------- Validation to MIRAI Methods V2 ------------------------------------------------------------//		
+//------Get MIRAI Location from Legacy ID -------------//	
+	
+	
+	public String ValidateJHPos_v2(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+			String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		Utility ut = new Utility();
+		String position = ((MetaDataObj) rowData.get(index)).getFieldValue();
+
+		if (!(position == null)) // Already has errors
+		{
+			int index1 = position.indexOf("<--");
+			if (index1 != -1) {
+				return position;
+			}
+		}
+
+		String startDate = null;
+		String StartDatePrint = null;
+
+		//Read effective date in job history
+		for (MetaDataObj metaDataObj : rowData) {
+
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint = startDate;
+				startDate = startDate.substring(6, 10) + "-" + startDate.substring(3, 5) + "-"
+						+ startDate.substring(0, 2);
+
+			}
+
+		}
+
+		
+		Map<String, Object> PositionMap = new HashMap<String, Object>();
+		List<com.shd.Position.Result> PositionLst = new ArrayList();
+		
+		
+		String ValidValue = "";
+
+
+		if (null != position && !position.isEmpty()) {
+
+			
+			
+			PositionMap = initVal.get("Position");
+
+			Iterator<Map.Entry<String, Object>> itr = PositionMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				PositionLst.add((com.shd.Position.Result) entry.getValue());
+
+			}
+			
+			
+			Date begda=null;
+			Date endda=null;
+			Date posstartdate=null;
+			
+			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+
+			
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.Position.Result Position : PositionLst) {
+
+				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
+				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
+				
+				if (Position.getCode().equalsIgnoreCase(position)) {
+					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+
+						ValidValue = Position.getCode();
+					}
+				}
+			}
+			
+			
+			
+//			RestTemplate restTemplate = new RestTemplate();
+//
+//			String url = urlx + "/Position?$filter=code eq '" + position + "'&$fromDate=" + startDate + "&toDate="
+//					+ startDate + "&$select=code";
+//			logger.info("url:" + url);
+//			System.out.println(url);
+//
+//			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+//
+//			com.shd.Position.Position Position = restTemplate.getForObject(url, com.shd.Position.Position.class);
+//
+//			if (Position != null) {
+//				com.shd.Position.D d = Position.getD();
+//				List<com.shd.Position.Result> res = d.getResults();
+//				for (com.shd.Position.Result result1 : res) {
+//					ValidValue = result1.getCode();
+//
+//				}
+//			}
+
+			
+			
+			if (!ValidValue.isEmpty()) {
+				if (!(ValidValue.equalsIgnoreCase(position))) {
+
+					position = position + "<-- Not valid Position :" + position + " effective " + StartDatePrint;
+				} else {
+
+				}
+
+			} else {
+
+				position = position + "<-- Not a Valid for Position  :" + position + " effective " + StartDatePrint;
+			}
+
+		}
+		return position;
+	}
+	
+	public String ValidateJHDepLevel1_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		
+		Utility ut = new Utility();
+		String DepLevel1 = ((MetaDataObj) rowData.get(index)).getFieldValue();
+
+		if (!(DepLevel1 == null)) // Already has errors
+		{
+			int index1 = DepLevel1.indexOf("<--");
+			if (index1 != -1) {
+				return DepLevel1;
+			}
+		}
+
+		String position = null;
+		String startDate = null;
+		String StartDatePrint = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "position".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				position = metaDataObj.getFieldValue();
+			}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint = startDate;
+				startDate = startDate.substring(6, 10) + "-" + startDate.substring(3, 5) + "-"
+						+ startDate.substring(0, 2);
+
+			}
+
+		}
+
+		if (!(position == null)) // Already has errors
+		{
+			int index1 = position.indexOf("<--");
+			if (index1 != -1) {
+				return DepLevel1;
+			}
+		}
+
+		String ValidValue = "";
+		
+		
+		Map<String, Object> PositionMap = new HashMap<String, Object>();
+		List<com.shd.Position.Result> PositionLst = new ArrayList();
+		
+		
+		Metadata metaData = new Metadata();
+
+		if (null != DepLevel1 && !DepLevel1.isEmpty()) {
+
+			PositionMap = initVal.get("Position");
+
+			Iterator<Map.Entry<String, Object>> itr = PositionMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				PositionLst.add((com.shd.Position.Result) entry.getValue());
+
+			}
+			
+			
+			Date begda=null;
+			Date endda=null;
+			Date posstartdate=null;
+			
+			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+
+			
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.Position.Result Position : PositionLst) {
+
+				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
+				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
+				
+				if (Position.getCode().equalsIgnoreCase(position)) {
+					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+
+						ValidValue = Position.getCustDeptLevel1();
+					}
+				}
+			}
+
+			if (!ValidValue.isEmpty()) {
+				if (!(ValidValue.equalsIgnoreCase(DepLevel1))) {
+
+					DepLevel1 = DepLevel1 + "<-- Not same as in Position :" + position + " effective " + StartDatePrint
+							+ " Valid Value: " + ValidValue;
+				} else {
+
+				}
+
+			} else {
+
+				DepLevel1 = DepLevel1 + "<-- Not a Valid for Position  :" + position + " effective " + StartDatePrint;
+			}
+
+		}
+		return DepLevel1;
+	}
+	
+	public String ValidateJHJobFamily_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		
+		Utility ut = new Utility();
+		String JobFamily = ((MetaDataObj) rowData.get(index)).getFieldValue();
+
+		if (!(JobFamily == null)) // Already has errors
+		{
+			int index1 = JobFamily.indexOf("<--");
+			if (index1 != -1) {
+				return JobFamily;
+			}
+		}
+
+		String position = null;
+		String startDate = null;
+		String StartDatePrint = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "position".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				position = metaDataObj.getFieldValue();
+			}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint = startDate;
+				startDate = startDate.substring(6, 10) + "-" + startDate.substring(3, 5) + "-"
+						+ startDate.substring(0, 2);
+			}
+
+		}
+
+		if (!(position == null)) // Already has errors
+		{
+			int index1 = position.indexOf("<--");
+			if (index1 != -1) {
+				return JobFamily;
+			}
+		}
+
+		String ValidValue = "";
+
+		Map<String, Object> PositionMap = new HashMap<String, Object>();
+		List<com.shd.Position.Result> PositionLst = new ArrayList();
+		
+		Metadata metaData = new Metadata();
+
+		if (null != JobFamily && !JobFamily.isEmpty()) {
+
+			PositionMap = initVal.get("Position");
+
+			Iterator<Map.Entry<String, Object>> itr = PositionMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				PositionLst.add((com.shd.Position.Result) entry.getValue());
+
+			}
+			
+			
+			Date begda=null;
+			Date endda=null;
+			Date posstartdate=null;
+			
+			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+
+			
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.Position.Result Position : PositionLst) {
+
+				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
+				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
+				
+				if (Position.getCode().equalsIgnoreCase(position)) {
+					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+
+						ValidValue = Position.getCustJobFamily();
+					}
+				}
+			}
+
+			if (!ValidValue.isEmpty()) {
+				if (!(ValidValue.equalsIgnoreCase(JobFamily))) {
+
+					JobFamily = JobFamily + "<-- Not same as in Position :" + position + "effective " + StartDatePrint
+							+ " Valid Value: " + ValidValue;
+				} else {
+
+				}
+
+			} else {
+				JobFamily = JobFamily + "<-- Not same for Position :" + position + "effective " + StartDatePrint;
+			}
+
+		}
+		return JobFamily;
+	}
+	
+	public String ValidateJHJobFunction_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		Utility ut = new Utility();
+		String JobFunction = ((MetaDataObj) rowData.get(index)).getFieldValue();
+
+		if (!(JobFunction == null)) // Already has errors
+		{
+			int index1 = JobFunction.indexOf("<--");
+			if (index1 != -1) {
+				return JobFunction;
+			}
+		}
+
+		String position = null;
+		String startDate = null;
+		String StartDatePrint = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "position".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				position = metaDataObj.getFieldValue();
+			}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint = startDate;
+				startDate = startDate.substring(6, 10) + "-" + startDate.substring(3, 5) + "-"
+						+ startDate.substring(0, 2);
+			}
+
+		}
+
+		if (!(position == null)) // Already has errors
+		{
+			int index1 = position.indexOf("<--");
+			if (index1 != -1) {
+				return JobFunction;
+			}
+		}
+
+		String ValidValue = "";
+		
+		Map<String, Object> PositionMap = new HashMap<String, Object>();
+		List<com.shd.Position.Result> PositionLst = new ArrayList();
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+
+		if (null != JobFunction && !JobFunction.isEmpty()) {
+
+			PositionMap = initVal.get("Position");
+
+			Iterator<Map.Entry<String, Object>> itr = PositionMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				PositionLst.add((com.shd.Position.Result) entry.getValue());
+
+			}
+			
+			
+			Date begda=null;
+			Date endda=null;
+			Date posstartdate=null;
+			
+			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+
+			
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.Position.Result Position : PositionLst) {
+
+				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
+				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
+				
+				if (Position.getCode().equalsIgnoreCase(position)) {
+					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+
+						ValidValue = Position.getCustJobFunction();
+					}
+				}
+			}
+
+			if (!ValidValue.isEmpty()) {
+				if (!(ValidValue.equalsIgnoreCase(JobFunction))) {
+
+					JobFunction = JobFunction + "<-- Not same as in Position :" + position + " effective "
+							+ StartDatePrint + " Valid Value: " + ValidValue;
+				} else {
+
+				}
+
+			} else {
+				JobFunction = JobFunction + "<-- Not a Valid for Position :" + position + " effective "
+						+ StartDatePrint;
+			}
+
+		}
+		return JobFunction;
+	}
+	
+	public String ValidateJHJobClass_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		
+		Utility ut = new Utility();
+		String JobCode = ((MetaDataObj) rowData.get(index)).getFieldValue();
+
+		if (!(JobCode == null)) // Already has errors
+		{
+			int index1 = JobCode.indexOf("<--");
+			if (index1 != -1) {
+				return JobCode;
+			}
+		}
+
+		String position = null;
+		String startDate = null;
+		String StartDatePrint = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
+			if (null != metaDataObj.getFieldName() && "position".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				position = metaDataObj.getFieldValue();
+			}
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				startDate = metaDataObj.getFieldValue();
+				StartDatePrint = startDate;
+				startDate = startDate.substring(6, 10) + "-" + startDate.substring(3, 5) + "-"
+						+ startDate.substring(0, 2);
+			}
+
+		}
+
+		if (!(position == null)) // Already has errors
+		{
+			int index1 = position.indexOf("<--");
+			if (index1 != -1) {
+				return JobCode;
+			}
+		}
+
+		String ValidJobCode = "";
+		
+		Map<String, Object> PositionMap = new HashMap<String, Object>();
+		List<com.shd.Position.Result> PositionLst = new ArrayList();
+
+	
+		Metadata metaData = new Metadata();
+
+		if (null != JobCode && !JobCode.isEmpty()) {
+
+			PositionMap = initVal.get("Position");
+
+			Iterator<Map.Entry<String, Object>> itr = PositionMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				PositionLst.add((com.shd.Position.Result) entry.getValue());
+
+			}
+			
+			
+			Date begda=null;
+			Date endda=null;
+			Date posstartdate=null;
+			
+			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+
+			
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.Position.Result Position : PositionLst) {
+
+				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
+				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
+				
+				if (Position.getCode().equalsIgnoreCase(position)) {
+					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+
+						ValidJobCode = Position.getJobCode();
+					}
+				}
+			}
+			
+			if (!ValidJobCode.isEmpty()) {
+				if (!(ValidJobCode.equalsIgnoreCase(JobCode))) {
+
+					JobCode = JobCode + "<-- Not same as in Position :" + position + "effective " + StartDatePrint
+							+ " Valid Value: " + ValidJobCode;
+				} else {
+
+				}
+
+			} else {
+				JobCode = JobCode + "<-- Not same for Position :" + position + "effective " + StartDatePrint;
+			}
+
+		}
+		return JobCode;
+	}
 }
