@@ -33,6 +33,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.support.BasicAuthorizationInterceptor;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 import com.capt.dm.binding.objects.BindingObject;
@@ -72,12 +74,14 @@ public class CreateExcelView extends AbstractXlsxView {
 			String tempGrp = (String) model.get("tempGrp");
 
 //			XSSFWorkbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet("Department_Odata");
+			Sheet sheet = workbook.createSheet(template);
+			Sheet sheetError = workbook.createSheet(template+"_Error");
 
 			String fieldValue = "";
 			String fieldType = "";
 
 			int rowNum = 0;
+			int rowNum_error = 0;
 			logger.info("Creating excel");
 
 			String isTestRun = (String) model.get("isTestRun");
@@ -96,11 +100,7 @@ public class CreateExcelView extends AbstractXlsxView {
 
 			}
 
-///// Map (<String>,<ArrayList>)
-//			Map<String,Map> initVal = null;
-//			FileUploadController fuc = new FileUploadController();
-//			fuc.getInitFuncMap( client,  tempGrp,  template);
-//			Map<String,Map> initVal = getInitFunc(funcRules, client,tempGrp,template, company, clientSystem, isTestRun);
+
 
 //-------------------------------Init Method	
 
@@ -138,8 +138,19 @@ public class CreateExcelView extends AbstractXlsxView {
 					}
 				}
 			}
+//-------------------------------Read Fieldset - For required field check	
+			
+
+			Map<String,String> m1 = new HashMap<String, String>();
+			m1 = getFieldSet( client, tempGrp,  template);
+			String header=null;
 
 //-------------------------------Excel Row Iterate			
+			
+			
+			
+			
+		
 
 			for (List<MetaDataObj> rowData : excelData) {
 
@@ -156,7 +167,9 @@ public class CreateExcelView extends AbstractXlsxView {
 						logger.info("headerCol:" + headerCol);
 						String typeCol = excelData.get(1).get(colIndex).getFieldValue();
 						String valueMapping = fieldMap.get(headerCol).getValueMapping();
+						
 						String colValue = columnData.getFieldValue();
+						header=headerCol;
 						/*
 						 * logger.info("CreateExcelView: writeExcel: client:" + client);
 						 * logger.info("CreateExcelView: writeExcel: valueMapping:" + valueMapping);
@@ -235,6 +248,18 @@ public class CreateExcelView extends AbstractXlsxView {
 					// Senthil
 					// **** Set the error values to red color
 
+					
+					
+					if (fieldValue==null || fieldValue.isEmpty()) {
+						
+						String req = m1.get(header);
+						if (!(req==null)) {
+						if (req.equalsIgnoreCase("Y")) {
+							fieldValue = "<-- required field missing";
+						}}
+						
+					}
+					
 					if (!(fieldValue == null)) {
 						int index = fieldValue.indexOf("<--");
 						logger.info("fieldValue:" + fieldValue);
@@ -260,6 +285,31 @@ public class CreateExcelView extends AbstractXlsxView {
 
 				}
 			}
+			
+//			for (List<MetaDataObj> rowData : excelData) {
+//				Row row1 = sheet.createRow(rowNum_error++);
+//				if (rowNum_error < 7) {
+//					
+//				int colNum = 0;
+//				for (MetaDataObj columnData : rowData) {
+//					int colIndex = colNum++;
+//					Cell cell = row1.createCell(colIndex, CellType.BLANK);
+//					if (rowNum <= valueIndex - 1) {
+//						fieldValue = columnData.getFieldValue();
+//						fieldType = columnData.getFieldType();
+//					} else {
+//						String headerCol = excelData.get(headerIndex - 1).get(colIndex).getFieldValue();
+//									
+//						cell.setCellValue(headerCol);
+//						
+//			}
+//					
+//				}
+//				}
+//				}
+			
+			
+			
 
 			logger.info("Session Value::::" + session.getAttribute("data").toString());
 		} catch (Exception e) {
@@ -349,4 +399,32 @@ public class CreateExcelView extends AbstractXlsxView {
 //
 //	}
 
+	public Map<String,String> getFieldSet(String Client,String TEMPLATEGRP, String TEMPLATE) {
+		
+		Map<String,String> m1 = new HashMap<String, String>();
+
+		
+		String url = "https://bs1e3cc05196.eu2.hana.ondemand.com/sap/SHDdev/services.xsodata/FIELDSET?$filter=Client+eq+'"+Client+"' and TEMPLATEGRP+eq+'"+TEMPLATEGRP+"' and TEMPLATE+eq+'"+TEMPLATE+"'&$select=FIELD_NAME,FIELD_REQUIRED";
+		
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("DM_APP_USER", "Welcome123456789$X$$"));
+		
+		com.shd.FieldMap.FieldMap result = restTemplate.getForObject(url, com.shd.FieldMap.FieldMap.class);
+
+		if (result != null) {
+			com.shd.FieldMap.D d = result.getD();
+			List<com.shd.FieldMap.Result> res = d.getResults();
+			for (com.shd.FieldMap.Result result2 : res) {
+
+				m1.put(result2.getFIELDNAME(), result2.getFIELDREQUIRED());
+
+			}
+		}
+		
+		return m1;
+	
+	}
+	
+	
+	
 }

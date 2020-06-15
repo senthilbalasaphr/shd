@@ -106,8 +106,12 @@ public class FOUtility {
 
 		String epochDate = getEpoch(effectiveStartDate);
 
-		String externalCode = getRandomString(6);
-		String externalName = getRandomString(6);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+		String excode = calendar.getTimeInMillis()+getRandomString(6);
+		String externalCode = excode;
+		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
@@ -199,8 +203,13 @@ public class FOUtility {
 		String epochDate = getEpoch(effectiveStartDate);
 
 //		logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-		String externalCode = getRandomString(6);
-		String externalName = getRandomString(6);
+		
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+		String excode = calendar.getTimeInMillis()+getRandomString(6);
+		String externalCode = excode;
+		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
@@ -297,8 +306,12 @@ public class FOUtility {
 		String epochDate = getEpoch(effectiveStartDate);
 
 //		logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-		String externalCode = getRandomString(6);
-		String externalName = getRandomString(6);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+		String excode = calendar.getTimeInMillis()+getRandomString(6);
+		
+		String externalCode = excode;
+		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
@@ -395,8 +408,12 @@ public class FOUtility {
 		String epochDate = getEpoch(effectiveStartDate);
 
 //			logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-		String externalCode = getRandomString(6);
-		String externalName = getRandomString(6);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+		String excode = calendar.getTimeInMillis()+getRandomString(6);
+		
+		String externalCode = excode;
+		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
@@ -494,8 +511,12 @@ public class FOUtility {
 		String epochDate = getEpoch(effectiveStartDate);
 
 //				logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-		String externalCode = getRandomString(6);
-		String externalName = getRandomString(6);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+		String excode = calendar.getTimeInMillis()+getRandomString(6);
+		
+		String externalCode = excode;
+		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
@@ -591,8 +612,13 @@ public class FOUtility {
 		String epochDate = getEpoch(effectiveStartDate);
 
 //			logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-		String externalCode = getRandomString(6);
-		String externalName = getRandomString(6);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+		String excode = calendar.getTimeInMillis()+getRandomString(6);
+		
+		String externalCode = excode;
+		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
@@ -3562,6 +3588,20 @@ public class FOUtility {
 			} else {
 				JobFamily = JobFamily + "<-- Not same for Position :" + position + "effective " + StartDatePrint;
 			}
+			
+			if (!(JobFamily == null)) 
+			{
+				int index1 = JobFamily.indexOf("<--");
+				if (index1 == -1) {
+					if ((JobFamily.equalsIgnoreCase("NONE")) || (JobFamily.equalsIgnoreCase("Not Used"))){
+						
+						JobFamily = JobFamily + "<-- Do not use NONE or Not used";
+						
+					}
+				}
+			}
+			
+			
 
 		}
 		return JobFamily;
@@ -3664,6 +3704,22 @@ public class FOUtility {
 				JobFunction = JobFunction + "<-- Not a Valid for Position :" + position + " effective "
 						+ StartDatePrint;
 			}
+			
+			if (!(JobFunction == null)) 
+			{
+				int index1 = JobFunction.indexOf("<--");
+				if (index1 == -1) {
+					if ((JobFunction.equalsIgnoreCase("NONE")) || (JobFunction.equalsIgnoreCase("Not Used"))){
+						
+						JobFunction = JobFunction + "<-- Do not use NONE or Not used";
+						
+					}
+				}
+			}
+			
+			
+			
+			
 
 		}
 		return JobFunction;
