@@ -2787,6 +2787,10 @@ public class FOUtility {
 								LE="'A0500','A9999','A0700'";
 								
 							}
+							else
+							{
+								LE=company;
+							}
 					
 					url = urlx + "/Position/$count?" + "$format=JSON&" + "$filter=company+in+" + LE
 							+ "&fromDate=1900-12-31&toDate=9999-12-31";

@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "cust_SFID",
     "cust_LegacyID",
     "externalName",
-    "externalCode"
+    "externalCode",
+    "cust_sim"
     
 })
 public class Result {
@@ -28,11 +29,22 @@ public class Result {
     private String externalCode; 
     @JsonProperty("cust_ObjectType")
     private String cust_ObjectType; 
+    @JsonProperty("cust_sim")
+    private String cust_sim; 
+    
     
 
     
 
-    public String getCust_ObjectType() {
+    public String getCust_sim() {
+		return cust_sim;
+	}
+
+	public void setCust_sim(String cust_sim) {
+		this.cust_sim = cust_sim;
+	}
+
+	public String getCust_ObjectType() {
 		return cust_ObjectType;
 	}
 
