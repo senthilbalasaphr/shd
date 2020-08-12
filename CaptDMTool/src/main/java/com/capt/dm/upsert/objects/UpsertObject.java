@@ -14,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "externalName",
     "cust_Company",
     "cust_SFID",
-    "cust_ObjectType"
+    "cust_ObjectType",
+    "cust_sim"
 })
 public class UpsertObject {
 
@@ -34,8 +35,18 @@ public class UpsertObject {
     private String custSFID;
     @JsonProperty("cust_ObjectType")
     private String custObjectType;
+    @JsonProperty("cust_sim")
+    private String cust_sim;
 
-    @JsonProperty("__metadata")
+    public String getCust_sim() {
+		return cust_sim;
+	}
+
+	public void setCust_sim(String cust_sim) {
+		this.cust_sim = cust_sim;
+	}
+
+	@JsonProperty("__metadata")
     public Metadata getMetadata() {
         return metadata;
     }

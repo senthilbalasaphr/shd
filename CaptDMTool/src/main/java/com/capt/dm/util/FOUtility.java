@@ -106,16 +106,15 @@ public class FOUtility {
 
 		String epochDate = getEpoch(effectiveStartDate);
 
-		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-		String excode = calendar.getTimeInMillis()+getRandomString(6);
+		String excode = calendar.getTimeInMillis() + getRandomString(6);
 		String externalCode = excode;
 		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
-		if (isTestRun.equalsIgnoreCase("No")) {
+		if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 
 			String url = clientSystem.get("URL");
 			String userID = clientSystem.get("USER_ID");
@@ -134,7 +133,18 @@ public class FOUtility {
 			upsertObject.setExternalName(externalName);
 			upsertObject.setCustCompany(company);
 			upsertObject.setCustSFID("");
+			
 			upsertObject.setCustObjectType("01");
+
+			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				upsertObject.setCust_sim("Y");
+
+
+			} else {
+				upsertObject.setCust_sim("N");
+
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -203,17 +213,16 @@ public class FOUtility {
 		String epochDate = getEpoch(effectiveStartDate);
 
 //		logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-		
-		
+
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-		String excode = calendar.getTimeInMillis()+getRandomString(6);
+		String excode = calendar.getTimeInMillis() + getRandomString(6);
 		String externalCode = excode;
 		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
-		if (isTestRun.equalsIgnoreCase("No")) {
+		if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 //		String url = "https://api12preview.sapsf.eu/odata/v2/";
 //		String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
 			String url = clientSystem.get("URL");
@@ -234,6 +243,14 @@ public class FOUtility {
 			upsertObject.setCustCompany(company);
 			upsertObject.setCustSFID("");
 			upsertObject.setCustObjectType("02");
+
+			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				upsertObject.setCust_sim("Y");
+
+			} else {
+				upsertObject.setCust_sim("N");
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -308,14 +325,14 @@ public class FOUtility {
 //		logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-		String excode = calendar.getTimeInMillis()+getRandomString(6);
-		
+		String excode = calendar.getTimeInMillis() + getRandomString(6);
+
 		String externalCode = excode;
 		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
-		if (isTestRun.equalsIgnoreCase("No")) {
+		if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 //		String url = "https://api12preview.sapsf.eu/odata/v2/";
 //		String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
 			String url = clientSystem.get("URL");
@@ -336,6 +353,14 @@ public class FOUtility {
 			upsertObject.setCustCompany(company);
 			upsertObject.setCustSFID("");
 			upsertObject.setCustObjectType("09");
+
+			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				upsertObject.setCust_sim("Y");
+
+			} else {
+				upsertObject.setCust_sim("N");
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -410,14 +435,14 @@ public class FOUtility {
 //			logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-		String excode = calendar.getTimeInMillis()+getRandomString(6);
-		
+		String excode = calendar.getTimeInMillis() + getRandomString(6);
+
 		String externalCode = excode;
 		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
-		if (isTestRun.equalsIgnoreCase("No")) {
+		if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 //			String url = "https://api12preview.sapsf.eu/odata/v2/";
 //			String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
 			String url = clientSystem.get("URL");
@@ -438,6 +463,14 @@ public class FOUtility {
 			upsertObject.setCustCompany(company);
 			upsertObject.setCustSFID("");
 			upsertObject.setCustObjectType("06");
+
+			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				upsertObject.setCust_sim("Y");
+
+			} else {
+				upsertObject.setCust_sim("N");
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -513,14 +546,14 @@ public class FOUtility {
 //				logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-		String excode = calendar.getTimeInMillis()+getRandomString(6);
-		
+		String excode = calendar.getTimeInMillis() + getRandomString(6);
+
 		String externalCode = excode;
 		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
-		if (isTestRun.equalsIgnoreCase("No")) {
+		if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 //				String url = "https://api12preview.sapsf.eu/odata/v2/";
 //				String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
 			String url = clientSystem.get("URL");
@@ -541,6 +574,14 @@ public class FOUtility {
 			upsertObject.setCustCompany(company);
 			upsertObject.setCustSFID("");
 			upsertObject.setCustObjectType("08");
+
+			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				upsertObject.setCust_sim("Y");
+
+			} else {
+				upsertObject.setCust_sim("N");
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -612,17 +653,17 @@ public class FOUtility {
 		String epochDate = getEpoch(effectiveStartDate);
 
 //			logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
-		
+
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-		String excode = calendar.getTimeInMillis()+getRandomString(6);
-		
+		String excode = calendar.getTimeInMillis() + getRandomString(6);
+
 		String externalCode = excode;
 		String externalName = excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
 
-		if (isTestRun.equalsIgnoreCase("No")) {
+		if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 //			String url = "https://api12preview.sapsf.eu/odata/v2/";
 //			String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
 			String url = clientSystem.get("URL");
@@ -643,6 +684,14 @@ public class FOUtility {
 			upsertObject.setCustCompany(company);
 			upsertObject.setCustSFID("");
 			upsertObject.setCustObjectType("03");
+
+			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				upsertObject.setCust_sim("Y");
+
+			} else {
+				upsertObject.setCust_sim("N");
+			}
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -2462,7 +2511,7 @@ public class FOUtility {
 		String urlx = clientSystem.get("URL");
 		String userID = clientSystem.get("USER_ID");
 		String password = clientSystem.get("PWD");
-		String ObjectType = "'01'"; // Department
+		String ObjectType = "'01','11'"; // Department,Division
 		RestTemplate restTemplateCount = new RestTemplate();
 
 		Map<String, Object> ObjectMap = new HashMap<String, Object>();
@@ -2475,8 +2524,19 @@ public class FOUtility {
 		String url = null;
 		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-				+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		}
+		else {
+			
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+		}
 
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
@@ -2487,10 +2547,18 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+				
+			}else {
 			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
 					+ "&$skip=" + s + "";
 
+			}
+			
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
@@ -2540,9 +2608,17 @@ public class FOUtility {
 
 //--- Key Mapping table ---//
 
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+			
+		}else
+		{
 		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-				+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+				+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
 
+		}
+		
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
 
@@ -2552,9 +2628,19 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+				
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+				
+			}else {
+				
+			
 			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
 					+ "&$skip=" + s + "";
+			}
 
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
@@ -2604,9 +2690,15 @@ public class FOUtility {
 		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
 		// ------- Key Mapping table --------------//
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+			
+		}else {
 
 		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-				+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+				+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+		}
 
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
@@ -2617,9 +2709,18 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
-			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-					+ "&$skip=" + s + "";
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+				
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+				
+			}else {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+			}
+			
 
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
@@ -2646,201 +2747,428 @@ public class FOUtility {
 		return InitVal;
 
 	}
-	
+
 //-------------------- Init Method for Position ---------------------------//
-		public InitVal getInitPos(String client, String tempgrp, String template, String company,
-				Map<String, String> clientSystem, String isTestRun) throws Exception {
-			InitVal InitVal = new InitVal();
+	public InitVal getInitPos(String client, String tempgrp, String template, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+		InitVal InitVal = new InitVal();
 
-			String urlx = clientSystem.get("URL");
-			String userID = clientSystem.get("USER_ID");
-			String password = clientSystem.get("PWD");
-			String ObjectType = "'02','09','11','01','06','03'"; // JobClass,Position,Division,Dep,Pay Grade,Location
-			RestTemplate restTemplateCount = new RestTemplate();
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+		String ObjectType = "'02','09','11','01','06','03','08'"; // JobClass,Position,Division,Dep,Pay Grade,Location,Pay Range
+		RestTemplate restTemplateCount = new RestTemplate();
 
-			Map<String, Object> ObjectMap = new HashMap<String, Object>();
-			Map<String, Map> InitMap = new HashMap<String, Map>();
+		Map<String, Object> ObjectMap = new HashMap<String, Object>();
+		Map<String, Map> InitMap = new HashMap<String, Map>();
 
-			int t = 1000;
-			long s = 0;
-			long x = 0;
+		int t = 1000;
+		long s = 0;
+		long x = 0;
 
-			String url = null;
-			restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		String url = null;
+		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
-			// ------- Key Mapping table --------------//
+		// ------- Key Mapping table --------------//
 
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+			
+		}else {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+			
+		}
+		
 
-			String count = restTemplateCount.getForObject(url, String.class);
-			System.out.println(count);
+		String count = restTemplateCount.getForObject(url, String.class);
+		System.out.println(count);
 
-			long c = Long.parseLong(count);
+		long c = Long.parseLong(count);
 
-			RestTemplate restTemplate = new RestTemplate();
-			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
-			while (c > s) {
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		while (c > s) {
 
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
 						+ "&$skip=" + s + "";
+			}else {url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+					+ "&$skip=" + s + "";
+				
+			}
+			
 
-				System.out.println(url);
-				KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+			System.out.println(url);
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
-				if (result != null) {
-					D d1 = result.getD();
-					List<Result> res1 = d1.getResults();
-					for (Result result2 : res1) {
+			if (result != null) {
+				D d1 = result.getD();
+				List<Result> res1 = d1.getResults();
+				for (Result result2 : res1) {
 
-						ObjectMap.put(result2.getExternalCode(), result2);
-
-					}
-
-					s = s + t;
+					ObjectMap.put(result2.getExternalCode(), result2);
 
 				}
+
+				s = s + t;
 
 			}
 
-			InitMap.put("cust_Keymapping", ObjectMap);
+		}
+
+		InitMap.put("cust_Keymapping", ObjectMap);
+
+		InitVal.setInitVal(InitMap);
+
+		return InitVal;
+
+	}
+
+
+//-------------------- Init Method for Job History ---------------------------//
+	public InitVal getInitJobHistory(String client, String tempgrp, String template, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+
+		InitVal InitVal = new InitVal();
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+		String ObjectType = "'02','09','11','01','06','03','08'"; // JobClass,Position,Division,Dep,Pay Grade,Location, Pay Range
+		RestTemplate restTemplateCount = new RestTemplate();
+
+		Map<String, Object> ObjectMap = new HashMap<String, Object>();
+		Map<String, Map> InitMap = new HashMap<String, Map>();
+
+		int t = 1000;
+		long s = 0;
+		long x = 0;
+
+		String url = null;
+		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+		// ------- Key Mapping table --------------//
+
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+		}else
+		{
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
 			
-			
-
-			InitVal.setInitVal(InitMap);
-
-			return InitVal;
-
 		}
 		
-//-------------------- Init Method for Job History ---------------------------//
-				public InitVal getInitJobHistory(String client, String tempgrp, String template, String company,
-						Map<String, String> clientSystem, String isTestRun) throws Exception {
-					
-					
-					
-					InitVal InitVal = new InitVal();
 
-					String urlx = clientSystem.get("URL");
-					String userID = clientSystem.get("USER_ID");
-					String password = clientSystem.get("PWD");
-					String ObjectType = "'02','09','11','01','06','03'"; // JobClass,Position,Division,Dep,Pay Grade,Location
-					RestTemplate restTemplateCount = new RestTemplate();
+		String count = restTemplateCount.getForObject(url, String.class);
+		System.out.println(count);
 
-					Map<String, Object> ObjectMap = new HashMap<String, Object>();
-					Map<String, Map> InitMap = new HashMap<String, Map>();
+		long c = Long.parseLong(count);
 
-					int t = 1000;
-					long s = 0;
-					long x = 0;
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		while (c > s) {
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+			}else {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+			}
+			
 
-					String url = null;
-					restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+			System.out.println(url);
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
-					// ------- Key Mapping table --------------//
+			if (result != null) {
+				D d1 = result.getD();
+				List<Result> res1 = d1.getResults();
+				for (Result result2 : res1) {
 
-					url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-							+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-
-					String count = restTemplateCount.getForObject(url, String.class);
-					System.out.println(count);
-
-					long c = Long.parseLong(count);
-
-					RestTemplate restTemplate = new RestTemplate();
-					restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
-					while (c > s) {
-
-						url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-								+ "' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-								+ "&$skip=" + s + "";
-
-						System.out.println(url);
-						KeyMap result = restTemplate.getForObject(url, KeyMap.class);
-
-						if (result != null) {
-							D d1 = result.getD();
-							List<Result> res1 = d1.getResults();
-							for (Result result2 : res1) {
-
-								ObjectMap.put(result2.getExternalCode(), result2);
-
-							}
-
-							s = s + t;
-
-						}
-
-					}
-
-					InitMap.put("cust_Keymapping", ObjectMap);
-					
-					
-					//------- Position table -------//
-
-					Map<String, Object> PosObjectMap = new HashMap<String, Object>();
-					String LE=null;
-
-							if  (company.equalsIgnoreCase("02")) {
-								
-								LE="'A0500','A9999','A0700'";
-								
-							}
-							else
-							{
-								LE=company;
-							}
-					
-					url = urlx + "/Position/$count?" + "$format=JSON&" + "$filter=company+in+" + LE
-							+ "&fromDate=1900-12-31&toDate=9999-12-31";
-					
-				
-					RestTemplate restTemplateCountPos = new RestTemplate();
-					restTemplateCountPos.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
-					
-					count="";
-					count = restTemplateCountPos.getForObject(url, String.class);
-					System.out.println(count);
-					
-					c = Long.parseLong(count);
-					RestTemplate restTemplatePos = new RestTemplate();
-					restTemplatePos.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
-					s=0;
-					while (c > s) {
-
-						url = urlx + "/Position?" + "$format=JSON&" + "$filter=company+in+" + LE
-								+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-								+ "&$skip=" + s + "&$select= code,effectiveEndDate,externalName_defaultValue,externalName_localized,effectiveStatus,effectiveStartDate,type,cust_keyPosition,criticality,description,cust_JobFamily,cust_jobFunction,jobCode,jobLevel,employeeClass,payGrade,cust_PayGradeLevel,payRange,targetFTE,vacant, company,division,cust_deptLevel1,cust_deptLevel2,cust_deptLevel3,cust_deptLevel4,cust_deptLevel5,department,location,costCenter,"+ 
-										"cust_ProfitCenter,cust_line,cust_BrandsGroup,multipleIncumbentsAllowed,positionControlled,standardHours,changeReason,cust_BusinessCategory,cust_EmployeePayType,cust_Budgeted_Salary,cust_ParentDivision,cust_LegacyPositionID,cust_Bonus_STIP,cust_Region,";
-
-						System.out.println(url);
-						com.shd.Position.Position resultPos = restTemplatePos.getForObject(url, com.shd.Position.Position.class);
-
-						if (resultPos != null) {
-							com.shd.Position.D dpos = resultPos.getD();
-							List<com.shd.Position.Result> resPos = dpos.getResults();
-							for (com.shd.Position.Result result2 : resPos) {
-
-								PosObjectMap.put(result2.getCode(), result2);
-
-							}
-
-							s = s + t;
-
-						}
-
-					}
-					
-					
-					InitMap.put("Position", PosObjectMap);
-					
-					InitVal.setInitVal(InitMap);
-
-					return InitVal;
+					ObjectMap.put(result2.getExternalCode(), result2);
 
 				}
 
+				s = s + t;
+
+			}
+
+		}
+
+		InitMap.put("cust_Keymapping", ObjectMap);
+
+		// ------- Position table -------//
+
+		Map<String, Object> PosObjectMap = new HashMap<String, Object>();
+		String LE = null;
+
+		if (company.equalsIgnoreCase("02")) {
+
+			LE = "'A0500','A9999','A0700'";
+
+		} 
+		
+		if (company.equalsIgnoreCase("01")) {
+
+			LE = "'A0800'";
+
+		} 
+		
+		if (company.equalsIgnoreCase("03")) {
+
+			LE = "'A1200'";
+
+		} 
+		
+		if (company.equalsIgnoreCase("04")) {
+
+			LE = "'H0800'";
+
+		} 
+		if (company.equalsIgnoreCase("05")) {
+
+			LE = "'A2000'";
+
+		} 
+		if (company.equalsIgnoreCase("06")) {
+
+			LE = "'A0900'";
+
+		} 
+		if (company.equalsIgnoreCase("07")) {
+
+			LE = "'A1000'";
+
+		} 
+		if (company.equalsIgnoreCase("08")) {
+
+			LE = "'A1400'";
+
+		} 
+		if (company.equalsIgnoreCase("09")) {
+
+			LE = "'A0600'";
+
+		} 
+		
+
+		url = urlx + "/Position/$count?" + "$format=JSON&" + "$filter=company+in+" + LE
+				+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		RestTemplate restTemplateCountPos = new RestTemplate();
+		restTemplateCountPos.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+		count = "";
+		count = restTemplateCountPos.getForObject(url, String.class);
+		System.out.println(count);
+
+		c = Long.parseLong(count);
+		RestTemplate restTemplatePos = new RestTemplate();
+		restTemplatePos.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		s = 0;
+		while (c > s) {
+
+			url = urlx + "/Position?" + "$format=JSON&" + "$filter=company+in+" + LE
+					+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s
+					+ "&$select= code,effectiveEndDate,externalName_defaultValue,externalName_localized,effectiveStatus,effectiveStartDate,type,cust_keyPosition,criticality,description,cust_JobFamily,cust_jobFunction,jobCode,jobLevel,employeeClass,payGrade,cust_PayGradeLevel,payRange,targetFTE,vacant, company,division,cust_deptLevel1,cust_deptLevel2,cust_deptLevel3,cust_deptLevel4,cust_deptLevel5,department,location,costCenter,"
+					+ "cust_ProfitCenter,cust_line,cust_BrandsGroup,multipleIncumbentsAllowed,positionControlled,standardHours,changeReason,cust_BusinessCategory,cust_EmployeePayType,cust_Budgeted_Salary,cust_ParentDivision,cust_LegacyPositionID,cust_Bonus_STIP,cust_Region,";
+
+			System.out.println(url);
+			com.shd.Position.Position resultPos = restTemplatePos.getForObject(url, com.shd.Position.Position.class);
+
+			if (resultPos != null) {
+				com.shd.Position.D dpos = resultPos.getD();
+				List<com.shd.Position.Result> resPos = dpos.getResults();
+				for (com.shd.Position.Result result2 : resPos) {
+
+					PosObjectMap.put(result2.getCode(), result2);
+
+				}
+
+				s = s + t;
+
+			}
+
+		}
+
+		InitMap.put("Position", PosObjectMap);
+
+		InitVal.setInitVal(InitMap);
+
+		return InitVal;
+
+	}
+	
+	//---------Init method for Cost Center-----------------//
+
+	public InitVal getInitCostCenter(String client, String tempgrp, String template, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+		InitVal InitVal = new InitVal();
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+		String ObjectType = "'01'"; // Dep
+		RestTemplate restTemplateCount = new RestTemplate();
+
+		Map<String, Object> ObjectMap = new HashMap<String, Object>();
+		Map<String, Map> InitMap = new HashMap<String, Map>();
+
+		int t = 1000;
+		long s = 0;
+		long x = 0;
+
+		String url = null;
+		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+		// ------- Key Mapping table --------------//
+
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+			
+		}else {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+			
+		}
+		
+
+		String count = restTemplateCount.getForObject(url, String.class);
+		System.out.println(count);
+
+		long c = Long.parseLong(count);
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		while (c > s) {
+
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+			}else {url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+					+ "&$skip=" + s + "";
+				
+			}
+			
+
+			System.out.println(url);
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
+				D d1 = result.getD();
+				List<Result> res1 = d1.getResults();
+				for (Result result2 : res1) {
+
+					ObjectMap.put(result2.getExternalCode(), result2);
+
+				}
+
+				s = s + t;
+
+			}
+
+		}
+
+		InitMap.put("cust_Keymapping", ObjectMap);
+
+		InitVal.setInitVal(InitMap);
+
+		return InitVal;
+
+	}
+
+	//---------Init method for Cost Center-----------------//
+	
+	public InitVal getInitPayRange(String client, String tempgrp, String template, String company,
+			Map<String, String> clientSystem, String isTestRun) throws Exception {
+		InitVal InitVal = new InitVal();
+
+		String urlx = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+		String ObjectType = "'06'"; // PayGrade
+		RestTemplate restTemplateCount = new RestTemplate();
+
+		Map<String, Object> ObjectMap = new HashMap<String, Object>();
+		Map<String, Map> InitMap = new HashMap<String, Map>();
+
+		int t = 1000;
+		long s = 0;
+		long x = 0;
+
+		String url = null;
+		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+		// ------- Key Mapping table --------------//
+
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+			
+		}else {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+			
+		}
+		
+
+		String count = restTemplateCount.getForObject(url, String.class);
+		System.out.println(count);
+
+		long c = Long.parseLong(count);
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		while (c > s) {
+
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+						+ "&$skip=" + s + "";
+			}else {url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
+					+ "&$skip=" + s + "";
+				
+			}
+			
+
+			System.out.println(url);
+			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
+
+			if (result != null) {
+				D d1 = result.getD();
+				List<Result> res1 = d1.getResults();
+				for (Result result2 : res1) {
+
+					ObjectMap.put(result2.getExternalCode(), result2);
+
+				}
+
+				s = s + t;
+
+			}
+
+		}
+
+		InitMap.put("cust_Keymapping", ObjectMap);
+
+		InitVal.setInitVal(InitMap);
+
+		return InitVal;
+
+	}
+
+	
+	
 //----------------------------------------------------- Legacy to MIRAI Methods V2 ------------------------------------------------------------//	
 // ------Get MIRAI Department from Legacy ID -------------//	
 
@@ -3159,12 +3487,68 @@ public class FOUtility {
 
 		return newValue;
 	}
+	
+	//------Get MIRAI Pay Grade from Legacy ID -------------//	
 
-	//------Get MIRAI Position from Legacy ID -------------//	
+		public String getPayRangeID_v2(List<MetaDataObj> rowData, int index, String company,
+				Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+			Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
+			List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
+			String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String ObjectType = "08"; // Pay Grade
+
+			String newValue = "";
+
+			Metadata metaData = new Metadata();
+
+			if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+
+				cust_KeymappingMap = initVal.get("cust_Keymapping");
+
+				Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
+				while (itr.hasNext()) {
+					Map.Entry<String, Object> entry = itr.next();
+					cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+
+				}
+
+				// ---Check if legacy id is same as the legacy id?
+				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+
+					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+						if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
+
+							newValue = cust_Keymapping.getCustSFID();
+						}
+					}
+				}
+				// ---Check if legacy id is same as the SFID?
+				if (newValue.isEmpty()) {
+
+					for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+						if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+							if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
+								newValue = cust_Keymapping.getCustSFID();
+							}
+
+						}
+					}
+				}
+			}
+			if (null != cust_LegacyID) {
+				if (newValue.isEmpty()) {
+					newValue = cust_LegacyID + "<-- Invalid PayRange";
+				}
+			}
+
+			return newValue;
+		}
+
+	// ------Get MIRAI Position from Legacy ID -------------//
 	public String getJobPositionID_v2(List<MetaDataObj> rowData, int index, String company,
 			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
-		
 		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
 		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
 		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
@@ -3172,7 +3556,6 @@ public class FOUtility {
 
 		String newValue = "";
 
-		
 		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
 			cust_KeymappingMap = initVal.get("cust_Keymapping");
@@ -3217,12 +3600,11 @@ public class FOUtility {
 		return newValue;
 	}
 
-	//------Get MIRAI Location from Legacy ID -------------//	
-	
-	public String getLocationID_v2(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
-			String isTestRun, Map<String, Map> initVal) throws Exception {
+	// ------Get MIRAI Location from Legacy ID -------------//
 
-		
+	public String getLocationID_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
 		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
 		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
 		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
@@ -3230,7 +3612,6 @@ public class FOUtility {
 
 		String newValue = "";
 
-		
 		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
 			cust_KeymappingMap = initVal.get("cust_Keymapping");
@@ -3274,19 +3655,19 @@ public class FOUtility {
 
 		return newValue;
 	}
-	
 
-	
-	
 //----------------------------------------------------- Validation to MIRAI Methods V2 ------------------------------------------------------------//		
 //------Get MIRAI Location from Legacy ID -------------//	
-	
-	
-	public String ValidateJHPos_v2(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
-			String isTestRun, Map<String, Map> initVal) throws Exception {
+
+	public String ValidateJHPos_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
 		Utility ut = new Utility();
 		String position = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			return position;
+		}
 
 		if (!(position == null)) // Already has errors
 		{
@@ -3299,7 +3680,7 @@ public class FOUtility {
 		String startDate = null;
 		String StartDatePrint = null;
 
-		//Read effective date in job history
+		// Read effective date in job history
 		for (MetaDataObj metaDataObj : rowData) {
 
 			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
@@ -3312,18 +3693,13 @@ public class FOUtility {
 
 		}
 
-		
 		Map<String, Object> PositionMap = new HashMap<String, Object>();
 		List<com.shd.Position.Result> PositionLst = new ArrayList();
-		
-		
-		String ValidValue = "";
 
+		String ValidValue = "";
 
 		if (null != position && !position.isEmpty()) {
 
-			
-			
 			PositionMap = initVal.get("Position");
 
 			Iterator<Map.Entry<String, Object>> itr = PositionMap.entrySet().iterator();
@@ -3332,32 +3708,29 @@ public class FOUtility {
 				PositionLst.add((com.shd.Position.Result) entry.getValue());
 
 			}
-			
-			
-			Date begda=null;
-			Date endda=null;
-			Date posstartdate=null;
-			
-			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
-			
+			Date begda = null;
+			Date endda = null;
+			Date posstartdate = null;
+
+			posstartdate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
 			// ---Check if legacy id is same as the legacy id?
 			for (com.shd.Position.Result Position : PositionLst) {
 
-				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
-				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
-				
+				begda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveStartDate()));
+				endda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveEndDate()));
+
 				if (Position.getCode().equalsIgnoreCase(position)) {
-					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+					if ((begda.compareTo(posstartdate) <= 0) && (endda.compareTo(posstartdate) >= 0)) {
 
 						ValidValue = Position.getCode();
 					}
 				}
 			}
-			
-			
-			
+
 //			RestTemplate restTemplate = new RestTemplate();
 //
 //			String url = urlx + "/Position?$filter=code eq '" + position + "'&$fromDate=" + startDate + "&toDate="
@@ -3378,8 +3751,6 @@ public class FOUtility {
 //				}
 //			}
 
-			
-			
 			if (!ValidValue.isEmpty()) {
 				if (!(ValidValue.equalsIgnoreCase(position))) {
 
@@ -3396,14 +3767,16 @@ public class FOUtility {
 		}
 		return position;
 	}
-	
+
 	public String ValidateJHDepLevel1_v2(List<MetaDataObj> rowData, int index, String company,
 			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
-		
 		Utility ut = new Utility();
 		String DepLevel1 = ((MetaDataObj) rowData.get(index)).getFieldValue();
-
+		
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			return DepLevel1;
+		}
 		if (!(DepLevel1 == null)) // Already has errors
 		{
 			int index1 = DepLevel1.indexOf("<--");
@@ -3439,12 +3812,10 @@ public class FOUtility {
 		}
 
 		String ValidValue = "";
-		
-		
+
 		Map<String, Object> PositionMap = new HashMap<String, Object>();
 		List<com.shd.Position.Result> PositionLst = new ArrayList();
-		
-		
+
 		Metadata metaData = new Metadata();
 
 		if (null != DepLevel1 && !DepLevel1.isEmpty()) {
@@ -3457,24 +3828,23 @@ public class FOUtility {
 				PositionLst.add((com.shd.Position.Result) entry.getValue());
 
 			}
-			
-			
-			Date begda=null;
-			Date endda=null;
-			Date posstartdate=null;
-			
-			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
-			
+			Date begda = null;
+			Date endda = null;
+			Date posstartdate = null;
+
+			posstartdate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
 			// ---Check if legacy id is same as the legacy id?
 			for (com.shd.Position.Result Position : PositionLst) {
 
-				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
-				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
-				
+				begda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveStartDate()));
+				endda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveEndDate()));
+
 				if (Position.getCode().equalsIgnoreCase(position)) {
-					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+					if ((begda.compareTo(posstartdate) <= 0) && (endda.compareTo(posstartdate) >= 0)) {
 
 						ValidValue = Position.getCustDeptLevel1();
 					}
@@ -3498,13 +3868,16 @@ public class FOUtility {
 		}
 		return DepLevel1;
 	}
-	
+
 	public String ValidateJHJobFamily_v2(List<MetaDataObj> rowData, int index, String company,
 			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
-		
 		Utility ut = new Utility();
 		String JobFamily = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			return JobFamily;
+		}
 
 		if (!(JobFamily == null)) // Already has errors
 		{
@@ -3543,7 +3916,7 @@ public class FOUtility {
 
 		Map<String, Object> PositionMap = new HashMap<String, Object>();
 		List<com.shd.Position.Result> PositionLst = new ArrayList();
-		
+
 		Metadata metaData = new Metadata();
 
 		if (null != JobFamily && !JobFamily.isEmpty()) {
@@ -3556,24 +3929,23 @@ public class FOUtility {
 				PositionLst.add((com.shd.Position.Result) entry.getValue());
 
 			}
-			
-			
-			Date begda=null;
-			Date endda=null;
-			Date posstartdate=null;
-			
-			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
-			
+			Date begda = null;
+			Date endda = null;
+			Date posstartdate = null;
+
+			posstartdate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
 			// ---Check if legacy id is same as the legacy id?
 			for (com.shd.Position.Result Position : PositionLst) {
 
-				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
-				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
-				
+				begda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveStartDate()));
+				endda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveEndDate()));
+
 				if (Position.getCode().equalsIgnoreCase(position)) {
-					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+					if ((begda.compareTo(posstartdate) <= 0) && (endda.compareTo(posstartdate) >= 0)) {
 
 						ValidValue = Position.getCustJobFamily();
 					}
@@ -3592,30 +3964,31 @@ public class FOUtility {
 			} else {
 				JobFamily = JobFamily + "<-- Not same for Position :" + position + "effective " + StartDatePrint;
 			}
-			
-			if (!(JobFamily == null)) 
-			{
+
+			if (!(JobFamily == null)) {
 				int index1 = JobFamily.indexOf("<--");
 				if (index1 == -1) {
-					if ((JobFamily.equalsIgnoreCase("NONE")) || (JobFamily.equalsIgnoreCase("Not Used"))){
-						
+					if ((JobFamily.equalsIgnoreCase("NONE")) || (JobFamily.equalsIgnoreCase("Not Used"))) {
+
 						JobFamily = JobFamily + "<-- Do not use NONE or Not used";
-						
+
 					}
 				}
 			}
-			
-			
 
 		}
 		return JobFamily;
 	}
-	
+
 	public String ValidateJHJobFunction_v2(List<MetaDataObj> rowData, int index, String company,
 			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
 		Utility ut = new Utility();
 		String JobFunction = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			return JobFunction;
+		}
 
 		if (!(JobFunction == null)) // Already has errors
 		{
@@ -3651,7 +4024,7 @@ public class FOUtility {
 		}
 
 		String ValidValue = "";
-		
+
 		Map<String, Object> PositionMap = new HashMap<String, Object>();
 		List<com.shd.Position.Result> PositionLst = new ArrayList();
 
@@ -3671,24 +4044,23 @@ public class FOUtility {
 				PositionLst.add((com.shd.Position.Result) entry.getValue());
 
 			}
-			
-			
-			Date begda=null;
-			Date endda=null;
-			Date posstartdate=null;
-			
-			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
-			
+			Date begda = null;
+			Date endda = null;
+			Date posstartdate = null;
+
+			posstartdate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
 			// ---Check if legacy id is same as the legacy id?
 			for (com.shd.Position.Result Position : PositionLst) {
 
-				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
-				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
-				
+				begda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveStartDate()));
+				endda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveEndDate()));
+
 				if (Position.getCode().equalsIgnoreCase(position)) {
-					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+					if ((begda.compareTo(posstartdate) <= 0) && (endda.compareTo(posstartdate) >= 0)) {
 
 						ValidValue = Position.getCustJobFunction();
 					}
@@ -3708,33 +4080,30 @@ public class FOUtility {
 				JobFunction = JobFunction + "<-- Not a Valid for Position :" + position + " effective "
 						+ StartDatePrint;
 			}
-			
-			if (!(JobFunction == null)) 
-			{
+
+			if (!(JobFunction == null)) {
 				int index1 = JobFunction.indexOf("<--");
 				if (index1 == -1) {
-					if ((JobFunction.equalsIgnoreCase("NONE")) || (JobFunction.equalsIgnoreCase("Not Used"))){
-						
+					if ((JobFunction.equalsIgnoreCase("NONE")) || (JobFunction.equalsIgnoreCase("Not Used"))) {
+
 						JobFunction = JobFunction + "<-- Do not use NONE or Not used";
-						
+
 					}
 				}
 			}
-			
-			
-			
-			
 
 		}
 		return JobFunction;
 	}
-	
+
 	public String ValidateJHJobClass_v2(List<MetaDataObj> rowData, int index, String company,
 			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
-		
 		Utility ut = new Utility();
 		String JobCode = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			return JobCode;
+		}
 
 		if (!(JobCode == null)) // Already has errors
 		{
@@ -3770,11 +4139,10 @@ public class FOUtility {
 		}
 
 		String ValidJobCode = "";
-		
+
 		Map<String, Object> PositionMap = new HashMap<String, Object>();
 		List<com.shd.Position.Result> PositionLst = new ArrayList();
 
-	
 		Metadata metaData = new Metadata();
 
 		if (null != JobCode && !JobCode.isEmpty()) {
@@ -3787,30 +4155,29 @@ public class FOUtility {
 				PositionLst.add((com.shd.Position.Result) entry.getValue());
 
 			}
-			
-			
-			Date begda=null;
-			Date endda=null;
-			Date posstartdate=null;
-			
-			posstartdate=new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
-			
+			Date begda = null;
+			Date endda = null;
+			Date posstartdate = null;
+
+			posstartdate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
 
 			// ---Check if legacy id is same as the legacy id?
 			for (com.shd.Position.Result Position : PositionLst) {
 
-				begda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveStartDate()));
-				endda=new SimpleDateFormat("yyyy-MM-dd").parse(ut.getOdataEpochiToJavaDsh( Position.getEffectiveEndDate()));
-				
+				begda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveStartDate()));
+				endda = new SimpleDateFormat("yyyy-MM-dd")
+						.parse(ut.getOdataEpochiToJavaDsh(Position.getEffectiveEndDate()));
+
 				if (Position.getCode().equalsIgnoreCase(position)) {
-					if ((begda.compareTo(posstartdate)<=0) && (endda.compareTo(posstartdate)>=0)) {
+					if ((begda.compareTo(posstartdate) <= 0) && (endda.compareTo(posstartdate) >= 0)) {
 
 						ValidJobCode = Position.getJobCode();
 					}
 				}
 			}
-			
+
 			if (!ValidJobCode.isEmpty()) {
 				if (!(ValidJobCode.equalsIgnoreCase(JobCode))) {
 
@@ -3827,4 +4194,137 @@ public class FOUtility {
 		}
 		return JobCode;
 	}
+
+
+
+/* -----------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+public String getDepartmentID_P(List<MetaDataObj> rowData, int index, String company,
+		Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+	String effectiveStartDate = null;
+	String MIRAI_ID=null;
+	for (MetaDataObj metaDataObj : rowData) {
+
+		if (null != metaDataObj.getFieldName()
+				&& "effectiveStartDate".equalsIgnoreCase(metaDataObj.getFieldName())) {
+			effectiveStartDate = metaDataObj.getFieldValue();
+		}
+		
+		if (null != metaDataObj.getFieldName()
+				&& "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
+			MIRAI_ID = metaDataObj.getFieldValue();
+		}
+		
+	}
+
+	if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
+		
+		return "Error: MIRAI_ID is missing in template";
+	}
+	
+
+	
+	String epochDate = getEpoch(effectiveStartDate);
+
+	Calendar calendar = Calendar.getInstance();
+	calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+	String excode = calendar.getTimeInMillis() + getRandomString(6);
+	String externalCode = MIRAI_ID+excode;
+	String externalName = MIRAI_ID+excode;
+	String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+	String newValue = null;
+
+
+	if (legacyValue==null || legacyValue.isEmpty()) {
+		
+		return "Error: legacyValue is missing in template";
+	}
+	
+	
+	if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+
+		String url = clientSystem.get("URL");
+		String userID = clientSystem.get("USER_ID");
+		String password = clientSystem.get("PWD");
+
+		Metadata metaData = new Metadata();
+		metaData.setUri(url + "/cust_Keymapping");
+		metaData.setType("SFOData.cust_Keymapping");
+
+		UpsertObject upsertObject = new UpsertObject();
+		upsertObject.setMetadata(metaData);
+		upsertObject.setExternalCode(externalCode);
+
+		upsertObject.setEffectiveStartDate(epochDate);
+		upsertObject.setCustLegacyID(legacyValue);
+		upsertObject.setExternalName(externalName);
+		upsertObject.setCustCompany(company);
+		upsertObject.setCustSFID(MIRAI_ID);
+		
+		upsertObject.setCustObjectType("01");
+
+		if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+			upsertObject.setCust_sim("Y");
+
+
+		} else {
+			upsertObject.setCust_sim("N");
+
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		String upsertURL = url + "/upsert";
+
+		String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+		HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+		String custSFID = null;
+		boolean isEmpty = true;
+	
+		
+			// Step-1: Post the values to update new department Id
+			String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+
+			logger.info("FOUtility: getDepartmentID Method: Upsert result:" + result);
+
+			// Step-2: Get new department Id using external code
+			FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+
+
+			if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+				custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+			}
+
+			// Step-3: Check if any values are present already for the newly generated id.
+			String checkUrl = url + "/FODepartment?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+
+			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+
+			isEmpty = checkObject.getD().getResults().isEmpty();
+			
+			if (!isEmpty) {
+				return "Error: MIRAI_ID already used in MIRAI System";
+			}
+	
+		return custSFID;
+	} else {
+		return legacyValue;
+
+	}
+
+}
+
 }
