@@ -133,13 +133,12 @@ public class FOUtility {
 			upsertObject.setExternalName(externalName);
 			upsertObject.setCustCompany(company);
 			upsertObject.setCustSFID("");
-			
+
 			upsertObject.setCustObjectType("01");
 
 			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
 
 				upsertObject.setCust_sim("Y");
-
 
 			} else {
 				upsertObject.setCust_sim("N");
@@ -2524,18 +2523,17 @@ public class FOUtility {
 		String url = null;
 		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 
-		
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
-			
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
 
-		}
-		else {
-			
+		} else {
+
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
 		}
 
 		String count = restTemplateCount.getForObject(url, String.class);
@@ -2547,18 +2545,18 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
-			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
-				
-			}else {
-			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-					+ "&$skip=" + s + "";
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+
+			} else {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
 
 			}
-			
+
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
 
@@ -2608,17 +2606,18 @@ public class FOUtility {
 
 //--- Key Mapping table ---//
 
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
-		}else
-		{
-		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-				+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		} else {
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
 
 		}
-		
+
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
 
@@ -2628,18 +2627,17 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
-			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
-				
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
-				
-			}else {
-				
-			
-			url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-					+ "&$skip=" + s + "";
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+
+			} else {
+
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
 			}
 
 			System.out.println(url);
@@ -2690,14 +2688,16 @@ public class FOUtility {
 		restTemplateCount.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 
 		// ------- Key Mapping table --------------//
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
-		}else {
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
 
-		url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-				+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
+		} else {
+
+			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
 		}
 
 		String count = restTemplateCount.getForObject(url, String.class);
@@ -2709,18 +2709,17 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
-			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
-				
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
-				
-			}else {
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+
+			} else {
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
 			}
-			
 
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
@@ -2756,7 +2755,8 @@ public class FOUtility {
 		String urlx = clientSystem.get("URL");
 		String userID = clientSystem.get("USER_ID");
 		String password = clientSystem.get("PWD");
-		String ObjectType = "'02','09','11','01','06','03','08'"; // JobClass,Position,Division,Dep,Pay Grade,Location,Pay Range
+		String ObjectType = "'02','09','11','01','06','03','08'"; // JobClass,Position,Division,Dep,Pay
+																	// Grade,Location,Pay Range
 		RestTemplate restTemplateCount = new RestTemplate();
 
 		Map<String, Object> ObjectMap = new HashMap<String, Object>();
@@ -2771,16 +2771,17 @@ public class FOUtility {
 
 		// ------- Key Mapping table --------------//
 
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
-		}else {
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		} else {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
 		}
-		
 
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
@@ -2791,16 +2792,16 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
-			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
-			}else {url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-					+ "&$skip=" + s + "";
-				
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+			} else {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+
 			}
-			
 
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
@@ -2828,7 +2829,6 @@ public class FOUtility {
 
 	}
 
-
 //-------------------- Init Method for Job History ---------------------------//
 	public InitVal getInitJobHistory(String client, String tempgrp, String template, String company,
 			Map<String, String> clientSystem, String isTestRun) throws Exception {
@@ -2838,7 +2838,8 @@ public class FOUtility {
 		String urlx = clientSystem.get("URL");
 		String userID = clientSystem.get("USER_ID");
 		String password = clientSystem.get("PWD");
-		String ObjectType = "'02','09','11','01','06','03','08'"; // JobClass,Position,Division,Dep,Pay Grade,Location, Pay Range
+		String ObjectType = "'02','09','11','01','06','03','08'"; // JobClass,Position,Division,Dep,Pay Grade,Location,
+																	// Pay Range
 		RestTemplate restTemplateCount = new RestTemplate();
 
 		Map<String, Object> ObjectMap = new HashMap<String, Object>();
@@ -2853,16 +2854,16 @@ public class FOUtility {
 
 		// ------- Key Mapping table --------------//
 
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-		}else
-		{
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+		} else {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
 		}
-		
 
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
@@ -2872,16 +2873,15 @@ public class FOUtility {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
-			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
-			}else {
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+			} else {
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
 			}
-			
 
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
@@ -2912,51 +2912,50 @@ public class FOUtility {
 
 			LE = "'A0500','A9999','A0700'";
 
-		} 
-		
+		}
+
 		if (company.equalsIgnoreCase("01")) {
 
 			LE = "'A0800'";
 
-		} 
-		
+		}
+
 		if (company.equalsIgnoreCase("03")) {
 
 			LE = "'A1200'";
 
-		} 
-		
+		}
+
 		if (company.equalsIgnoreCase("04")) {
 
 			LE = "'H0800'";
 
-		} 
+		}
 		if (company.equalsIgnoreCase("05")) {
 
 			LE = "'A2000'";
 
-		} 
+		}
 		if (company.equalsIgnoreCase("06")) {
 
 			LE = "'A0900'";
 
-		} 
+		}
 		if (company.equalsIgnoreCase("07")) {
 
 			LE = "'A1000'";
 
-		} 
+		}
 		if (company.equalsIgnoreCase("08")) {
 
 			LE = "'A1400'";
 
-		} 
+		}
 		if (company.equalsIgnoreCase("09")) {
 
 			LE = "'A0600'";
 
-		} 
-		
+		}
 
 		url = urlx + "/Position/$count?" + "$format=JSON&" + "$filter=company+in+" + LE
 				+ "&fromDate=1900-12-31&toDate=9999-12-31";
@@ -3004,8 +3003,8 @@ public class FOUtility {
 		return InitVal;
 
 	}
-	
-	//---------Init method for Cost Center-----------------//
+
+	// ---------Init method for Cost Center-----------------//
 
 	public InitVal getInitCostCenter(String client, String tempgrp, String template, String company,
 			Map<String, String> clientSystem, String isTestRun) throws Exception {
@@ -3029,16 +3028,17 @@ public class FOUtility {
 
 		// ------- Key Mapping table --------------//
 
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
-		}else {
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		} else {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
 		}
-		
 
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
@@ -3049,16 +3049,16 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
-			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
-			}else {url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-					+ "&$skip=" + s + "";
-				
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+			} else {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+
 			}
-			
 
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
@@ -3086,8 +3086,8 @@ public class FOUtility {
 
 	}
 
-	//---------Init method for Cost Center-----------------//
-	
+	// ---------Init method for Cost Center-----------------//
+
 	public InitVal getInitPayRange(String client, String tempgrp, String template, String company,
 			Map<String, String> clientSystem, String isTestRun) throws Exception {
 		InitVal InitVal = new InitVal();
@@ -3110,16 +3110,17 @@ public class FOUtility {
 
 		// ------- Key Mapping table --------------//
 
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
-		}else {
+					+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
+		} else {
 			url = urlx + "/cust_Keymapping/$count?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31";
-			
+					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+					+ "&fromDate=1900-12-31&toDate=9999-12-31";
+
 		}
-		
 
 		String count = restTemplateCount.getForObject(url, String.class);
 		System.out.println(count);
@@ -3130,16 +3131,16 @@ public class FOUtility {
 		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
 		while (c > s) {
 
-			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+			if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-						+ "&$skip=" + s + "";
-			}else {url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
-					+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType + "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t
-					+ "&$skip=" + s + "";
-				
+						+ "' and cust_sim eq 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+			} else {
+				url = urlx + "/cust_Keymapping?" + "$format=JSON&" + "$filter=cust_Company+eq+'" + company
+						+ "' and cust_sim ne 'Y' and cust_ObjectType in " + ObjectType
+						+ "&fromDate=1900-12-31&toDate=9999-12-31&$top=" + t + "&$skip=" + s + "";
+
 			}
-			
 
 			System.out.println(url);
 			KeyMap result = restTemplate.getForObject(url, KeyMap.class);
@@ -3167,8 +3168,6 @@ public class FOUtility {
 
 	}
 
-	
-	
 //----------------------------------------------------- Legacy to MIRAI Methods V2 ------------------------------------------------------------//	
 // ------Get MIRAI Department from Legacy ID -------------//	
 
@@ -3487,63 +3486,63 @@ public class FOUtility {
 
 		return newValue;
 	}
-	
-	//------Get MIRAI Pay Grade from Legacy ID -------------//	
 
-		public String getPayRangeID_v2(List<MetaDataObj> rowData, int index, String company,
-				Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+	// ------Get MIRAI Pay Grade from Legacy ID -------------//
 
-			Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
-			List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
-			String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
-			String ObjectType = "08"; // Pay Grade
+	public String getPayRangeID_v2(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
-			String newValue = "";
+		Map<String, Object> cust_KeymappingMap = new HashMap<String, Object>();
+		List<com.shd.keymap.Result> cust_KeymappingLst = new ArrayList();
+		String cust_LegacyID = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String ObjectType = "08"; // Pay Grade
 
-			Metadata metaData = new Metadata();
+		String newValue = "";
 
-			if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
+		Metadata metaData = new Metadata();
 
-				cust_KeymappingMap = initVal.get("cust_Keymapping");
+		if (null != cust_LegacyID && !cust_LegacyID.isEmpty()) {
 
-				Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
-				while (itr.hasNext()) {
-					Map.Entry<String, Object> entry = itr.next();
-					cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+			cust_KeymappingMap = initVal.get("cust_Keymapping");
 
+			Iterator<Map.Entry<String, Object>> itr = cust_KeymappingMap.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Object> entry = itr.next();
+				cust_KeymappingLst.add((com.shd.keymap.Result) entry.getValue());
+
+			}
+
+			// ---Check if legacy id is same as the legacy id?
+			for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
+
+				if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
+					if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
+
+						newValue = cust_Keymapping.getCustSFID();
+					}
 				}
+			}
+			// ---Check if legacy id is same as the SFID?
+			if (newValue.isEmpty()) {
 
-				// ---Check if legacy id is same as the legacy id?
 				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
-
 					if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
-						if (cust_Keymapping.getCust_LegacyID().equalsIgnoreCase(cust_LegacyID)) {
-
+						if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
 							newValue = cust_Keymapping.getCustSFID();
 						}
-					}
-				}
-				// ---Check if legacy id is same as the SFID?
-				if (newValue.isEmpty()) {
 
-					for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
-						if (cust_Keymapping.getCust_ObjectType().equalsIgnoreCase(ObjectType)) {
-							if (cust_Keymapping.getCustSFID().equalsIgnoreCase(cust_LegacyID)) {
-								newValue = cust_Keymapping.getCustSFID();
-							}
-
-						}
 					}
 				}
 			}
-			if (null != cust_LegacyID) {
-				if (newValue.isEmpty()) {
-					newValue = cust_LegacyID + "<-- Invalid PayRange";
-				}
-			}
-
-			return newValue;
 		}
+		if (null != cust_LegacyID) {
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid PayRange";
+			}
+		}
+
+		return newValue;
+	}
 
 	// ------Get MIRAI Position from Legacy ID -------------//
 	public String getJobPositionID_v2(List<MetaDataObj> rowData, int index, String company,
@@ -3664,8 +3663,8 @@ public class FOUtility {
 
 		Utility ut = new Utility();
 		String position = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			return position;
 		}
 
@@ -3773,8 +3772,8 @@ public class FOUtility {
 
 		Utility ut = new Utility();
 		String DepLevel1 = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			return DepLevel1;
 		}
 		if (!(DepLevel1 == null)) // Already has errors
@@ -3874,8 +3873,8 @@ public class FOUtility {
 
 		Utility ut = new Utility();
 		String JobFamily = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			return JobFamily;
 		}
 
@@ -3985,8 +3984,8 @@ public class FOUtility {
 
 		Utility ut = new Utility();
 		String JobFunction = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			return JobFunction;
 		}
 
@@ -4101,7 +4100,7 @@ public class FOUtility {
 
 		Utility ut = new Utility();
 		String JobCode = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim") ))) {
+		if ((isTestRun.equalsIgnoreCase("YesSim") || (isTestRun.equalsIgnoreCase("NoSim")))) {
 			return JobCode;
 		}
 
@@ -4195,136 +4194,1076 @@ public class FOUtility {
 		return JobCode;
 	}
 
+	/*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------------------------------
+	 */
+	/*
+	 * Production New version Legacy Id management /*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------------------------------
+	 */
 
+	/*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------------------------------
+	 */
+	/*
+	 * legacy id Department /*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------------------------------
+	 */
 
-/* -----------------------------------------------------------------------------------------------------------------------------*/
+	public String getDepartmentID_P(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
+		String effectiveStartDate = null;
+		String MIRAI_ID = null;
+		for (MetaDataObj metaDataObj : rowData) {
 
+			if (null != metaDataObj.getFieldName()
+					&& "effectiveStartDate".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				effectiveStartDate = metaDataObj.getFieldValue();
+			}
 
-
-public String getDepartmentID_P(List<MetaDataObj> rowData, int index, String company,
-		Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
-
-	String effectiveStartDate = null;
-	String MIRAI_ID=null;
-	for (MetaDataObj metaDataObj : rowData) {
-
-		if (null != metaDataObj.getFieldName()
-				&& "effectiveStartDate".equalsIgnoreCase(metaDataObj.getFieldName())) {
-			effectiveStartDate = metaDataObj.getFieldValue();
-		}
-		
-		if (null != metaDataObj.getFieldName()
-				&& "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
-			MIRAI_ID = metaDataObj.getFieldValue();
-		}
-		
-	}
-
-	if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
-		
-		return "Error: MIRAI_ID is missing in template";
-	}
-	
-
-	
-	String epochDate = getEpoch(effectiveStartDate);
-
-	Calendar calendar = Calendar.getInstance();
-	calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
-	String excode = calendar.getTimeInMillis() + getRandomString(6);
-	String externalCode = MIRAI_ID+excode;
-	String externalName = MIRAI_ID+excode;
-	String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-	String newValue = null;
-
-
-	if (legacyValue==null || legacyValue.isEmpty()) {
-		
-		return "Error: legacyValue is missing in template";
-	}
-	
-	
-	if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
-
-		String url = clientSystem.get("URL");
-		String userID = clientSystem.get("USER_ID");
-		String password = clientSystem.get("PWD");
-
-		Metadata metaData = new Metadata();
-		metaData.setUri(url + "/cust_Keymapping");
-		metaData.setType("SFOData.cust_Keymapping");
-
-		UpsertObject upsertObject = new UpsertObject();
-		upsertObject.setMetadata(metaData);
-		upsertObject.setExternalCode(externalCode);
-
-		upsertObject.setEffectiveStartDate(epochDate);
-		upsertObject.setCustLegacyID(legacyValue);
-		upsertObject.setExternalName(externalName);
-		upsertObject.setCustCompany(company);
-		upsertObject.setCustSFID(MIRAI_ID);
-		
-		upsertObject.setCustObjectType("01");
-
-		if (((isTestRun.equalsIgnoreCase("NoSim")))) {
-
-			upsertObject.setCust_sim("Y");
-
-
-		} else {
-			upsertObject.setCust_sim("N");
+			if (null != metaDataObj.getFieldName() && "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				MIRAI_ID = metaDataObj.getFieldValue();
+			}
 
 		}
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
+		String epochDate = getEpoch(effectiveStartDate);
 
-		String upsertURL = url + "/upsert";
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+		String excode = calendar.getTimeInMillis() + getRandomString(6);
+		String externalCode = MIRAI_ID + excode;
+		String externalName = MIRAI_ID + excode;
+		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String newValue = null;
 
-		String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+		if (MIRAI_ID == null || MIRAI_ID.isEmpty()) {
 
-		RestTemplate restTemplate = new RestTemplate();
+			return (legacyValue + " <--Error: MIRAI_ID is missing in template");
+		}
 
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+		if (legacyValue == null || legacyValue.isEmpty()) {
 
-		HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+			return "<--Error: legacyValue is missing in template";
+		}
 
-		String custSFID = null;
-		boolean isEmpty = true;
-	
-		
-			// Step-1: Post the values to update new department Id
+		if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+
+			String url = clientSystem.get("URL");
+			String userID = clientSystem.get("USER_ID");
+			String password = clientSystem.get("PWD");
+
+			Metadata metaData = new Metadata();
+			metaData.setUri(url + "/cust_Keymapping");
+			metaData.setType("SFOData.cust_Keymapping");
+
+			UpsertObject upsertObject = new UpsertObject();
+			upsertObject.setMetadata(metaData);
+			upsertObject.setExternalCode(externalCode);
+
+			upsertObject.setEffectiveStartDate(epochDate);
+			upsertObject.setCustLegacyID(legacyValue);
+			upsertObject.setExternalName(externalName);
+			upsertObject.setCustCompany(company);
+			upsertObject.setCustSFID(MIRAI_ID);
+
+			upsertObject.setCustObjectType("01");
+
+			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				upsertObject.setCust_sim("Y");
+
+			} else {
+				upsertObject.setCust_sim("N");
+
+			}
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+
+			String upsertURL = url + "/upsert";
+
+			String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+			String custSFID = null;
+			boolean isEmpty = true;
+
+			// Step-1: Check if any values are present already for the newly generated id.
+			String checkUrl = url + "/FODepartment?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
+
+			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+			isEmpty = checkObject.getD().getResults().isEmpty();
+
+			if (!isEmpty) {
+				return MIRAI_ID + "<--Error: MIRAI_ID already used in MIRAI System";
+			}
+			
+			
+			// Step-2: Post the values to update new department Id
 			String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
 
 			logger.info("FOUtility: getDepartmentID Method: Upsert result:" + result);
 
-			// Step-2: Get new department Id using external code
+			// Step-3: Get new department Id using external code
 			FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
-
 
 			if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
 				custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
 			}
 
-			// Step-3: Check if any values are present already for the newly generated id.
-			String checkUrl = url + "/FODepartment?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+//			// Step-3: Check if any values are present already for the newly generated id.
+//			String checkUrl = url + "/FODepartment?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+//
+//			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+//
+//			isEmpty = checkObject.getD().getResults().isEmpty();
+//
+//			if (!isEmpty) {
+//				return custSFID + "<--Error: MIRAI_ID already used in MIRAI System";
+//			}
 
-			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+			return custSFID;
+		} else {
+			return legacyValue;
 
-
-			isEmpty = checkObject.getD().getResults().isEmpty();
-			
-			if (!isEmpty) {
-				return "Error: MIRAI_ID already used in MIRAI System";
-			}
-	
-		return custSFID;
-	} else {
-		return legacyValue;
+		}
 
 	}
 
-}
+	/*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------------------------------
+	 */
+	/*
+	 * legacy id Location /*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------------------------------
+	 */
 
+// Create Location id
+	public String getCreateLocationID_P(List<MetaDataObj> rowData, int index, String company,
+			Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+		String effectiveStartDate = null;
+		String MIRAI_ID = null;
+
+		for (MetaDataObj metaDataObj : rowData) {
+
+			if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				effectiveStartDate = metaDataObj.getFieldValue();
+			}
+
+			if (null != metaDataObj.getFieldName() && "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				MIRAI_ID = metaDataObj.getFieldValue();
+			}
+
+		}
+
+		String epochDate = getEpoch(effectiveStartDate);
+
+//		logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+		String excode = calendar.getTimeInMillis() + getRandomString(6);
+
+		String externalCode = MIRAI_ID + excode;
+		String externalName = MIRAI_ID + excode;
+
+		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String newValue = null;
+
+		if (MIRAI_ID == null || MIRAI_ID.isEmpty()) {
+
+			return (legacyValue + " <--Error: MIRAI_ID is missing in template");
+		}
+
+		if (legacyValue == null || legacyValue.isEmpty()) {
+
+			return "<--Error: legacyValue is missing in template";
+		}
+
+		if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+//		String url = "https://api12preview.sapsf.eu/odata/v2/";
+//		String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
+			String url = clientSystem.get("URL");
+			String userID = clientSystem.get("USER_ID");
+			String password = clientSystem.get("PWD");
+
+			Metadata metaData = new Metadata();
+			metaData.setUri(url + "/cust_Keymapping");
+			metaData.setType("SFOData.cust_Keymapping");
+
+			UpsertObject upsertObject = new UpsertObject();
+			upsertObject.setMetadata(metaData);
+			upsertObject.setExternalCode(externalCode);
+//		upsertObject.setEffectiveStartDate("/Date(946665000000)/");
+			upsertObject.setEffectiveStartDate(epochDate);
+			upsertObject.setCustLegacyID(legacyValue);
+			upsertObject.setExternalName(externalName);
+			upsertObject.setCustCompany(company);
+			upsertObject.setCustSFID(MIRAI_ID);
+			upsertObject.setCustObjectType("03");
+
+			if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				upsertObject.setCust_sim("Y");
+
+			} else {
+				upsertObject.setCust_sim("N");
+			}
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+//		RestTemplate postTemplate = new RestTemplate();
+//		postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+
+			String upsertURL = url + "/upsert";
+
+			String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+			RestTemplate restTemplate = new RestTemplate();
+//		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+//		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+			HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+//		Map <String, String> dummy = new HashMap<String, String>();
+			String custSFID = null;
+			boolean isEmpty = true;
+
+			// Step-1: Check if any values are present already for the newly generated id.
+			String checkUrl = url + "/FOLocation?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
+
+			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+//						System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+			isEmpty = checkObject.getD().getResults().isEmpty();
+
+			if (!isEmpty) {
+				return MIRAI_ID + "<--Error: MIRAI_ID already used in MIRAI System";
+			}
+
+						
+						
+			// Step-2: Post the values to get generate new department Id
+			String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+
+			logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
+
+			// Step-3: Get new department Id using external code
+			FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+//			System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
+
+			if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+				custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+			}
+
+//			// Step-3: Check if any values are present already for the newly generated id.
+//			String checkUrl = url + "/FOLocation?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+//
+//			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+//
+////			System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+//			isEmpty = checkObject.getD().getResults().isEmpty();
+//
+//			if (!isEmpty) {
+//				return custSFID + "<--Error: MIRAI_ID already used in MIRAI System";
+//			}
+
+			return custSFID;
+		} else {
+
+			return legacyValue;
+		}
+	}
+
+	/*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------------------------------
+	 */
+	/*
+	 * legacy id Position /*
+	 * -----------------------------------------------------------------------------
+	 * ------------------------------------------------
+	 */
+	
+	
+	// Get Pos id
+		public String getPosID_P(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+				String isTestRun, Map<String, Map> initVal) throws Exception {
+
+//			logger.info("FOUtility: Inside getDepartmentID Method");
+			String effectiveStartDate = null;
+			String MIRAI_ID=null;
+
+			for (MetaDataObj metaDataObj : rowData) {
+//				logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
+//						+ metaDataObj.getFieldName());
+				if (null != metaDataObj.getFieldName()
+						&& "effectiveStartDate".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					effectiveStartDate = metaDataObj.getFieldValue();
+				}
+				
+				if (null != metaDataObj.getFieldName() && "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					MIRAI_ID = metaDataObj.getFieldValue();
+				}
+				
+			}
+
+//			logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
+
+			String epochDate = getEpoch(effectiveStartDate);
+
+//			logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+			String excode = calendar.getTimeInMillis() + getRandomString(6);
+
+			String externalCode = MIRAI_ID+excode;
+			String externalName = MIRAI_ID+excode;
+			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String newValue = null;
+			
+			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
+				
+				return (legacyValue+" <--Error: MIRAI_ID is missing in template");
+			}
+
+			if (legacyValue==null || legacyValue.isEmpty()) {
+				
+				return "<--Error: legacyValue is missing in template";
+			}
+
+
+			if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+
+				String url = clientSystem.get("URL");
+				String userID = clientSystem.get("USER_ID");
+				String password = clientSystem.get("PWD");
+
+				Metadata metaData = new Metadata();
+				metaData.setUri(url + "/cust_Keymapping");
+				metaData.setType("SFOData.cust_Keymapping");
+
+				UpsertObject upsertObject = new UpsertObject();
+				upsertObject.setMetadata(metaData);
+				upsertObject.setExternalCode(externalCode);
+//			upsertObject.setEffectiveStartDate("/Date(946665000000)/");
+				upsertObject.setEffectiveStartDate(epochDate);
+				upsertObject.setCustLegacyID(legacyValue);
+				upsertObject.setExternalName(externalName);
+				upsertObject.setCustCompany(company);
+				upsertObject.setCustSFID(MIRAI_ID);
+
+				upsertObject.setCustObjectType("09");
+
+				if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+					upsertObject.setCust_sim("Y");
+
+				} else {
+					upsertObject.setCust_sim("N");
+				}
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+//			RestTemplate postTemplate = new RestTemplate();
+//			postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+
+				String upsertURL = url + "/upsert";
+
+				String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+				RestTemplate restTemplate = new RestTemplate();
+//			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+//			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+				HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+//			Map <String, String> dummy = new HashMap<String, String>();
+				String custSFID = null;
+				boolean isEmpty = true;
+				
+					
+				// Step-1: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/Position?$format=JSON&$filter=code+eq+'" + MIRAI_ID + "'";
+
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+//			System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+				isEmpty = checkObject.getD().getResults().isEmpty();
+
+				if (!isEmpty) {
+					return MIRAI_ID+"<--Error: MIRAI_ID already used in MIRAI System";
+				}
+				
+				// Step-2: Post the values to get generate new department Id
+					String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+
+					logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
+
+					// Step-3: Get new department Id using external code
+					FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+//				System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
+
+					if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+						custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+					}
+
+//					// Step-3: Check if any values are present already for the newly generated id.
+//					String checkUrl = url + "/Position?$format=JSON&$filter=code+eq+'" + custSFID + "'";
+//
+//					FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+//
+////				System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+//					isEmpty = checkObject.getD().getResults().isEmpty();
+//
+//					if (!isEmpty) {
+//						return custSFID+"<--Error: MIRAI_ID already used in MIRAI System";
+//					}
+
+				return custSFID;
+			} else {
+
+				return legacyValue;
+			}
+		}
+
+		/*
+		 * -----------------------------------------------------------------------------
+		 * ------------------------------------------------
+		 */
+		/*
+		 * legacy id Job Classification /*
+		 * -----------------------------------------------------------------------------
+		 * ------------------------------------------------
+		 */
+		
+		
+		// Get job id
+		public String getJobClassID_P(List<MetaDataObj> rowData, int index, String company, Map<String, String> clientSystem,
+				String isTestRun, Map<String, Map> initVal) throws Exception {
+
+//			logger.info("FOUtility: Inside getDepartmentID Method");
+			String effectiveStartDate = null;
+			String MIRAI_ID=null;
+
+
+			for (MetaDataObj metaDataObj : rowData) {
+//				logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
+//						+ metaDataObj.getFieldName());
+				if (null != metaDataObj.getFieldName()
+						&& "effectiveStartDate".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					effectiveStartDate = metaDataObj.getFieldValue();
+				}
+				
+				if (null != metaDataObj.getFieldName() && "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					MIRAI_ID = metaDataObj.getFieldValue();
+				}
+			
+				
+			}
+
+//			logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
+
+			String epochDate = getEpoch(effectiveStartDate);
+
+//			logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
+
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+			String excode = calendar.getTimeInMillis() + getRandomString(6);
+			String externalCode = MIRAI_ID+excode;
+			String externalName = MIRAI_ID+excode;
+			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String newValue = null;
+			
+			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
+				
+				return (legacyValue+" <--Error: MIRAI_ID is missing in template");
+			}
+
+			if (legacyValue==null || legacyValue.isEmpty()) {
+				
+				return "<--Error: legacyValue is missing in template";
+			}
+
+
+			if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+//			String url = "https://api12preview.sapsf.eu/odata/v2/";
+//			String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
+				String url = clientSystem.get("URL");
+				String userID = clientSystem.get("USER_ID");
+				String password = clientSystem.get("PWD");
+
+				Metadata metaData = new Metadata();
+				metaData.setUri(url + "/cust_Keymapping");
+				metaData.setType("SFOData.cust_Keymapping");
+
+				UpsertObject upsertObject = new UpsertObject();
+				upsertObject.setMetadata(metaData);
+				upsertObject.setExternalCode(externalCode);
+//			upsertObject.setEffectiveStartDate("/Date(946665000000)/");
+				upsertObject.setEffectiveStartDate(epochDate);
+				upsertObject.setCustLegacyID(legacyValue);
+				upsertObject.setExternalName(externalName);
+				upsertObject.setCustCompany(company);
+				upsertObject.setCustSFID(MIRAI_ID);
+				upsertObject.setCustObjectType("02");
+
+				if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+					upsertObject.setCust_sim("Y");
+
+				} else {
+					upsertObject.setCust_sim("N");
+				}
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+//			RestTemplate postTemplate = new RestTemplate();
+//			postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+
+				String upsertURL = url + "/upsert";
+
+				String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+				RestTemplate restTemplate = new RestTemplate();
+//			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+//			restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+				HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+//			Map <String, String> dummy = new HashMap<String, String>();
+				String custSFID = null;
+				boolean isEmpty = true;
+				
+				// Step-1: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/FOJobCode?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
+
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+//			System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+				isEmpty = checkObject.getD().getResults().isEmpty();
+
+				if (!isEmpty) {
+					return MIRAI_ID+"<--Error: MIRAI_ID already used in MIRAI System";
+				}
+
+				
+				
+					// Step-2: Post the values to get generate new department Id
+					String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+
+					logger.info("FOUtility: getJobclassID Method: Upsert result:" + result);
+
+					// Step-3: Get new department Id using external code
+					FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+//				System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
+
+					if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+						custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+					}
+
+				
+
+				return custSFID;
+			} else {
+
+				return legacyValue;
+			}
+		}
+		
+
+		/*
+		 * -----------------------------------------------------------------------------
+		 * ------------------------------------------------
+		 */
+		/*
+		 * legacy id PayGrade /*
+		 * -----------------------------------------------------------------------------
+		 * ------------------------------------------------
+		 */
+		
+		// Get Grade id
+		public String getCreateGradeID_P(List<MetaDataObj> rowData, int index, String company,
+				Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+//				logger.info("FOUtility: Inside getDepartmentID Method");
+			String effectiveStartDate = null;
+			String MIRAI_ID=null;
+
+
+			for (MetaDataObj metaDataObj : rowData) {
+//					logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
+//							+ metaDataObj.getFieldName());
+				if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					effectiveStartDate = metaDataObj.getFieldValue();
+				}
+				
+				if (null != metaDataObj.getFieldName() && "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					MIRAI_ID = metaDataObj.getFieldValue();
+				}
+			}
+
+//				logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
+
+			String epochDate = getEpoch(effectiveStartDate);
+
+//				logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+			String excode = calendar.getTimeInMillis() + getRandomString(6);
+
+			String externalCode = MIRAI_ID+excode;
+			String externalName = MIRAI_ID+excode;
+
+			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String newValue = null;
+			
+			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
+				
+				return (legacyValue+" <--Error: MIRAI_ID is missing in template");
+			}
+
+			if (legacyValue==null || legacyValue.isEmpty()) {
+				
+				return "<--Error: legacyValue is missing in template";
+			}
+
+
+			if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+//				String url = "https://api12preview.sapsf.eu/odata/v2/";
+//				String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
+				String url = clientSystem.get("URL");
+				String userID = clientSystem.get("USER_ID");
+				String password = clientSystem.get("PWD");
+
+				Metadata metaData = new Metadata();
+				metaData.setUri(url + "/cust_Keymapping");
+				metaData.setType("SFOData.cust_Keymapping");
+
+				UpsertObject upsertObject = new UpsertObject();
+				upsertObject.setMetadata(metaData);
+				upsertObject.setExternalCode(externalCode);
+//				upsertObject.setEffectiveStartDate("/Date(946665000000)/");
+				upsertObject.setEffectiveStartDate(epochDate);
+				upsertObject.setCustLegacyID(legacyValue);
+				upsertObject.setExternalName(externalName);
+				upsertObject.setCustCompany(company);
+				upsertObject.setCustSFID(MIRAI_ID);
+
+				upsertObject.setCustObjectType("06");
+
+				if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+					upsertObject.setCust_sim("Y");
+
+				} else {
+					upsertObject.setCust_sim("N");
+				}
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+//				RestTemplate postTemplate = new RestTemplate();
+//				postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+
+				String upsertURL = url + "/upsert";
+
+				String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+				RestTemplate restTemplate = new RestTemplate();
+//				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+//				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+				HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+//				Map <String, String> dummy = new HashMap<String, String>();
+				String custSFID = null;
+				boolean isEmpty = true;
+				
+					
+				
+				// Step-1: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/FOPayGrade?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
+
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+//				System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+				isEmpty = checkObject.getD().getResults().isEmpty();
+
+				if (!isEmpty) {
+					return MIRAI_ID+"<--Error: MIRAI_ID already used in MIRAI System";
+				}
+
+				// Step-2: Post the values to get generate new department Id
+					String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+
+					logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
+
+					// Step-3: Get new department Id using external code
+					FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+//					System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
+
+					if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+						custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+					}
+
+//					// Step-3: Check if any values are present already for the newly generated id.
+//					String checkUrl = url + "/FOPayGrade?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+//
+//					FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+//
+////					System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+//					isEmpty = checkObject.getD().getResults().isEmpty();
+//
+//					if (!isEmpty) {
+//						return custSFID+"<--Error: MIRAI_ID already used in MIRAI System";
+//					}
+
+				return custSFID;
+			} else {
+
+				return legacyValue;
+			}
+		}
+
+
+		
+		
+		
+		/*
+		 * -----------------------------------------------------------------------------
+		 * ------------------------------------------------
+		 */
+		/*
+		 * legacy id PayRange /*
+		 * -----------------------------------------------------------------------------
+		 * ------------------------------------------------
+		 */
+		
+
+		// Create PayRange ID
+		
+		
+		public String getCreatePayRangeID_P(List<MetaDataObj> rowData, int index, String company,
+				Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+//					logger.info("FOUtility: Inside getDepartmentID Method");
+			String effectiveStartDate = null;
+			String MIRAI_ID=null;
+
+
+			for (MetaDataObj metaDataObj : rowData) {
+//						logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
+//								+ metaDataObj.getFieldName());
+				if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					effectiveStartDate = metaDataObj.getFieldValue();
+				}
+				
+				if (null != metaDataObj.getFieldName() && "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					MIRAI_ID = metaDataObj.getFieldValue();
+				}
+
+				
+			}
+
+//					logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
+
+			String epochDate = getEpoch(effectiveStartDate);
+
+//					logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+			String excode = calendar.getTimeInMillis() + getRandomString(6);
+
+			String externalCode = MIRAI_ID+excode;
+			String externalName = MIRAI_ID+excode;
+
+			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String newValue = null;
+
+			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
+				
+				return (legacyValue+" <--Error: MIRAI_ID is missing in template");
+			}
+
+			if (legacyValue==null || legacyValue.isEmpty()) {
+				
+				return "<--Error: legacyValue is missing in template";
+			}
+
+			
+			if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+//					String url = "https://api12preview.sapsf.eu/odata/v2/";
+//					String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
+				String url = clientSystem.get("URL");
+				String userID = clientSystem.get("USER_ID");
+				String password = clientSystem.get("PWD");
+
+				Metadata metaData = new Metadata();
+				metaData.setUri(url + "/cust_Keymapping");
+				metaData.setType("SFOData.cust_Keymapping");
+
+				UpsertObject upsertObject = new UpsertObject();
+				upsertObject.setMetadata(metaData);
+				upsertObject.setExternalCode(externalCode);
+//					upsertObject.setEffectiveStartDate("/Date(946665000000)/");
+				upsertObject.setEffectiveStartDate(epochDate);
+				upsertObject.setCustLegacyID(legacyValue);
+				upsertObject.setExternalName(externalName);
+				upsertObject.setCustCompany(company);
+				upsertObject.setCustSFID(MIRAI_ID);
+
+				upsertObject.setCustObjectType("08");
+
+				if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+					upsertObject.setCust_sim("Y");
+
+				} else {
+					upsertObject.setCust_sim("N");
+				}
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+//					RestTemplate postTemplate = new RestTemplate();
+//					postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+
+				String upsertURL = url + "/upsert";
+
+				String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+				RestTemplate restTemplate = new RestTemplate();
+//					restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+//					restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+				HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+//					Map <String, String> dummy = new HashMap<String, String>();
+				String custSFID = null;
+				boolean isEmpty = true;
+				
+				
+				// Step-1: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/FOPayRange?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
+
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+//					System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+				isEmpty = checkObject.getD().getResults().isEmpty();
+
+				if (!isEmpty) {
+					return MIRAI_ID+"<--Error: MIRAI_ID already used in MIRAI System";
+				}
+				
+					// Step-2: Post the values to get generate new department Id
+					String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+
+					logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
+
+					// Step-3: Get new department Id using external code
+					FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+//						System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
+
+					if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+						custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+					}
+
+//					// Step-3: Check if any values are present already for the newly generated id.
+//					String checkUrl = url + "/FOPayRange?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+//
+//					FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+//
+////						System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+//					isEmpty = checkObject.getD().getResults().isEmpty();
+//
+//					if (!isEmpty) {
+//						return custSFID+"<--Error: MIRAI_ID already used in MIRAI System";
+//					}
+
+				return custSFID;
+			} else {
+
+				return legacyValue;
+			}
+		}
+
+	
+		/*
+		 * -----------------------------------------------------------------------------
+		 * ------------------------------------------------
+		 */
+		/*
+		 * legacy id Division /*
+		 * -----------------------------------------------------------------------------
+		 * ------------------------------------------------
+		 */
+		
+
+
+		
+		public String getCreateDivisionID_P(List<MetaDataObj> rowData, int index, String company,
+				Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
+
+//					logger.info("FOUtility: Inside getDepartmentID Method");
+			String effectiveStartDate = null;
+			String MIRAI_ID=null;
+
+
+			for (MetaDataObj metaDataObj : rowData) {
+//						logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
+//								+ metaDataObj.getFieldName());
+				if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					effectiveStartDate = metaDataObj.getFieldValue();
+				}
+				
+				if (null != metaDataObj.getFieldName() && "MIRAI_ID".equalsIgnoreCase(metaDataObj.getFieldName())) {
+					MIRAI_ID = metaDataObj.getFieldValue();
+				}
+
+				
+			}
+
+//					logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
+
+			String epochDate = getEpoch(effectiveStartDate);
+
+//					logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
+			String excode = calendar.getTimeInMillis() + getRandomString(6);
+
+			String externalCode = MIRAI_ID+excode;
+			String externalName = MIRAI_ID+excode;
+
+			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String newValue = null;
+
+			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
+				
+				return (legacyValue+" <--Error: MIRAI_ID is missing in template");
+			}
+
+			if (legacyValue==null || legacyValue.isEmpty()) {
+				
+				return "<--Error: legacyValue is missing in template";
+			}
+
+			
+			if ((isTestRun.equalsIgnoreCase("No") || (isTestRun.equalsIgnoreCase("NoSim")))) {
+//					String url = "https://api12preview.sapsf.eu/odata/v2/";
+//					String url = "https://apisalesdemo2.successfactors.eu/odata/v2/";
+				String url = clientSystem.get("URL");
+				String userID = clientSystem.get("USER_ID");
+				String password = clientSystem.get("PWD");
+
+				Metadata metaData = new Metadata();
+				metaData.setUri(url + "/cust_Keymapping");
+				metaData.setType("SFOData.cust_Keymapping");
+
+				UpsertObject upsertObject = new UpsertObject();
+				upsertObject.setMetadata(metaData);
+				upsertObject.setExternalCode(externalCode);
+//					upsertObject.setEffectiveStartDate("/Date(946665000000)/");
+				upsertObject.setEffectiveStartDate(epochDate);
+				upsertObject.setCustLegacyID(legacyValue);
+				upsertObject.setExternalName(externalName);
+				upsertObject.setCustCompany(company);
+				upsertObject.setCustSFID(MIRAI_ID);
+
+				upsertObject.setCustObjectType("11");
+
+				if (((isTestRun.equalsIgnoreCase("NoSim")))) {
+
+					upsertObject.setCust_sim("Y");
+
+				} else {
+					upsertObject.setCust_sim("N");
+				}
+
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+//					RestTemplate postTemplate = new RestTemplate();
+//					postTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+
+				String upsertURL = url + "/upsert";
+
+				String fetchURL = url + "/cust_Keymapping?$filter=externalCode+eq+'" + externalCode + "'";
+
+				RestTemplate restTemplate = new RestTemplate();
+//					restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@3"));
+//					restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("sfadmin@SFPART046830", "Welcome1"));
+				restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor(userID, password));
+
+				HttpEntity<UpsertObject> entity = new HttpEntity<UpsertObject>(upsertObject, headers);
+
+//					Map <String, String> dummy = new HashMap<String, String>();
+				String custSFID = null;
+				boolean isEmpty = true;
+				
+				
+				// Step-1: Check if any values are present already for the newly generated id.
+				String checkUrl = url + "/FODivision?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
+
+				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+
+//					System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+				isEmpty = checkObject.getD().getResults().isEmpty();
+
+				if (!isEmpty) {
+					return MIRAI_ID+"<--Error: MIRAI_ID already used in MIRAI System";
+				}
+				
+					// Step-2: Post the values to get generate new department Id
+					String result = restTemplate.postForObject(upsertURL, upsertObject, String.class);
+
+					logger.info("FOUtility: getPosclassID Method: Upsert result:" + result);
+
+					// Step-3: Get new department Id using external code
+					FieldSet fetchResult = restTemplate.getForObject(fetchURL, FieldSet.class);
+//						System.out.println("fetchResult : " + fetchResult.getD().getResults().get(0).getCustSFID());
+
+					if (null != fetchResult.getD().getResults() && !fetchResult.getD().getResults().isEmpty()) {
+						custSFID = fetchResult.getD().getResults().get(0).getCustSFID();
+					}
+
+//					// Step-3: Check if any values are present already for the newly generated id.
+//					String checkUrl = url + "/FOPayRange?$format=JSON&$filter=externalCode+eq+'" + custSFID + "'";
+//
+//					FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
+//
+////						System.out.println("checkObject D : " + checkObject.getD().getResults().isEmpty());
+//					isEmpty = checkObject.getD().getResults().isEmpty();
+//
+//					if (!isEmpty) {
+//						return custSFID+"<--Error: MIRAI_ID already used in MIRAI System";
+//					}
+
+				return custSFID;
+			} else {
+
+				return legacyValue;
+			}
+		}
+
+		
 }
