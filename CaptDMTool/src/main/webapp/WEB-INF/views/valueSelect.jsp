@@ -223,10 +223,8 @@ function reloadIFrame() {
 				<select id="comboTest" name="comboTest"
 					style="width: 200px">
 						<option value="0">--Test Run --</option>
-						<option value="Yes">Yes-Actual</option>
-						<option value="No">No-Actual</option>
-						<option value="YesSim">Yes- Simulation</option>
-						<option value="NoSim">No-Simulation</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
 					</select>
 					
 					</td>

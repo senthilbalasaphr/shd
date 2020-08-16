@@ -59,9 +59,9 @@ public class PositionReport {
 		
 		
 		String PositionUrlCount = "https://api12preview.sapsf.eu/odata/v2/Position/$count?$format=JSON&" 
-				+ "&$filter=company+eq+'A1000'&fromDate=1900-12-31&toDate=9999-12-31";
+				+ "&$filter=company+eq+'A2000'&fromDate=1900-01-01&toDate=9999-12-31";
 		
-		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@9"));
+		restTemplate.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT2", "Welcome@9"));
 		
 		String count = restTemplate.getForObject(PositionUrlCount, String.class);
 		System.out.println(count);
@@ -423,7 +423,7 @@ public static List<com.shd.Position.Position> getPosList(String count) {
 	
 	while (c>s) {
 	PositionUrl = "https://api12preview.sapsf.eu/odata/v2/Position?$format=JSON&"
-			+ "&$filter=company+eq+'A1000'&fromDate=1900-12-31&toDate=9999-12-31&$top="+t+"&$skip="+s+""
+			+ "&$filter=company+eq+'A2000'&fromDate=1900-01-01&toDate=9999-12-31&$top="+t+"&$skip="+s+""
 		//	+ "&$filter=createdBy+eq+'VKUMAR' and company+eq+'" + LegalEntity + "'&fromDate=1900-12-31&toDate=9999-12-31"
 			+ "&$expand=positionMatrixRelationship,parentPosition"
 			+ "&$select= code,externalName_defaultValue,externalName_localized,effectiveStatus,effectiveStartDate,type,cust_keyPosition,criticality,description,cust_JobFamily,cust_jobFunction,jobCode,jobLevel,employeeClass,payGrade,cust_PayGradeLevel,payRange,targetFTE,vacant, company,division,cust_deptLevel1,cust_deptLevel2,cust_deptLevel3,cust_deptLevel4,cust_deptLevel5,department,location,costCenter,\n" + 
@@ -445,11 +445,11 @@ public static Map< String,String> getPosKeyMap(String Position) {
 	Map< String,String> m1 =  new HashMap< String,String>();
 	RestTemplate restTemplate1 = new RestTemplate();
 	
-	String company = "06" ;
+	String company = "05" ;
 	String url1 = "https://api12preview.sapsf.eu/odata/v2/cust_Keymapping?$filter=cust_Company eq '"+company+"' and cust_ObjectType eq '09' and cust_SFID eq '"+Position+"'&$select=cust_SFID,cust_LegacyID,externalCode";
 
 
-	restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT1", "Welcome@9"));
+	restTemplate1.getInterceptors().add(new BasicAuthorizationInterceptor("VKUMAR@shiseidocoT2", "Welcome@9"));
 
 
 	KeyMap result1 = restTemplate1.getForObject(url1,KeyMap.class);

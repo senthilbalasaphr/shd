@@ -4237,9 +4237,10 @@ public class FOUtility {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 		String excode = calendar.getTimeInMillis() + getRandomString(6);
-		String externalCode = MIRAI_ID + excode;
-		String externalName = MIRAI_ID + excode;
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String externalCode = MIRAI_ID +"_"+ company+"_"+ "01";
+		String externalName = externalCode + legacyValue ;
+		
 		String newValue = null;
 
 		if (MIRAI_ID == null || MIRAI_ID.isEmpty()) {
@@ -4378,9 +4379,9 @@ public class FOUtility {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 		String excode = calendar.getTimeInMillis() + getRandomString(6);
-
-		String externalCode = MIRAI_ID + excode;
-		String externalName = MIRAI_ID + excode;
+		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+		String externalCode = MIRAI_ID +"_"+ company+"_"+ "03";
+		String externalName = externalCode + legacyValue ;
 
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 		String newValue = null;
@@ -4532,10 +4533,10 @@ public class FOUtility {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
-
-			String externalCode = MIRAI_ID+excode;
-			String externalName = MIRAI_ID+excode;
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String externalCode = MIRAI_ID +"_"+ company+"_"+ "09";
+			String externalName = externalCode + legacyValue ;
+			
 			String newValue = null;
 			
 			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
@@ -4688,9 +4689,10 @@ public class FOUtility {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
-			String externalCode = MIRAI_ID+excode;
-			String externalName = MIRAI_ID+excode;
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String externalCode = MIRAI_ID +"_"+ company+"_"+ "02";
+			String externalName = externalCode + legacyValue ;
+			
 			String newValue = null;
 			
 			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
@@ -4830,11 +4832,10 @@ public class FOUtility {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
-
-			String externalCode = MIRAI_ID+excode;
-			String externalName = MIRAI_ID+excode;
-
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String externalCode = MIRAI_ID +"_"+ company+"_"+ "06";
+			String externalName = externalCode + legacyValue ;
+			
 			String newValue = null;
 			
 			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
@@ -4993,11 +4994,11 @@ public class FOUtility {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
-
-			String externalCode = MIRAI_ID+excode;
-			String externalName = MIRAI_ID+excode;
-
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+			String externalCode = MIRAI_ID +"_"+ company+"_"+ "08";
+			String externalName = externalCode + legacyValue ;
+
+			
 			String newValue = null;
 
 			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
@@ -5118,9 +5119,6 @@ public class FOUtility {
 		 * ------------------------------------------------
 		 */
 		
-
-
-		
 		public String getCreateDivisionID_P(List<MetaDataObj> rowData, int index, String company,
 				Map<String, String> clientSystem, String isTestRun, Map<String, Map> initVal) throws Exception {
 
@@ -5151,11 +5149,12 @@ public class FOUtility {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
-
-			String externalCode = MIRAI_ID+excode;
-			String externalName = MIRAI_ID+excode;
-
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+
+			String externalCode = MIRAI_ID +"_"+ company+"_"+ "11";
+			String externalName = externalCode + legacyValue ;
+
+			
 			String newValue = null;
 
 			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
