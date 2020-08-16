@@ -3205,6 +3205,7 @@ public class FOUtility {
 				}
 			}
 			// ---Check if legacy id is same as the SFID?
+			if (newValue!=null) {
 			if (newValue.isEmpty()) {
 
 				for (com.shd.keymap.Result cust_Keymapping : cust_KeymappingLst) {
@@ -3218,13 +3219,20 @@ public class FOUtility {
 
 			}
 		}
-
-		if (null != cust_LegacyID) {
-			if (newValue.isEmpty()) {
-				newValue = cust_LegacyID + "<-- Invalid Department";
-			}
 		}
 
+		if (null != cust_LegacyID) {
+			if (newValue!=null) {
+				
+			
+			if (newValue.isEmpty()) {
+				newValue = cust_LegacyID + "<-- Invalid Department";
+			}}
+			
+		else {
+			newValue =  cust_LegacyID + "<-- Invalid Department";
+		}
+			}
 		return newValue;
 
 	}
@@ -4232,14 +4240,25 @@ public class FOUtility {
 
 		}
 
+		if (effectiveStartDate==null || effectiveStartDate.isEmpty()) {
+			
+			return ("Error"+" <--Error: Start Date is missing in template");
+		}
+
+		
+		if (!effectiveStartDate.equalsIgnoreCase("01/01/1900")) {
+			
+			return ("Error"+" <--FO start date must be 01/01/1900");
+		}
+		
 		String epochDate = getEpoch(effectiveStartDate);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 		String excode = calendar.getTimeInMillis() + getRandomString(6);
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		String externalCode = MIRAI_ID +"_"+ company+"_"+ "01";
-		String externalName = externalCode + legacyValue ;
+		String externalCode = legacyValue +"_"+ company+"_"+ "01";
+		String externalName = MIRAI_ID+"_"+externalCode  ;
 		
 		String newValue = null;
 
@@ -4286,6 +4305,10 @@ public class FOUtility {
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
+			
+	
+						
+						
 
 			String upsertURL = url + "/upsert";
 
@@ -4299,8 +4322,23 @@ public class FOUtility {
 
 			String custSFID = null;
 			boolean isEmpty = true;
+			
+			//Step 1a: check already exits
+			FieldSet fetchResultc = restTemplate.getForObject(fetchURL, FieldSet.class);
 
-			// Step-1: Check if any values are present already for the newly generated id.
+			if (null != fetchResultc.getD().getResults() && !fetchResultc.getD().getResults().isEmpty()) {
+				custSFID = fetchResultc.getD().getResults().get(0).getCustSFID();
+				
+				if (!custSFID.equalsIgnoreCase(MIRAI_ID)) {
+					
+					return MIRAI_ID + "<--Error: Already Mapping exits "+ custSFID;
+				}
+			}
+			
+			
+		
+
+			// Step-1b: Check if any values are present already for the newly generated id.
 			String checkUrl = url + "/FODepartment?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
 
 			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
@@ -4371,7 +4409,18 @@ public class FOUtility {
 			}
 
 		}
+		
+		if (effectiveStartDate==null || effectiveStartDate.isEmpty()) {
+			
+			return ("Error"+" <--Error: Start Date is missing in template");
+		}
 
+
+		if (!effectiveStartDate.equalsIgnoreCase("01/01/1900")) {
+			
+			return ("Error"+" <--FO start date must be 01/01/1900");
+		}
+		
 		String epochDate = getEpoch(effectiveStartDate);
 
 //		logger.info("FOUtility: getDepartmentID Method: epochDate:" + epochDate);
@@ -4380,10 +4429,10 @@ public class FOUtility {
 		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 		String excode = calendar.getTimeInMillis() + getRandomString(6);
 		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-		String externalCode = MIRAI_ID +"_"+ company+"_"+ "03";
-		String externalName = externalCode + legacyValue ;
+		String externalCode = legacyValue +"_"+ company+"_"+ "03";
+		String externalName = MIRAI_ID+"_"+externalCode  ;
 
-		String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
+
 		String newValue = null;
 
 		if (MIRAI_ID == null || MIRAI_ID.isEmpty()) {
@@ -4445,8 +4494,21 @@ public class FOUtility {
 //		Map <String, String> dummy = new HashMap<String, String>();
 			String custSFID = null;
 			boolean isEmpty = true;
+			
+			//Step 1a: check already exits
+			FieldSet fetchResultc = restTemplate.getForObject(fetchURL, FieldSet.class);
 
-			// Step-1: Check if any values are present already for the newly generated id.
+			if (null != fetchResultc.getD().getResults() && !fetchResultc.getD().getResults().isEmpty()) {
+				custSFID = fetchResultc.getD().getResults().get(0).getCustSFID();
+				
+				if (!custSFID.equalsIgnoreCase(MIRAI_ID)) {
+					
+					return MIRAI_ID + "<--Error: Already Mapping exits "+ custSFID;
+				}
+			}
+			
+
+			// Step-1b: Check if any values are present already for the newly generated id.
 			String checkUrl = url + "/FOLocation?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
 
 			FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
@@ -4525,6 +4587,17 @@ public class FOUtility {
 				
 			}
 
+if (effectiveStartDate==null || effectiveStartDate.isEmpty()) {
+				
+				return ("Error"+" <--Error: Start Date is missing in template");
+			}
+	
+			
+if (!effectiveStartDate.equalsIgnoreCase("01/01/1900")) {
+				
+				return ("Error"+" <--FO start date must be 01/01/1900");
+			}
+
 //			logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
 
 			String epochDate = getEpoch(effectiveStartDate);
@@ -4534,14 +4607,15 @@ public class FOUtility {
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-			String externalCode = MIRAI_ID +"_"+ company+"_"+ "09";
-			String externalName = externalCode + legacyValue ;
+			String externalCode = legacyValue +"_"+ company+"_"+ "09";
+			String externalName = MIRAI_ID+"_"+externalCode  ;
+
 			
 			String newValue = null;
 			
 			if (MIRAI_ID==null || MIRAI_ID.isEmpty()) {
 				
-				return (legacyValue+" <--Error: MIRAI_ID is missing in template");
+				return (legacyValue + " <--Error: MIRAI_ID is missing in template");
 			}
 
 			if (legacyValue==null || legacyValue.isEmpty()) {
@@ -4600,8 +4674,20 @@ public class FOUtility {
 				String custSFID = null;
 				boolean isEmpty = true;
 				
+
+				//Step 1a: check already exits
+							FieldSet fetchResultc = restTemplate.getForObject(fetchURL, FieldSet.class);
+
+							if (null != fetchResultc.getD().getResults() && !fetchResultc.getD().getResults().isEmpty()) {
+								custSFID = fetchResultc.getD().getResults().get(0).getCustSFID();
+								
+								if (!custSFID.equalsIgnoreCase(MIRAI_ID)) {
+									
+									return MIRAI_ID + "<--Error: Already Mapping exits "+ custSFID;
+								}
+							}
 					
-				// Step-1: Check if any values are present already for the newly generated id.
+				// Step-1b: Check if any values are present already for the newly generated id.
 				String checkUrl = url + "/Position?$format=JSON&$filter=code+eq+'" + MIRAI_ID + "'";
 
 				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
@@ -4679,6 +4765,23 @@ public class FOUtility {
 			
 				
 			}
+if (effectiveStartDate==null || effectiveStartDate.isEmpty()) {
+				
+				return ("Error"+" <--Error: Start Date is missing in template");
+			}
+	
+			
+	if (effectiveStartDate==null || effectiveStartDate.isEmpty()) {
+				
+				return ("Error"+" <--Error: Start Date is missing in template");
+			}
+	
+	
+			
+if (!effectiveStartDate.equalsIgnoreCase("01/01/1900")) {
+				
+				return ("Error"+" <--FO start date must be 01/01/1900");
+			}
 
 //			logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
 
@@ -4690,8 +4793,8 @@ public class FOUtility {
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-			String externalCode = MIRAI_ID +"_"+ company+"_"+ "02";
-			String externalName = externalCode + legacyValue ;
+			String externalCode = legacyValue +"_"+ company+"_"+ "02";
+			String externalName = MIRAI_ID+"_"+externalCode  ;
 			
 			String newValue = null;
 			
@@ -4756,7 +4859,20 @@ public class FOUtility {
 				String custSFID = null;
 				boolean isEmpty = true;
 				
-				// Step-1: Check if any values are present already for the newly generated id.
+				
+				//Step 1a: check already exits
+				FieldSet fetchResultc = restTemplate.getForObject(fetchURL, FieldSet.class);
+
+				if (null != fetchResultc.getD().getResults() && !fetchResultc.getD().getResults().isEmpty()) {
+					custSFID = fetchResultc.getD().getResults().get(0).getCustSFID();
+					
+					if (!custSFID.equalsIgnoreCase(MIRAI_ID)) {
+						
+						return MIRAI_ID + "<--Error: Already Mapping exits "+ custSFID;
+					}
+				}
+				
+				// Step-1b: Check if any values are present already for the newly generated id.
 				String checkUrl = url + "/FOJobCode?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
 
 				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
@@ -4823,6 +4939,17 @@ public class FOUtility {
 					MIRAI_ID = metaDataObj.getFieldValue();
 				}
 			}
+			
+if (effectiveStartDate==null || effectiveStartDate.isEmpty()) {
+				
+				return ("Error"+" <--Error: Start Date is missing in template");
+			}
+	
+			
+if (!effectiveStartDate.equalsIgnoreCase("01/01/1900")) {
+				
+				return ("Error"+" <--FO start date must be 01/01/1900");
+			}
 
 //				logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
 
@@ -4833,8 +4960,8 @@ public class FOUtility {
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-			String externalCode = MIRAI_ID +"_"+ company+"_"+ "06";
-			String externalName = externalCode + legacyValue ;
+			String externalCode = legacyValue +"_"+ company+"_"+ "06";
+			String externalName = MIRAI_ID+"_"+externalCode  ;
 			
 			String newValue = null;
 			
@@ -4900,9 +5027,19 @@ public class FOUtility {
 				String custSFID = null;
 				boolean isEmpty = true;
 				
+				//Step 1a: check already exits
+				FieldSet fetchResultc = restTemplate.getForObject(fetchURL, FieldSet.class);
+
+				if (null != fetchResultc.getD().getResults() && !fetchResultc.getD().getResults().isEmpty()) {
+					custSFID = fetchResultc.getD().getResults().get(0).getCustSFID();
 					
+					if (!custSFID.equalsIgnoreCase(MIRAI_ID)) {
+						
+						return MIRAI_ID + "<--Error: Already Mapping exits "+ custSFID;
+					}
+				}	
 				
-				// Step-1: Check if any values are present already for the newly generated id.
+				// Step-1b: Check if any values are present already for the newly generated id.
 				String checkUrl = url + "/FOPayGrade?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
 
 				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
@@ -4985,6 +5122,16 @@ public class FOUtility {
 
 				
 			}
+			
+if (effectiveStartDate==null || effectiveStartDate.isEmpty()) {
+				
+				return ("Error"+" <--Error: Start Date is missing in template");
+			}
+				
+if (!effectiveStartDate.equalsIgnoreCase("01/01/1900")) {
+				
+				return ("Error"+" <--FO start date must be 01/01/1900");
+			}
 
 //					logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
 
@@ -4995,8 +5142,8 @@ public class FOUtility {
 			calendar.setTimeZone(TimeZone.getTimeZone("Asia/Singapore"));
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
-			String externalCode = MIRAI_ID +"_"+ company+"_"+ "08";
-			String externalName = externalCode + legacyValue ;
+			String externalCode = legacyValue +"_"+ company+"_"+ "08";
+			String externalName = MIRAI_ID+"_"+externalCode  ;
 
 			
 			String newValue = null;
@@ -5063,8 +5210,19 @@ public class FOUtility {
 				String custSFID = null;
 				boolean isEmpty = true;
 				
+				//Step 1a: check already exits
+				FieldSet fetchResultc = restTemplate.getForObject(fetchURL, FieldSet.class);
+
+				if (null != fetchResultc.getD().getResults() && !fetchResultc.getD().getResults().isEmpty()) {
+					custSFID = fetchResultc.getD().getResults().get(0).getCustSFID();
+					
+					if (!custSFID.equalsIgnoreCase(MIRAI_ID)) {
+						
+						return MIRAI_ID + "<--Error: Already Mapping exits "+ custSFID;
+					}
+				}
 				
-				// Step-1: Check if any values are present already for the newly generated id.
+				// Step-1b: Check if any values are present already for the newly generated id.
 				String checkUrl = url + "/FOPayRange?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
 
 				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
@@ -5130,7 +5288,7 @@ public class FOUtility {
 			for (MetaDataObj metaDataObj : rowData) {
 //						logger.info("FOUtility: Inside getDepartmentID Method: metaDataObj.getFieldName():"
 //								+ metaDataObj.getFieldName());
-				if (null != metaDataObj.getFieldName() && "start-date".equalsIgnoreCase(metaDataObj.getFieldName())) {
+				if (null != metaDataObj.getFieldName() && "effectiveStartDate".equalsIgnoreCase(metaDataObj.getFieldName())) {
 					effectiveStartDate = metaDataObj.getFieldValue();
 				}
 				
@@ -5139,6 +5297,16 @@ public class FOUtility {
 				}
 
 				
+			}
+			
+if (effectiveStartDate==null || effectiveStartDate.isEmpty()) {
+				
+				return ("Error"+" <--Error: Start Date is missing in template");
+			}
+				
+			if (!effectiveStartDate.equalsIgnoreCase("01/01/1900")) {
+				
+				return ("Error"+" <--FO start date must be 01/01/1900");
 			}
 
 //					logger.info("FOUtility: getDepartmentID Method: effectiveStartDate:" + effectiveStartDate);
@@ -5151,8 +5319,9 @@ public class FOUtility {
 			String excode = calendar.getTimeInMillis() + getRandomString(6);
 			String legacyValue = ((MetaDataObj) rowData.get(index)).getFieldValue();
 
-			String externalCode = MIRAI_ID +"_"+ company+"_"+ "11";
-			String externalName = externalCode + legacyValue ;
+			String externalCode = legacyValue +"_"+ company+"_"+ "11";
+			String externalName = MIRAI_ID+"_"+externalCode  ;
+
 
 			
 			String newValue = null;
@@ -5219,8 +5388,21 @@ public class FOUtility {
 				String custSFID = null;
 				boolean isEmpty = true;
 				
+
+				//Step 1a: check already exits
+							FieldSet fetchResultc = restTemplate.getForObject(fetchURL, FieldSet.class);
+
+							if (null != fetchResultc.getD().getResults() && !fetchResultc.getD().getResults().isEmpty()) {
+								custSFID = fetchResultc.getD().getResults().get(0).getCustSFID();
+								
+								if (!custSFID.equalsIgnoreCase(MIRAI_ID)) {
+									
+									return MIRAI_ID + "<--Error: Already Mapping exits "+ custSFID;
+								}
+							}
+							
 				
-				// Step-1: Check if any values are present already for the newly generated id.
+				// Step-1b: Check if any values are present already for the newly generated id.
 				String checkUrl = url + "/FODivision?$format=JSON&$filter=externalCode+eq+'" + MIRAI_ID + "'";
 
 				FieldSet checkObject = restTemplate.getForObject(checkUrl, FieldSet.class);
