@@ -20,7 +20,7 @@
   <properties>
   
   
-<spring.framework>4.3.0.RELEASE</spring.framework><spring.web>3.0.2.RELEASE</spring.web><serializer.version>2.8.1</serializer.version></properties>
+<spring.framework>5.3.19</spring.framework><spring.web>3.0.2.RELEASE</spring.web><serializer.version>2.8.1</serializer.version></properties>
 
   <dependencies>
   <!-- https://mvnrepository.com/artifact/org.apache.olingo/olingo-odata2-core -->
